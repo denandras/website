@@ -1,0 +1,117 @@
+import BottomNav from "@/components/bottom-nav";
+import { IconMusicNote } from "@/components/icons";
+import MediaGallery from "@/components/media-gallery";
+import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
+import { getS4Config } from "@/lib/s4-config";
+
+type MediaItem = {
+  id: string;
+  viewUrl: string;
+  downloadUrl: string;
+};
+
+const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif", "heic", "heif"]);
+
+export const dynamic = "force-dynamic";
+
+function isImageKey(key: string) {
+  const ext = key.split(".").pop()?.toLowerCase();
+  return !!ext && IMAGE_EXTENSIONS.has(ext);
+}
+
+function fileExtension(key: string) {
+  return key.split(".").pop()?.toLowerCase() ?? "jpg";
+}
+
+async function getMediaItems(): Promise<MediaItem[]> {
+  const cfg = getS4Config();
+  if (!cfg) return [];
+
+  const client = new S3Client({
+    endpoint: cfg.endpoint,
+    region: cfg.region,
+    forcePathStyle: true,
+    credentials: {
+      accessKeyId: cfg.accessKeyId,
+      secretAccessKey: cfg.secretAccessKey,
+    },
+  });
+
+  const keys: string[] = [];
+  let token: string | undefined;
+
+  do {
+    const list = await client.send(
+      new ListObjectsV2Command({
+        Bucket: cfg.bucket,
+        Prefix: cfg.prefix,
+        ContinuationToken: token,
+        MaxKeys: 500,
+      }),
+    );
+
+    for (const obj of list.Contents ?? []) {
+      if (!obj.Key) continue;
+      if (!isImageKey(obj.Key)) continue;
+      keys.push(obj.Key);
+    }
+
+    token = list.IsTruncated ? list.NextContinuationToken : undefined;
+  } while (token);
+
+  // Newest first when provider returns LastModified metadata.
+  // If missing, fallback to key order.
+  const sortedKeys = [...keys].sort((a, b) => b.localeCompare(a));
+
+  return sortedKeys.map((key, index) => {
+    const ext = fileExtension(key);
+    const ordinal = String(index + 1).padStart(3, "0");
+    const safeName = `andras-denes-media-${ordinal}.${ext}`;
+    const encodedKey = encodeURIComponent(key);
+    const encodedName = encodeURIComponent(safeName);
+
+    return {
+      id: `${index}`,
+      viewUrl: `/api/media/file?key=${encodedKey}`,
+      downloadUrl: `/api/media/file?key=${encodedKey}&download=1&name=${encodedName}`,
+    };
+  });
+}
+
+export default async function MediaPage() {
+  const mediaItems = await getMediaItems();
+  const hasConfig = !!getS4Config();
+
+  return (
+    <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
+      <header className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md">
+        <div className="flex h-16 w-full items-center justify-center px-6">
+          <div className="flex items-center gap-2">
+            <IconMusicNote className="size-5 text-primary" />
+            <h1 className="font-display text-lg font-bold tracking-tight uppercase">Media</h1>
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
+        <section className="relative pt-10">
+          <h2 className="pointer-events-none absolute top-10 left-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white uppercase md:block lg:text-7xl">
+            Media
+          </h2>
+
+          {!hasConfig ? (
+            <div className="relative z-10 mt-20 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300 md:mt-24">
+              S3 media environment variables are not configured. Add S4_* values in .env.local.
+            </div>
+          ) : mediaItems.length === 0 ? (
+            <div className="relative z-10 mt-20 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300 md:mt-24">
+              No media files found in the configured folder.
+            </div>
+          ) : <MediaGallery items={mediaItems} />}
+        </section>
+      </main>
+
+      <BottomNav active="home" />
+    </div>
+  );
+}
