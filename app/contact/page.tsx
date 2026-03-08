@@ -49,13 +49,6 @@ export default function ContactPage() {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-8 pb-24">
-        <div className="mb-8 text-center" data-reveal>
-          <h2 className="mb-3 text-3xl font-bold">Let&apos;s Work Together</h2>
-          <p className="mx-auto max-w-md text-neutral-300">
-            For booking inquiries, collaborations, or lessons, please reach out via the form or direct channels below.
-          </p>
-        </div>
-
         <section className="mt-6 border-t border-neutral-border/80">
           <div className="relative grid gap-6 border-b border-neutral-border/70 py-10 md:grid-cols-12 md:gap-8" data-reveal>
             <h3 className="pointer-events-none absolute top-11 left-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase md:block lg:text-7xl">

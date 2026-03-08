@@ -3,14 +3,36 @@
 import Link from "next/link";
 import BottomNav from "@/components/bottom-nav";
 import {
-  IconArrowForward,
   IconGroups,
   IconMusicNote,
 } from "@/components/icons";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 export default function Home() {
   const currentYear = new Date().getFullYear();
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [headerProgress, setHeaderProgress] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const heroHeight = heroRef.current?.offsetHeight ?? Math.round(window.innerHeight * 0.8);
+      const start = Math.max(24, heroHeight - 220);
+      const end = Math.max(start + 1, heroHeight - 120);
+      const progress = clamp((window.scrollY - start) / (end - start), 0, 1);
+      setHeaderProgress(progress);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -40,7 +62,14 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
-      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-neutral-border bg-background-dark/80 px-4 py-3 backdrop-blur-md">
+      <header
+        className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-b border-neutral-border bg-background-dark/80 px-4 py-3 backdrop-blur-md"
+        style={{
+          opacity: headerProgress,
+          transform: `translateY(${Math.round((1 - headerProgress) * -14)}px)`,
+          pointerEvents: headerProgress > 0.08 ? "auto" : "none",
+        }}
+      >
         <div className="flex items-center gap-2">
           <IconMusicNote className="size-5 text-primary" />
           <span className="font-display text-lg font-bold tracking-tight uppercase">
@@ -51,7 +80,7 @@ export default function Home() {
       </header>
 
       <main className="flex-1 pb-24">
-        <section className="relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden md:aspect-[16/8]">
+        <section ref={heroRef} className="relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden md:aspect-[16/8]">
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
           <div className="absolute inset-0">
             <img
@@ -67,10 +96,26 @@ export default function Home() {
             />
           </div>
           <div className="relative z-20 px-6 pb-12" data-reveal>
-            <h1 className="font-display mb-2 text-4xl font-bold leading-none tracking-tighter text-white md:text-7xl" data-reveal style={{ ["--reveal-delay" as any]: "120ms" }}>
+            <h1
+              className="relative font-display mb-2 text-4xl font-bold leading-none tracking-tighter text-white md:text-7xl"
+              data-reveal
+              style={{
+                ["--reveal-delay" as any]: "120ms",
+                top: `${Math.round(headerProgress * -22)}px`,
+                opacity: 1 - headerProgress * 0.35,
+              }}
+            >
               András Dénes
             </h1>
-            <div className="flex items-center gap-3" data-reveal style={{ ["--reveal-delay" as any]: "220ms" }}>
+            <div
+              className="relative flex items-center gap-3"
+              data-reveal
+              style={{
+                ["--reveal-delay" as any]: "220ms",
+                top: `${Math.round(headerProgress * -14)}px`,
+                opacity: 1 - headerProgress * 0.75,
+              }}
+            >
               <div className="h-px w-12 bg-primary" />
               <p className="font-display text-sm font-semibold tracking-[0.2em] text-primary uppercase">
                 Trombone
@@ -193,7 +238,6 @@ export default function Home() {
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/10 bg-primary/5 p-4 font-display font-bold text-neutral-100 transition-colors hover:bg-primary/10"
                 data-proximity
               >
-                <IconArrowForward className="size-4 rotate-180 text-primary/80 transition-colors group-hover:text-primary" />
                 CV
               </Link>
             </div>
@@ -213,7 +257,6 @@ export default function Home() {
                 data-proximity
               >
                 Contact
-                <IconArrowForward className="size-4 text-primary/80 transition-colors group-hover:text-primary" />
               </Link>
             </div>
           </div>

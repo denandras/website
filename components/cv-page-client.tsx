@@ -113,6 +113,8 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
           <section className="mt-6 border-t border-neutral-border/80">
             {sectionsNewestFirst.map((section, index) => {
               const isMirrored = index % 2 === 1;
+              const isLastSection = index === sectionsNewestFirst.length - 1;
+              const shouldShowBottomDivider = !isLastSection || !!cvDownloadUrl;
               const heading = section.title.replace(/\.$/, "");
               const headingColClass = isMirrored
                 ? "md:order-2 md:text-right"
@@ -122,7 +124,9 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
               return (
                 <div
                   key={section.title}
-                  className="relative grid gap-6 border-b border-neutral-border/70 py-10 md:grid-cols-12 md:gap-8"
+                  className={`relative grid gap-6 py-10 md:grid-cols-12 md:gap-8 ${
+                    shouldShowBottomDivider ? "border-b border-neutral-border/70" : ""
+                  }`}
                   data-reveal
                   style={{ ["--reveal-delay" as any]: `${80 + index * 80}ms` }}
                 >

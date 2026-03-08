@@ -45,8 +45,12 @@ function parseDotEnv(): Record<string, string> {
 }
 
 function fromRepoEnv(name: string): string | undefined {
+  const runtimeValue = process.env[name]?.trim();
+  if (runtimeValue) return runtimeValue;
+
   const envFile = parseDotEnv();
-  return envFile[name];
+  const fileValue = envFile[name]?.trim();
+  return fileValue || undefined;
 }
 
 export function getS4Config(): S4Config | null {
@@ -54,6 +58,7 @@ export function getS4Config(): S4Config | null {
   const accessKeyId = fromRepoEnv("S4_ACCESS_KEY_ID");
   const secretAccessKey = fromRepoEnv("S4_SECRET_ACCESS_KEY");
   const region = fromRepoEnv("S4_REGION") ?? "us-east-1";
+  const bucket = fromRepoEnv("S4_BUCKET") ?? "drive";
   const prefix = fromRepoEnv("S4_PREFIX");
 
   if (!endpoint || !accessKeyId || !secretAccessKey || !prefix) {
@@ -66,7 +71,7 @@ export function getS4Config(): S4Config | null {
     secretAccessKey,
     region,
     prefix,
-    bucket: "drive",
+    bucket,
   };
 }
 
