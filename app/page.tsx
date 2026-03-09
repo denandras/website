@@ -323,6 +323,7 @@ export default function Home() {
               </p>
             ))}
           </div>
+
         </section>
 
       </main>
@@ -330,8 +331,15 @@ export default function Home() {
       <BottomNav active="home" />
 
       <footer className="bg-background-dark py-12 pb-32 text-center">
+        <div className="mb-9 flex justify-center">
+          <img
+            src="/logo_tight.svg"
+            alt="Dénes András logo"
+            className="h-[53px] w-auto opacity-90"
+          />
+        </div>
         <p className="mb-2 text-xs font-medium tracking-widest text-neutral-500 uppercase">
-          © {currentYear} András Dénes
+          © {currentYear} {labels.titleName}
         </p>
         <p className="text-[10px] text-neutral-600">{labels.footerTagline}</p>
       </footer>

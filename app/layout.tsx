@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   description: "Trombonist portfolio and performances",
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/logo_tight.svg", type: "image/svg+xml" },
       { url: "/favicon.ico" },
     ],
     shortcut: "/favicon.ico",
-    apple: "/icon.svg",
+    apple: "/logo_tight.svg",
   },
   openGraph: {
     title: "Dénes András",

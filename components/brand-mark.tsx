@@ -4,11 +4,11 @@ type BrandMarkProps = {
 
 export default function BrandMark({ className = "" }: BrandMarkProps) {
   return (
-    <span
+    <img
+      src="/logo_tight.svg"
+      alt=""
       aria-hidden="true"
-      className={`inline-flex size-6 items-center justify-center rounded-md border border-primary/40 bg-primary/10 font-display text-[11px] leading-none font-bold tracking-wide text-primary ${className}`.trim()}
-    >
-      DA
-    </span>
+      className={`size-6 object-contain ${className}`.trim()}
+    />
   );
 }
