@@ -1,6 +1,6 @@
 import BottomNav from "@/components/bottom-nav";
+import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher from "@/components/language-switcher";
-import { IconMusicNote } from "@/components/icons";
 import MediaGallery from "@/components/media-gallery";
 import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 import { getS4Config } from "@/lib/s4-config";
@@ -103,7 +103,7 @@ export default async function MediaPage() {
       <header className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md">
         <div className="relative flex h-16 w-full items-center justify-center px-6">
           <div className="flex items-center gap-2">
-            <IconMusicNote className="size-5 text-primary" />
+            <BrandMark />
             <h1 className="font-display text-lg font-bold tracking-tight uppercase">{mediaLabel}</h1>
           </div>
           <div className="absolute top-1/2 right-6 -translate-y-1/2">
@@ -130,7 +130,7 @@ export default async function MediaPage() {
         </section>
       </main>
 
-      <BottomNav active="home" />
+      <BottomNav active="none" />
     </div>
   );
 }

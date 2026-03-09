@@ -1,8 +1,9 @@
 "use client";
 
 import BottomNav from "@/components/bottom-nav";
+import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
-import { IconDownload, IconLocation, IconMusicNote } from "@/components/icons";
+import { IconDownload, IconLocation } from "@/components/icons";
 import { useEffect } from "react";
 
 type CvPageClientProps = {
@@ -134,7 +135,7 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
       <header className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md">
         <div className="relative flex h-16 w-full items-center justify-center px-6">
           <div className="flex items-center gap-2">
-            <IconMusicNote className="size-5 text-primary" />
+            <BrandMark />
             <h1 className="font-display text-lg font-bold tracking-tight uppercase">{labels.header}</h1>
           </div>
           <div className="absolute top-1/2 right-6 -translate-y-1/2">

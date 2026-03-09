@@ -14,8 +14,39 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "András Dénes",
+  metadataBase: new URL("https://andrasdenes.com"),
+  title: "Dénes András",
   description: "Trombonist portfolio and performances",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.svg",
+  },
+  openGraph: {
+    title: "Dénes András",
+    description: "Trombonist portfolio and performances",
+    url: "https://andrasdenes.com",
+    siteName: "Dénes András",
+    images: [
+      {
+        url: "/profile.jpeg",
+        width: 1200,
+        height: 1200,
+        alt: "Dénes András - Trombonist",
+      },
+    ],
+    locale: "hu_HU",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dénes András",
+    description: "Trombonist portfolio and performances",
+    images: ["/profile.jpeg"],
+  },
 };
 
 export default function RootLayout({

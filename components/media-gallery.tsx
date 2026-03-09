@@ -152,7 +152,11 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
             style={{ ["--reveal-delay" as any]: `${80 + (index % 12) * 55}ms` }}
           >
             <article
-              className="interactive-surface group relative overflow-hidden rounded-xl border border-neutral-border bg-neutral-dark/40 transition-all hover:border-primary/30 hover:bg-neutral-dark"
+              className={`interactive-surface group relative overflow-hidden rounded-xl transition-all ${
+                isLoaded
+                  ? "border border-neutral-border bg-neutral-dark/40 hover:border-primary/30 hover:bg-neutral-dark"
+                  : "border border-transparent bg-transparent"
+              }`}
               data-proximity
               data-proximity-strength="2.1"
             >
@@ -161,13 +165,19 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
                 src={item.viewUrl}
                 alt={`Gallery image ${index + 1}`}
                 loading="lazy"
+                ref={(node) => {
+                  if (!node) return;
+                  if (node.complete && node.naturalWidth > 0) {
+                    setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                  }
+                }}
                 onLoad={() => {
                   setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                 }}
                 onError={() => {
                   setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                 }}
-                className={`h-auto w-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`block h-auto w-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
               />
 
               <a

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { IconHome, IconMusicNote, IconSend } from "@/components/icons";
 
 type BottomNavProps = {
-  active: "home" | "cv" | "contact";
+  active: "home" | "cv" | "contact" | "none";
 };
 
 const itemBase =
