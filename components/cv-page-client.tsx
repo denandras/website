@@ -61,7 +61,7 @@ const cvSectionsHu = [
     ],
   },
   {
-    title: "Próbajáték",
+    title: "Próbajátékok",
     items: [
       { era: "2025", title: "Próbajátékot nyert az Óbudai Danubia Zenekarba", detail: "Győztes" },
       { era: "2024", title: "Próbajátékot nyert az Alba Regia Szimfonikus Zenekarba", detail: "Győztes" },
