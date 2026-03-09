@@ -1,8 +1,11 @@
 import BottomNav from "@/components/bottom-nav";
+import LanguageSwitcher from "@/components/language-switcher";
 import { IconMusicNote } from "@/components/icons";
 import MediaGallery from "@/components/media-gallery";
 import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 import { getS4Config } from "@/lib/s4-config";
+import { cookies } from "next/headers";
+import { normalizeSiteLanguage, SITE_LANGUAGE_COOKIE } from "@/lib/site-language";
 
 type MediaItem = {
   id: string;
@@ -79,33 +82,49 @@ async function getMediaItems(): Promise<MediaItem[]> {
 }
 
 export default async function MediaPage() {
+  const cookieStore = await cookies();
+  const language = normalizeSiteLanguage(cookieStore.get(SITE_LANGUAGE_COOKIE)?.value);
+  const mediaLabel = language === "hu" ? "Média" : "Media";
+  const labels = language === "hu"
+    ? {
+        missingConfig: "Az S3 média környezeti változók nincsenek beállítva.",
+        noMedia: "A beállított mappában nem találhatók médiafájlok.",
+      }
+    : {
+        missingConfig: "S3 media environment variables are not configured. Add S4_* values in .env.local.",
+        noMedia: "No media files found in the configured folder.",
+      };
+
   const mediaItems = await getMediaItems();
   const hasConfig = !!getS4Config();
 
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
       <header className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md">
-        <div className="flex h-16 w-full items-center justify-center px-6">
+        <div className="relative flex h-16 w-full items-center justify-center px-6">
           <div className="flex items-center gap-2">
             <IconMusicNote className="size-5 text-primary" />
-            <h1 className="font-display text-lg font-bold tracking-tight uppercase">Media</h1>
+            <h1 className="font-display text-lg font-bold tracking-tight uppercase">{mediaLabel}</h1>
+          </div>
+          <div className="absolute top-1/2 right-6 -translate-y-1/2">
+            <LanguageSwitcher initialLanguage={language} light />
           </div>
         </div>
       </header>
 
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
         <section className="relative pt-10">
-          <h2 className="pointer-events-none absolute top-10 left-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white uppercase md:block lg:text-7xl">
-            Media
+          <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
+            {mediaLabel}
           </h2>
 
           {!hasConfig ? (
             <div className="relative z-10 mt-20 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300 md:mt-24">
-              S3 media environment variables are not configured. Add S4_* values in .env.local.
+              {labels.missingConfig}
             </div>
           ) : mediaItems.length === 0 ? (
             <div className="relative z-10 mt-20 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300 md:mt-24">
-              No media files found in the configured folder.
+              {labels.noMedia}
             </div>
           ) : <MediaGallery items={mediaItems} />}
         </section>

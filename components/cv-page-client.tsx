@@ -1,6 +1,7 @@
 "use client";
 
 import BottomNav from "@/components/bottom-nav";
+import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
 import { IconDownload, IconLocation, IconMusicNote } from "@/components/icons";
 import { useEffect } from "react";
 
@@ -43,7 +44,58 @@ const cvSections = [
   },
 ];
 
+const cvSectionsHu = [
+  {
+    title: "Versenyek",
+    items: [
+      { era: "2024", title: "Davison Young Musicians Foundation Országos Rézfúvós Verseny", detail: "III. díj" },
+      { era: "2023", title: "ITF (Frank Smith) Nemzetközi Harsonaverseny", detail: "I. díj" },
+      { era: "2022", title: "43. Rézfúvós és Ütőhangszeres Találkozó és Verseny", detail: "I. díj" },
+      { era: "2022", title: "XIII. Nemzetközi Harsonaverseny Brno", detail: "III. díj" },
+      { era: "2021", title: "Hungarian National Trombone Competition (Hungarian Trombone Camp)", detail: "I. díj" },
+      { era: "2021", title: "International Varaždin Woodwind & Brass Competition", detail: "I. díj, valamint második díj összesített kategóriában" },
+      { era: "2020", title: "Online Trombone Competition, Trombone Category C", detail: "III. díj" },
+      { era: "2019", title: "XIII. Nemzetközi Harsonaverseny Brno", detail: "I. díj" },
+      { era: "2018", title: "XIII. Országos Szakgimnáziumi Harsona- és Tubaverseny", detail: "II. díj" },
+    ],
+  },
+  {
+    title: "Próbajáték",
+    items: [
+      { era: "2025", title: "Próbajátékot nyert az Óbudai Danubia Zenekarba", detail: "Győztes" },
+      { era: "2024", title: "Próbajátékot nyert az Alba Regia Szimfonikus Zenekarba", detail: "Győztes" },
+      { era: "2024", title: "Eredményes próbajáték a Magyar Állami Operaházba", detail: "Sikeres" },
+    ],
+  },
+  {
+    title: "Szóló",
+    items: [
+      { era: "2025", title: "A Magyar Rádió Szimfonikus Zenekarának újévi koncertjén való közreműködés", detail: "Szóló" },
+      { era: "2025", title: "A római Accademia Ungheria I Giovedì in via Giulia műsorán való fellépés", detail: "Szóló" },
+      { era: "2025", title: "Mesterkurzust tartott Kunmingben a China Orchestra Network fesztivál keretein belül", detail: "Mesterkurzus" },
+      { era: "2025", title: "Mesterkurzust tartott Poznańban a Tromboholizm Fesztivál részeként", detail: "Mesterkurzus" },
+      { era: "2024", title: "Tehetség-napi koncert a Liszt Ferenc Kamarazenekar kíséretével", detail: "Szóló" },
+    ],
+  },
+];
+
 export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
+  const { language } = useSiteLanguage();
+
+  const labels = language === "hu"
+    ? {
+        header: "Életrajz",
+        role: "Harsonaművész",
+        location: "Budapest, Magyarország",
+        downloadCv: "Életrajz letöltése",
+      }
+    : {
+        header: "CV",
+        role: "Professional Trombonist",
+        location: "Budapest, Hungary",
+        downloadCv: "Download CV",
+      };
+
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     if (!nodes.length) return;
@@ -68,9 +120,11 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
       window.cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, []);
+  }, [language]);
 
-  const sectionsNewestFirst = cvSections.map((section) => ({
+  const activeSections = language === "hu" ? cvSectionsHu : cvSections;
+
+  const sectionsNewestFirst = activeSections.map((section) => ({
     ...section,
     items: [...section.items].sort((a, b) => Number.parseInt(b.era, 10) - Number.parseInt(a.era, 10)),
   }));
@@ -78,10 +132,13 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
       <header className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md">
-        <div className="flex h-16 w-full items-center justify-center px-6">
+        <div className="relative flex h-16 w-full items-center justify-center px-6">
           <div className="flex items-center gap-2">
             <IconMusicNote className="size-5 text-primary" />
-            <h1 className="font-display text-lg font-bold tracking-tight uppercase">CV</h1>
+            <h1 className="font-display text-lg font-bold tracking-tight uppercase">{labels.header}</h1>
+          </div>
+          <div className="absolute top-1/2 right-6 -translate-y-1/2">
+            <LanguageSwitcher light />
           </div>
         </div>
       </header>
@@ -102,10 +159,10 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
 
             <div className="mt-6 space-y-1">
               <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ ["--reveal-delay" as any]: "100ms" }}>András Dénes</h2>
-              <p className="font-medium text-primary" data-reveal style={{ ["--reveal-delay" as any]: "170ms" }}>Professional Trombonist</p>
+              <p className="font-medium text-primary" data-reveal style={{ ["--reveal-delay" as any]: "170ms" }}>{labels.role}</p>
               <div className="flex items-center justify-center gap-1 text-sm text-neutral-300" data-reveal style={{ ["--reveal-delay" as any]: "240ms" }}>
                 <IconLocation className="size-3" />
-                <span>Budapest, Hungary</span>
+                <span>{labels.location}</span>
               </div>
             </div>
           </section>
@@ -182,7 +239,7 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
                 data-proximity-strength="2.1"
               >
                 <IconDownload className="size-4 text-primary" />
-                Download CV
+                {labels.downloadCv}
               </a>
             </div>
           ) : null}

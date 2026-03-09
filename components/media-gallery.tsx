@@ -140,6 +140,9 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
     <div ref={galleryRef} className="relative z-10 mt-20 columns-1 gap-4 sm:columns-2 md:mt-24 lg:columns-3">
       {galleryItems.map((item, index) => {
         const isLoaded = !!loadedIds[item.id];
+        const downloadVisibilityClass = isLoaded
+          ? "opacity-100 pointer-events-auto md:opacity-0 md:pointer-events-none md:group-hover:pointer-events-auto md:group-hover:opacity-100"
+          : "opacity-0 pointer-events-none";
 
         return (
           <div
@@ -169,9 +172,7 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
 
               <a
                 href={item.downloadUrl}
-                className={`absolute top-3 right-3 inline-flex items-center justify-center rounded-lg border border-primary/30 bg-background-dark/70 p-2.5 text-neutral-100 opacity-0 pointer-events-none backdrop-blur-sm transition-all duration-200 hover:bg-background-dark/85 ${
-                  isLoaded ? "group-hover:pointer-events-auto group-hover:opacity-100" : ""
-                }`}
+                className={`absolute top-3 right-3 inline-flex items-center justify-center rounded-lg border border-primary/30 bg-background-dark/70 p-2.5 text-neutral-100 backdrop-blur-sm transition-all duration-200 hover:bg-background-dark/85 ${downloadVisibilityClass}`}
                 aria-label="Download image"
                 title="Download"
               >
