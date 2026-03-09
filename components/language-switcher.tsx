@@ -72,7 +72,7 @@ export function useSiteLanguage() {
 
 export default function LanguageSwitcher({
   initialLanguage,
-  light,
+  light: _light,
 }: {
   initialLanguage?: SiteLanguage;
   light?: boolean;
@@ -81,10 +81,6 @@ export default function LanguageSwitcher({
   const { language, setLanguage } = useSiteLanguage();
   const activeLanguage = initialLanguage ? normalizeSiteLanguage(initialLanguage) : language;
 
-  const baseClass = light
-    ? "bg-white/95 text-background-dark border-white/70"
-    : "bg-primary/90 text-background-dark border-primary/70";
-
   const setAndRefresh = (next: SiteLanguage) => {
     if (next === activeLanguage) return;
     setLanguage(next);
@@ -92,21 +88,21 @@ export default function LanguageSwitcher({
   };
 
   return (
-    <div className={`inline-flex items-center rounded-full border px-1 py-1 text-xs font-bold tracking-wider shadow-sm ${baseClass}`}>
+    <div className="inline-flex items-center text-xs font-bold tracking-wider text-white">
       <button
         type="button"
         disabled={activeLanguage === "hu"}
         onClick={() => setAndRefresh("hu")}
-        className={`rounded-full px-2.5 py-1 transition-colors ${activeLanguage === "hu" ? "cursor-default bg-background-dark text-neutral-100" : "cursor-pointer text-background-dark/80"}`}
+        className={`px-1.5 py-0.5 transition-opacity ${activeLanguage === "hu" ? "cursor-default text-white" : "cursor-pointer text-white/80 hover:text-white"}`}
       >
         HU
       </button>
-      <span className="px-1 text-background-dark/70">|</span>
+      <span className="px-1 text-white/70">|</span>
       <button
         type="button"
         disabled={activeLanguage === "en"}
         onClick={() => setAndRefresh("en")}
-        className={`rounded-full px-2.5 py-1 transition-colors ${activeLanguage === "en" ? "cursor-default bg-background-dark text-neutral-100" : "cursor-pointer text-background-dark/80"}`}
+        className={`px-1.5 py-0.5 transition-opacity ${activeLanguage === "en" ? "cursor-default text-white" : "cursor-pointer text-white/80 hover:text-white"}`}
       >
         EN
       </button>
