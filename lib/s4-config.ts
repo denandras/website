@@ -79,3 +79,8 @@ export function getS4CvPrefix(): string | null {
   const prefix = fromRepoEnv("S4_CV_PREFIX")?.trim();
   return prefix || null;
 }
+
+export function getS4UpcomingPrefix(): string | null {
+  const prefix = fromRepoEnv("S4_UPCOMING_PREFIX")?.trim();
+  return prefix || null;
+}

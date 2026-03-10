@@ -8,6 +8,12 @@ import { useEffect } from "react";
 
 type CvPageClientProps = {
   cvDownloadUrl: string | null;
+  upcomingConcerts: Array<{
+    date: string;
+    city: string;
+    venue: string;
+    note?: string;
+  }>;
 };
 
 const cvSections = [
@@ -80,7 +86,7 @@ const cvSectionsHu = [
   },
 ];
 
-export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
+export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPageClientProps) {
   const { language } = useSiteLanguage();
 
   const labels = language === "hu"
@@ -96,6 +102,8 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
         location: "Budapest, Hungary",
         downloadCv: "Download CV",
       };
+
+  const showUpcomingSection = language === "hu" && upcomingConcerts.length > 0;
 
   useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
@@ -167,6 +175,35 @@ export default function CvPageClient({ cvDownloadUrl }: CvPageClientProps) {
               </div>
             </div>
           </section>
+
+          {showUpcomingSection ? (
+            <section className="mb-2 border-t border-neutral-border/80 pt-8" data-reveal style={{ ["--reveal-delay" as any]: "250ms" }}>
+              <div className="mb-4 flex items-end justify-between gap-3">
+                <h3 className="font-display text-3xl leading-[0.9] font-bold tracking-tight text-white uppercase">
+                  Közelgő koncertek
+                </h3>
+              </div>
+
+              <div className="space-y-3">
+                {upcomingConcerts.map((concert, index) => (
+                  <article
+                    key={`${concert.date}-${concert.city}-${concert.venue}`}
+                    className="interactive-surface rounded-xl border border-neutral-border bg-neutral-dark/40 p-5"
+                    data-proximity
+                    data-reveal
+                    style={{ ["--reveal-delay" as any]: `${280 + index * 55}ms` }}
+                  >
+                    <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
+                      <span className="rounded-full bg-primary/10 px-2 py-1">{concert.date}</span>
+                      <span className="rounded-full bg-primary/10 px-2 py-1">{concert.city}</span>
+                    </div>
+                    <h4 className="font-display text-lg font-semibold leading-tight text-white">{concert.venue}</h4>
+                    {concert.note ? <p className="mt-2 text-sm text-neutral-300">{concert.note}</p> : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="mt-6 border-t border-neutral-border/80">
             {sectionsNewestFirst.map((section, index) => {
