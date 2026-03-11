@@ -28,10 +28,13 @@ export default function ProximityEffects() {
 
   useEffect(() => {
     const supportsInteractiveHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const hasCoarsePointer =
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(any-pointer: coarse)").matches;
     const allowsMotion = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
     if (!allowsMotion) return;
 
-    const usePointerAttraction = supportsInteractiveHover;
+    const usePointerAttraction = supportsInteractiveHover && !hasCoarsePointer;
 
     let mx = -9999;
     let my = -9999;
@@ -39,6 +42,9 @@ export default function ProximityEffects() {
     let lastScrollY = window.scrollY;
     let lastScrollTs = performance.now();
     let raf = 0;
+    let lastFrameTs = performance.now();
+    let lowFpsFrameCount = 0;
+    let effectsDisabledForPerf = false;
     const states = new Map<HTMLElement, MotionState>();
 
     const getTargets = () => Array.from(document.querySelectorAll<HTMLElement>("[data-proximity]"));
@@ -79,6 +85,27 @@ export default function ProximityEffects() {
 
     const update = () => {
       raf = 0;
+      const nowTs = performance.now();
+      const frameMs = nowTs - lastFrameTs;
+      lastFrameTs = nowTs;
+
+      // Auto-disable effect if runtime FPS remains low (production-safe battery/perf fallback).
+      if (frameMs > 1000 / 40) {
+        lowFpsFrameCount += 1;
+      } else {
+        lowFpsFrameCount = Math.max(0, lowFpsFrameCount - 1);
+      }
+
+      if (lowFpsFrameCount > 24 && !effectsDisabledForPerf) {
+        effectsDisabledForPerf = true;
+        for (const el of states.keys()) {
+          hardResetTarget(el);
+        }
+        return;
+      }
+
+      if (effectsDisabledForPerf) return;
+
       let hasActiveMotion = false;
       const targets = getTargets();
       const activeSet = new Set(targets);
@@ -130,13 +157,14 @@ export default function ProximityEffects() {
           continue;
         }
 
-        // Mobile/touch fallback: use inertial scroll velocity for a soft jelly-like hold.
+        // Touch/mobile-friendly fallback: subtle scroll-velocity and viewport-center responsiveness.
         const viewportCenterY = window.innerHeight * 0.5;
         const elementCenterY = rect.top + rect.height * 0.5;
         const proximity = 1 - Math.min(1, Math.abs((elementCenterY - viewportCenterY) / (window.innerHeight * 0.7)));
+        const mobileMotionScale = hasCoarsePointer ? 0.72 : 1;
         const impulse = clamp(scrollVelocity * 16, -26, 26);
-        const ty = clamp(impulse * 0.2, -9, 9) * (0.35 + proximity * 0.65);
-        const tx = clamp(((elementCenterY - viewportCenterY) / window.innerHeight) * -ty * 0.18, -2.5, 2.5);
+        const ty = clamp(impulse * 0.2, -9, 9) * (0.35 + proximity * 0.65) * mobileMotionScale;
+        const tx = clamp(((elementCenterY - viewportCenterY) / window.innerHeight) * -ty * 0.18, -2.5, 2.5) * mobileMotionScale;
 
         state.targetTx = tx;
         state.targetTy = ty;
