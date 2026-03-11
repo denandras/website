@@ -93,12 +93,14 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
   const labels = language === "hu"
     ? {
         header: "Életrajz",
+        name: "Dénes András",
         role: "Harsonaművész",
         location: "Budapest, Magyarország",
         downloadCv: "Életrajz letöltése",
       }
     : {
         header: "CV",
+        name: "András Dénes",
         role: "Professional Trombonist",
         location: "Budapest, Hungary",
         downloadCv: "Download CV",
@@ -168,7 +170,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
             </div>
 
             <div className="mt-6 space-y-1">
-              <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ ["--reveal-delay" as any]: "100ms" }}>András Dénes</h2>
+              <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ ["--reveal-delay" as any]: "100ms" }}>{labels.name}</h2>
               <p className="font-medium text-primary" data-reveal style={{ ["--reveal-delay" as any]: "170ms" }}>{labels.role}</p>
               <div className="flex items-center justify-center gap-1 text-sm text-neutral-300" data-reveal style={{ ["--reveal-delay" as any]: "240ms" }}>
                 <IconLocation className="size-3" />
