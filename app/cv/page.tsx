@@ -32,7 +32,13 @@ type UpcomingConcert = {
   city: string;
   venue: string;
   note?: string;
+  href?: string;
 };
+
+function isLikelyHref(value: string | undefined) {
+  if (!value) return false;
+  return /^(https?:\/\/|mailto:|tel:|\/)/i.test(value.trim());
+}
 
 function parseUpcomingConcertsMarkdown(raw: string): UpcomingConcert[] {
   const lines = raw
@@ -55,7 +61,20 @@ function parseUpcomingConcertsMarkdown(raw: string): UpcomingConcert[] {
   return sourceRows
     .map((line) => line.split("|").map((part) => part.trim()))
     .filter((parts) => parts.length >= 3)
-    .map((parts) => ({ date: parts[0], city: parts[1], venue: parts[2], note: parts[3] || undefined }));
+    .map((parts) => {
+      const fourth = parts[3] || undefined;
+      const fifth = parts[4] || undefined;
+      const href = isLikelyHref(fifth) ? fifth : isLikelyHref(fourth) ? fourth : undefined;
+      const note = href === fourth ? undefined : fourth;
+
+      return {
+        date: parts[0],
+        city: parts[1],
+        venue: parts[2],
+        note,
+        href,
+      };
+    });
 }
 
 function chooseUpcomingMarkdownKey(objects: Array<{ Key?: string; LastModified?: Date }>): string | null {

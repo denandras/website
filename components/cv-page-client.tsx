@@ -3,7 +3,7 @@
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
-import { IconDownload, IconLocation } from "@/components/icons";
+import { IconDownload, IconLocation, IconOpenInNew } from "@/components/icons";
 import { useEffect } from "react";
 
 type CvPageClientProps = {
@@ -13,6 +13,7 @@ type CvPageClientProps = {
     city: string;
     venue: string;
     note?: string;
+    href?: string;
   }>;
 };
 
@@ -186,20 +187,44 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
 
               <div className="space-y-3">
                 {upcomingConcerts.map((concert, index) => (
-                  <article
-                    key={`${concert.date}-${concert.city}-${concert.venue}`}
-                    className="interactive-surface rounded-xl border border-neutral-border bg-neutral-dark/40 p-5"
-                    data-proximity
-                    data-reveal
-                    style={{ ["--reveal-delay" as any]: `${280 + index * 55}ms` }}
-                  >
-                    <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
-                      <span className="rounded-full bg-primary/10 px-2 py-1">{concert.date}</span>
-                      <span className="rounded-full bg-primary/10 px-2 py-1">{concert.city}</span>
-                    </div>
-                    <h4 className="font-display text-lg font-semibold leading-tight text-white">{concert.venue}</h4>
-                    {concert.note ? <p className="mt-2 text-sm text-neutral-300">{concert.note}</p> : null}
-                  </article>
+                  concert.href ? (
+                    <a
+                      key={`${concert.date}-${concert.city}-${concert.venue}`}
+                      href={concert.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="interactive-surface group flex items-start justify-between gap-4 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
+                      data-proximity
+                      data-proximity-strength="2.1"
+                      data-reveal
+                      style={{ ["--reveal-delay" as any]: `${280 + index * 55}ms` }}
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
+                          <span className="rounded-full bg-primary/10 px-2 py-1">{concert.date}</span>
+                          <span className="rounded-full bg-primary/10 px-2 py-1">{concert.city}</span>
+                        </div>
+                        <h4 className="font-display text-lg font-semibold leading-tight text-white">{concert.venue}</h4>
+                        {concert.note ? <p className="mt-2 text-sm text-neutral-300">{concert.note}</p> : null}
+                      </div>
+                      <IconOpenInNew className="mt-0.5 size-5 shrink-0 text-neutral-300 transition-colors group-hover:text-primary" />
+                    </a>
+                  ) : (
+                    <article
+                      key={`${concert.date}-${concert.city}-${concert.venue}`}
+                      className="interactive-surface group rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
+                      data-proximity
+                      data-reveal
+                      style={{ ["--reveal-delay" as any]: `${280 + index * 55}ms` }}
+                    >
+                      <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
+                        <span className="rounded-full bg-primary/10 px-2 py-1">{concert.date}</span>
+                        <span className="rounded-full bg-primary/10 px-2 py-1">{concert.city}</span>
+                      </div>
+                      <h4 className="font-display text-lg font-semibold leading-tight text-white">{concert.venue}</h4>
+                      {concert.note ? <p className="mt-2 text-sm text-neutral-300">{concert.note}</p> : null}
+                    </article>
+                  )
                 ))}
               </div>
             </section>
