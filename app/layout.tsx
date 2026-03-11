@@ -19,10 +19,10 @@ export const metadata: Metadata = {
   description: "Trombonist portfolio and performances",
   icons: {
     icon: [
-      { url: "/logo_tight.svg", type: "image/svg+xml" },
+      { url: "/music-note.svg", type: "image/svg+xml" },
       { url: "/favicon.ico" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/music-note.svg",
     apple: "/logo_tight.svg",
   },
   openGraph: {
