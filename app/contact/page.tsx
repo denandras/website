@@ -17,19 +17,19 @@ export default function ContactPage() {
   const labels = language === "hu"
     ? {
         header: "Kapcsolat",
-        contacts: "ElĂ©rhetĹ‘sĂ©gek",
+        contacts: "Elérhetőségek",
         form: "Kapcsolat",
         email: "E-mail",
         phone: "Telefon",
         instagram: "Instagram",
-        name: "NĂ©v",
-        emailAddress: "E-mail-cĂ­m",
-        message: "Ăśzenet",
-        placeholderName: "Az Ă–n neve",
-        placeholderEmail: "Az Ă–n e-mail-cĂ­me",
-        placeholderMessage: "Miben segĂ­thetek?",
-        send: "Ăśzenet kĂĽldĂ©se",
-        subject: "Ăšj megkeresĂ©s az andrasdenes.com oldalrĂłl",
+        name: "Név",
+        emailAddress: "E-mail-cím",
+        message: "Üzenet",
+        placeholderName: "Az Ön neve",
+        placeholderEmail: "Az Ön e-mail-címe",
+        placeholderMessage: "Miben segíthetek?",
+        send: "Üzenet küldése",
+        subject: "Új megkeresés az andrasdenes.com oldalról",
       }
     : {
         header: "Get in Touch",

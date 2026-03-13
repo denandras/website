@@ -20,30 +20,30 @@ export default function Home() {
 
   const labels = language === "hu"
     ? {
-        titleName: "DĂ©nes AndrĂˇs",
-        subtitle: "HarsonamĹ±vĂ©sz",
+        titleName: "Dénes András",
+        subtitle: "Harsonaművész",
         orchestras: "Zenekarok",
-        ensembles: "EgyĂĽttesek",
-        cv: "Ă‰letrajz",
-        media: "MĂ©dia",
+        ensembles: "Együttesek",
+        cv: "Életrajz",
+        media: "Média",
         contact: "Kapcsolat",
-        rolePrincipal: "SzĂłlamvezetĹ‘",
-        roleSecond: "MĂˇsodik harsona",
-        descArso: "Ă‰vadkoncertek Ă©s kortĂˇrs mĹ±sorok",
-        descObudai: "Ăšt a zenĂ©hez",
+        rolePrincipal: "Szólamvezető",
+        roleSecond: "Második harsona",
+        descArso: "Évadkoncertek és kortárs műsorok",
+        descObudai: "Út a zenéhez",
         member: "Tag",
-        foundingMember: "AlapĂ­tĂł tag",
-        brassBoulevardName: "RĂ©z kĂ¶rĂşt",
-        footerTagline: "HarsonamĹ±vĂ©sz portfĂłliĂł â€˘ Budapest, MagyarorszĂˇg",
+        foundingMember: "Alapító tag",
+        brassBoulevardName: "Réz körút",
+        footerTagline: "Harsonaművész portfólió • Budapest, Magyarország",
         bioParagraphs: [
-          "DĂ©nes AndrĂˇs harsonamĹ±vĂ©sz, MagyarorszĂˇgon szĂĽletett, jelenleg Budapesten Ă©l. A Liszt Ferenc ZenemĹ±vĂ©szeti Egyetem mesterkĂ©pzĂ©sĂ©nek hallgatĂłja, ahol korĂˇbban harsonamĹ±vĂ©sz alapkĂ©pzĂ©sĂ©t is elvĂ©gezte. MĹ±vĂ©szi profiljĂˇt a zenekari elĹ‘adĂłmĹ±vĂ©szet, a kamarazene Ă©s a kortĂˇrs alkotĂłi egyĂĽttmĹ±kĂ¶dĂ©sek egysĂ©ge hatĂˇrozza meg, kiemelt fĂłkuszban a nemzetkĂ¶zi szakmai integrĂˇciĂłval Ă©s lĂˇthatĂłsĂˇggal.",
-          "SzĂˇmos jelentĹ‘s elismerĂ©sben rĂ©szesĂĽlt, tĂ¶bbek kĂ¶zĂ¶tt a Cziffra GyĂ¶rgy IfjĂş TehetsĂ©g DĂ­jban, a MOL TehetsĂ©gtĂˇmogatĂł DĂ­jban, a Bank of China Ă–sztĂ¶ndĂ­jban Ă©s a Nemzeti FelsĹ‘oktatĂˇsi Ă–sztĂ¶ndĂ­jban. NemzetkĂ¶zi szakmai fejlĹ‘dĂ©sĂ©nek meghatĂˇrozĂł ĂˇllomĂˇsa volt az International Trombone Association Festival (USA) Frank Smith versenyĂ©n elĂ©rt sikere, amely mĂ©rfĂ¶ldkĹ‘ volt abban, hogy szakmai jelenlĂ©tĂ©t EurĂłpĂˇn tĂşl is megalapozza.",
-          "Rendszeresen lĂ©p fel szĂłlistakĂ©nt Ă©s zenekari mĹ±vĂ©szkĂ©nt EurĂłpĂˇban Ă©s ĂzsiĂˇban, tĂ¶bbek kĂ¶zĂ¶tt a Magyar RĂˇdiĂł Szimfonikus ZenekarĂˇval, a Liszt Ferenc Kamarazenekarral, valamint rĂłmai Ă©s kunmingi koncerthelyszĂ­neken. 2025 decembere Ăłta az Ă“budai Danubia Zenekar mĂˇsodik harsonĂˇsa, emellett az Alba Regia Szimfonikus Zenekar szĂłlamvezetĹ‘ harsonĂˇsa, mindkĂ©t egyĂĽttesnĂ©l sikeres prĂłbajĂˇtĂ©kot kĂ¶vetĹ‘en.",
-          "AktĂ­v tagja tĂ¶bb kamarazenei Ă©s projektalapĂş formĂˇciĂłnak, kĂ¶ztĂĽk a SzegEd TRombone ENsemble-nek, a RĂ©z kĂ¶rĂşt rĂ©zfĂşvĂłs szeptettnek Ă©s a Budapest Orchestra Project Bigbandnek. KortĂˇrs zenei munkĂˇjĂˇban egyĂĽttmĹ±kĂ¶dĂ¶tt EĂ¶tvĂ¶s PĂ©terrel, az UMZE EgyĂĽttessel Ă©s kortĂˇrs zeneszerzĹ‘kkel; tevĂ©kenysĂ©gĂ©hez stĂşdiĂłfelvĂ©telek Ă©s zeneszerzĹ‘-kĂ¶zpontĂş koncertformĂˇtumok is kapcsolĂłdnak. HosszĂş tĂˇvĂş mĹ±vĂ©szi cĂ©lja, hogy magas szĂ­nvonalĂş elĹ‘adĂłmĹ±vĂ©szeti munkĂˇval, kortĂˇrs egyĂĽttmĹ±kĂ¶dĂ©sekkel Ă©s tartĂłs nemzetkĂ¶zi szakmai kapcsolatokkal jĂˇruljon hozzĂˇ a klasszikus zenei Ă©let megĂşjulĂˇsĂˇhoz.",
+          "Dénes András harsonaművész, Magyarországon született, jelenleg Budapesten él. A Liszt Ferenc Zeneművészeti Egyetem mesterképzésének hallgatója, ahol korábban harsonaművész alapképzését is elvégezte. Művészi profilját a zenekari előadóművészet, a kamarazene és a kortárs alkotói együttműködések egysége határozza meg, kiemelt fókuszban a nemzetközi szakmai integrációval és láthatósággal.",
+          "Számos jelentős elismerésben részesült, többek között a Cziffra György Ifjú Tehetség Díjban, a MOL Tehetségtámogató Díjban, a Bank of China Ösztöndíjban és a Nemzeti Felsőoktatási Ösztöndíjban. Nemzetközi szakmai fejlődésének meghatározó állomása volt az International Trombone Association Festival (USA) Frank Smith versenyén elért sikere, amely mérföldkő volt abban, hogy szakmai jelenlétét Európán túl is megalapozza.",
+          "Rendszeresen lép fel szólistaként és zenekari művészként Európában és Ázsiában, többek között a Magyar Rádió Szimfonikus Zenekarával, a Liszt Ferenc Kamarazenekarral, valamint római és kunmingi koncerthelyszíneken. 2025 decembere óta az Óbudai Danubia Zenekar második harsonása, emellett az Alba Regia Szimfonikus Zenekar szólamvezető harsonása, mindkét együttesnél sikeres próbajátékot követően.",
+          "Aktív tagja több kamarazenei és projektalapú formációnak, köztük a SzegEd TRombone ENsemble-nek, a Réz körút rézfúvós szeptettnek és a Budapest Orchestra Project Bigbandnek. Kortárs zenei munkájában együttműködött Eötvös Péterrel, az UMZE Együttessel és kortárs zeneszerzőkkel; tevékenységéhez stúdiófelvételek és zeneszerző-központú koncertformátumok is kapcsolódnak. Hosszú távú művészi célja, hogy magas színvonalú előadóművészeti munkával, kortárs együttműködésekkel és tartós nemzetközi szakmai kapcsolatokkal járuljon hozzá a klasszikus zenei élet megújulásához.",
         ],
       }
     : {
-        titleName: "AndrĂˇs DĂ©nes",
+        titleName: "András Dénes",
         subtitle: "Trombone",
         orchestras: "Orchestras",
         ensembles: "Ensembles",
@@ -57,12 +57,12 @@ export default function Home() {
         member: "Member",
         foundingMember: "Founding member",
         brassBoulevardName: "Brass Boulevard",
-        footerTagline: "Trombonist Portfolio â€˘ Budapest, Hungary",
+        footerTagline: "Trombonist Portfolio • Budapest, Hungary",
         bioParagraphs: [
-          "AndrĂˇs DĂ©nes is a Hungarian trombonist, born in Hungary and currently based in Budapest. He is a Master's student at the Franz Liszt Academy of Music, where he previously completed his Bachelor's degree in trombone performance. His artistic profile combines orchestral performance, chamber music, and contemporary creation, with a strong focus on international professional integration and visibility.",
-          "He is the recipient of several major awards, including the GyĂ¶rgy Cziffra Young Talent Award, the MOL Young Talent Award, the Bank of China Scholarship, and the Hungarian National Higher Education Scholarship. A decisive milestone in his international development was his success at the Frank Smith Competition of the International Trombone Association Festival (USA), one of the most prominent global platforms for trombonists.",
-          "DĂ©nes performs regularly as a soloist and orchestral musician across Europe and Asia, including appearances with the Hungarian Radio Symphony Orchestra, the Franz Liszt Chamber Orchestra, and concerts in Rome and Kunming. Since December 2025, he has been a member of the Ă“budai Danubia Orchestra, performing as second trombone, while simultaneously serving as principal trombonist of the Alba Regia Symphony Orchestra, following successful auditions for both ensembles.",
-          "He is an active member of several chamber and project-based formations, including SzegEd TRombone ENsemble, Brass Boulevard brass septet, and Budapest Orchestra Project Bigband. His contemporary work includes collaborations with PĂ©ter EĂ¶tvĂ¶s, UMZE Ensemble, and living composers, as well as studio recordings and composer-focused concert formats. His long-term artistic aim is to contribute to the renewal of classical music through high-level performance, contemporary collaboration, and sustained international professional exchange.",
+          "András Dénes is a Hungarian trombonist, born in Hungary and currently based in Budapest. He is a Master's student at the Franz Liszt Academy of Music, where he previously completed his Bachelor's degree in trombone performance. His artistic profile combines orchestral performance, chamber music, and contemporary creation, with a strong focus on international professional integration and visibility.",
+          "He is the recipient of several major awards, including the György Cziffra Young Talent Award, the MOL Young Talent Award, the Bank of China Scholarship, and the Hungarian National Higher Education Scholarship. A decisive milestone in his international development was his success at the Frank Smith Competition of the International Trombone Association Festival (USA), one of the most prominent global platforms for trombonists.",
+          "Dénes performs regularly as a soloist and orchestral musician across Europe and Asia, including appearances with the Hungarian Radio Symphony Orchestra, the Franz Liszt Chamber Orchestra, and concerts in Rome and Kunming. Since December 2025, he has been a member of the Óbudai Danubia Orchestra, performing as second trombone, while simultaneously serving as principal trombonist of the Alba Regia Symphony Orchestra, following successful auditions for both ensembles.",
+          "He is an active member of several chamber and project-based formations, including SzegEd TRombone ENsemble, Brass Boulevard brass septet, and Budapest Orchestra Project Bigband. His contemporary work includes collaborations with Péter Eötvös, UMZE Ensemble, and living composers, as well as studio recordings and composer-focused concert formats. His long-term artistic aim is to contribute to the renewal of classical music through high-level performance, contemporary collaboration, and sustained international professional exchange.",
         ],
       };
 
@@ -135,7 +135,7 @@ export default function Home() {
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
           <div className="absolute inset-0">
             <Image
-              alt="Portrait of AndrĂˇs DĂ©nes"
+              alt="Portrait of András Dénes"
               className="h-full w-full scale-[1.04] object-cover object-[49%_21%]"
               src="/profile.jpeg"
               fill
@@ -215,7 +215,7 @@ export default function Home() {
                 <p className="mb-1 text-xs font-bold tracking-widest text-primary uppercase">
                   {labels.roleSecond}
                 </p>
-                <h3 className="font-display mb-1 text-xl font-semibold">Ă“budai Danubia Zenekar</h3>
+                <h3 className="font-display mb-1 text-xl font-semibold">Óbudai Danubia Zenekar</h3>
                 <p className="text-sm text-neutral-300">{labels.descObudai}</p>
               </a>
             </div>
@@ -338,14 +338,14 @@ export default function Home() {
         <div className="mb-9 flex justify-center">
           <Image
             src="/logo_tight.svg"
-            alt="DĂ©nes AndrĂˇs logo"
+            alt="Dénes András logo"
             width={180}
             height={53}
             className="h-[53px] w-auto opacity-90"
           />
         </div>
         <p className="mb-2 text-xs font-medium tracking-widest text-neutral-500 uppercase">
-          Â© {currentYear} {labels.titleName}
+          © {currentYear} {labels.titleName}
         </p>
         <p className="text-[10px] text-neutral-600">{labels.footerTagline}</p>
       </footer>
