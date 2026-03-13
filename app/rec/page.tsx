@@ -3,8 +3,8 @@
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
-import { IconCamera, IconOpenInNew, IconSchedule } from "@/components/icons";
-import { useEffect } from "react";
+import { IconCamera, IconGroups, IconOpenInNew, IconSchedule } from "@/components/icons";
+import { useEffect, useState } from "react";
 
 type VideoItem = {
   title: string;
@@ -17,18 +17,6 @@ type GearRow = {
   detailEn: string;
   href?: string;
 };
-
-type CalNamespace = (...args: unknown[]) => void;
-
-type CalApi = CalNamespace & {
-  ns?: Record<string, CalNamespace>;
-};
-
-declare global {
-  interface Window {
-    Cal?: CalApi;
-  }
-}
 
 const videosLeft: VideoItem[] = [
   { title: "Máté Szirtes plays Liszt Mephisto Waltz 1", youtubeId: "IRBojYisvl8" },
@@ -118,14 +106,16 @@ function VideoCard({ item }: { item: VideoItem }) {
 
 export default function RecPage() {
   const { language } = useSiteLanguage();
+  const [activePanel, setActivePanel] = useState<"videos" | "booking" | "gear">("videos");
 
   const labels = language === "hu"
     ? {
         header: "Felvétel",
         title: "Felvételkészítés",
         intro1: "Mikor a Zeneakadémiára kerültem, kezdett el érdekelni ez az oldala a zenének: hogyan lehet a valósághoz leginkább hű, mégsem unalmas módon rögzíteni azt, amit szeretnénk? Mitől lesz megnyerő egy felvétel a többi beérkező versenyzőhöz képest?",
-        intro2: "Az évek során technikai tudásomat saját és külső tapasztalatok alapján bővítettem. Több mint 50 felvételt készítettem főként zeneakadémisták számára; az alábbi példák és az eszközlista ezt a munkát mutatják be.",
+        intro2: "Az évek során technikai tudásomat saját és külső tapasztalatok alapján bővítettem. Több mint 80 felvételt készítettem főként zeneakadémisták számára; az alábbi példák és az eszközlista ezt a munkát mutatják be.",
         videos: "Válogatott felvételek",
+        gearTitle: "Eszközök",
         hardware: "Hardware",
         accessories: "Egyéb kellékek",
         software: "Software",
@@ -140,6 +130,7 @@ export default function RecPage() {
         intro1: "When I entered the Liszt Academy, I became increasingly interested in this side of music: how to capture a performance as truthfully as possible without making it feel flat or dull. What makes one recording stand out from the many others submitted for the same opportunity?",
         intro2: "Over the years I expanded my technical practice through both personal and external experience. I have created more than 50 recordings, mainly for students of the Academy, and the examples and equipment list below reflect that work.",
         videos: "Selected Recordings",
+        gearTitle: "Equipment",
         hardware: "Hardware",
         accessories: "Accessories",
         software: "Software",
@@ -173,44 +164,7 @@ export default function RecPage() {
       window.cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, []);
-
-  useEffect(() => {
-    const container = document.getElementById("rec-cal-inline");
-    if (!container || container.dataset.calMounted === "true") return;
-
-    const initializeCal = () => {
-      const cal = window.Cal;
-      if (!cal) return;
-
-      cal("init", "recPage", { origin: "https://app.cal.eu" });
-      const namespace = cal.ns?.recPage;
-      if (!namespace) return;
-
-      namespace("inline", {
-        elementOrSelector: "#rec-cal-inline",
-        config: { layout: "month_view" },
-        calLink: "denandras/rec",
-      });
-      namespace("ui", { hideEventTypeDetails: false, layout: "month_view" });
-      container.dataset.calMounted = "true";
-    };
-
-    if (window.Cal) {
-      initializeCal();
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "https://app.cal.eu/embed/embed.js";
-    script.async = true;
-    script.onload = initializeCal;
-    document.head.appendChild(script);
-
-    return () => {
-      script.onload = null;
-    };
-  }, []);
+  }, [activePanel, language]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
@@ -218,7 +172,7 @@ export default function RecPage() {
         <div className="relative flex h-16 w-full items-center justify-center px-6">
           <div className="flex items-center gap-2">
             <BrandMark />
-            <h1 className="font-display text-lg font-bold tracking-tight uppercase">{labels.header}</h1>
+            <h1 className="font-display text-lg font-bold tracking-tight uppercase">REC</h1>
           </div>
           <div className="absolute top-1/2 right-6 -translate-y-1/2">
             <LanguageSwitcher light />
@@ -227,7 +181,7 @@ export default function RecPage() {
       </header>
 
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
-        <section className="relative py-10" data-reveal>
+        <section className="relative pt-10 pb-6" data-reveal>
           <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
             {labels.title}
           </h2>
@@ -238,78 +192,124 @@ export default function RecPage() {
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro2}</p>
             </div>
 
-            <div className="interactive-surface rounded-2xl border border-primary/20 bg-primary/5 p-6" data-proximity data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
-              <div className="mb-3 flex items-center gap-3 text-primary">
-                <IconCamera className="size-5" />
-                <p className="text-xs font-bold tracking-[0.24em] uppercase">Live capture</p>
-              </div>
-              <p className="font-display text-2xl font-bold tracking-tight text-white md:text-3xl">{labels.videos}</p>
+            <div className="flex flex-col gap-3" data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
+              <button
+                type="button"
+                onClick={() => setActivePanel("videos")}
+                className={`interactive-surface rounded-xl border px-4 py-3 text-left transition-colors ${
+                  activePanel === "videos"
+                    ? "border-primary/40 bg-primary/15"
+                    : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
+                } cursor-pointer`}
+                data-proximity
+                data-proximity-strength="2.1"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <IconCamera className="size-4 text-primary" />
+                  <span className="font-display text-base font-bold tracking-tight text-white md:text-lg">{labels.videos}</span>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActivePanel("gear")}
+                className={`interactive-surface rounded-xl border px-4 py-3 text-left transition-colors ${
+                  activePanel === "gear"
+                    ? "border-primary/40 bg-primary/15"
+                    : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
+                } cursor-pointer`}
+                data-proximity
+                data-proximity-strength="2.1"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <IconGroups className="size-4 text-primary" />
+                  <span className="font-display text-base font-bold tracking-tight text-white md:text-lg">{labels.gearTitle}</span>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActivePanel("booking")}
+                className={`interactive-surface rounded-xl border px-4 py-3 text-left transition-colors ${
+                  activePanel === "booking"
+                    ? "border-primary/40 bg-primary/15"
+                    : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
+                } cursor-pointer`}
+                data-proximity
+                data-proximity-strength="2.1"
+              >
+                <span className="inline-flex items-center gap-2">
+                  <IconSchedule className="size-4 text-primary" />
+                  <span className="font-display text-base font-bold tracking-tight text-white md:text-lg">{labels.calendarTitle}</span>
+                </span>
+              </button>
             </div>
           </div>
         </section>
 
-        <section className="py-10">
-          <div className="mb-6" data-reveal>
-            <h3 className="font-display text-2xl font-bold tracking-tight">{labels.videos}</h3>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-4">
-              {videosLeft.map((item, index) => (
-                <div key={item.youtubeId} data-reveal style={{ ["--reveal-delay" as const]: `${100 + index * 60}ms` }}>
-                  <VideoCard item={item} />
+        <section className="pt-3 pb-10">
+          <div className="overflow-hidden rounded-2xl border border-neutral-border bg-neutral-dark/40 p-5 md:p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
+            {activePanel === "videos" ? (
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-4">
+                  {videosLeft.map((item, index) => (
+                    <div key={item.youtubeId} data-reveal style={{ ["--reveal-delay" as const]: `${100 + index * 60}ms` }}>
+                      <VideoCard item={item} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            <div className="space-y-4">
-              {videosRight.map((item, index) => (
-                <div key={item.youtubeId} data-reveal style={{ ["--reveal-delay" as const]: `${140 + index * 60}ms` }}>
-                  <VideoCard item={item} />
+                <div className="space-y-4">
+                  {videosRight.map((item, index) => (
+                    <div key={item.youtubeId} data-reveal style={{ ["--reveal-delay" as const]: `${140 + index * 60}ms` }}>
+                      <VideoCard item={item} />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-10">
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div data-reveal>
-              <p className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.hardware}</p>
-              <GearTable rows={hardwareRows} language={language} />
-            </div>
-
-            <div data-reveal style={{ ["--reveal-delay" as const]: "100ms" }}>
-              <p className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.accessories}</p>
-              <GearTable rows={accessoryRows} language={language} />
-            </div>
-
-            <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
-              <p className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.software}</p>
-              <GearTable rows={softwareRows} language={language} />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-10">
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
-            <div className="space-y-4" data-reveal>
-              <p className="font-display text-3xl font-bold tracking-tight text-white">{labels.cta}</p>
-              <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.pricing}</p>
-              <div className="interactive-surface rounded-2xl border border-primary/20 bg-primary/5 p-5" data-proximity data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
-                <div className="mb-3 flex items-center gap-3 text-primary">
-                  <IconSchedule className="size-5" />
-                  <p className="text-xs font-bold tracking-[0.24em] uppercase">{labels.calendarTitle}</p>
-                </div>
-                <p className="text-sm text-neutral-300">{labels.calendarNote}</p>
               </div>
-            </div>
+            ) : activePanel === "gear" ? (
+              <div className="grid gap-6 lg:grid-cols-3">
+                <div data-reveal>
+                  <p className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.hardware}</p>
+                  <GearTable rows={hardwareRows} language={language} />
+                </div>
 
-            <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
-              <div className="overflow-hidden rounded-2xl border border-neutral-border bg-neutral-dark/40">
-                <div id="rec-cal-inline" className="min-h-[720px] w-full" />
+                <div data-reveal style={{ ["--reveal-delay" as const]: "100ms" }}>
+                  <p className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.accessories}</p>
+                  <GearTable rows={accessoryRows} language={language} />
+                </div>
+
+                <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
+                  <p className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.software}</p>
+                  <GearTable rows={softwareRows} language={language} />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+                <div className="space-y-4">
+                  <p className="font-display text-3xl font-bold tracking-tight text-white">{labels.cta}</p>
+                  <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.pricing}</p>
+                  <div className="interactive-surface rounded-2xl border border-primary/20 bg-primary/5 p-5" data-proximity>
+                    <div className="mb-3 flex items-center gap-3 text-primary">
+                      <IconSchedule className="size-5" />
+                      <p className="text-xs font-bold tracking-[0.24em] uppercase">{labels.calendarTitle}</p>
+                    </div>
+                    <p className="text-sm text-neutral-300">{labels.calendarNote}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="overflow-hidden rounded-2xl border border-neutral-border bg-background-dark/35">
+                    <iframe
+                      src="https://app.cal.eu/denandras/rec?embed=true&theme=dark&lang=en"
+                      title="Idopontfoglalas"
+                      className="min-h-[720px] w-full border-0"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </main>
