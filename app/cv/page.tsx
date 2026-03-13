@@ -81,17 +81,15 @@ function chooseUpcomingMarkdownKey(objects: Array<{ Key?: string; LastModified?:
   const markdownObjects = objects.filter((obj) => obj.Key && isMarkdownKey(obj.Key));
   if (!markdownObjects.length) return null;
 
-  const preferredNames = new Set(["upcoming-concerts.md", "upcoming.md", "koncertek.md"]);
+  const preferredNames = new Set([
+    "upcoming-concerts.md",
+    "upcoming concerts.md",
+    "upcoming.md",
+    "upcoming_concerts.md",
+    "koncertek.md",
+  ]);
   const preferred = markdownObjects.find((obj) => obj.Key && preferredNames.has(fileNameFromKey(obj.Key)));
-  if (preferred?.Key) return preferred.Key;
-
-  const sortedByModified = [...markdownObjects].sort((a, b) => {
-    const at = a.LastModified?.getTime() ?? 0;
-    const bt = b.LastModified?.getTime() ?? 0;
-    return bt - at;
-  });
-
-  return sortedByModified[0]?.Key ?? null;
+  return preferred?.Key ?? null;
 }
 
 function createS4Client() {

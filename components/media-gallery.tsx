@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { IconDownload } from "@/components/icons";
 
@@ -149,7 +150,7 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
             key={item.id}
             className="mb-4 break-inside-avoid"
             data-reveal
-            style={{ ["--reveal-delay" as any]: `${80 + (index % 12) * 55}ms` }}
+            style={{ ["--reveal-delay" as const]: `${80 + (index % 12) * 55}ms` }}
           >
             <article
               className={`interactive-surface group relative overflow-hidden rounded-xl transition-all ${
@@ -161,16 +162,12 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
               data-proximity-strength="2.1"
             >
               {!isLoaded ? <div className="absolute inset-0 animate-pulse bg-neutral-dark/70" /> : null}
-              <img
+              <Image
                 src={item.viewUrl}
                 alt={`Gallery image ${index + 1}`}
-                loading="lazy"
-                ref={(node) => {
-                  if (!node) return;
-                  if (node.complete && node.naturalWidth > 0) {
-                    setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                  }
-                }}
+                width={1600}
+                height={1200}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 onLoad={() => {
                   setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                 }}

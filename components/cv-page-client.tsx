@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
@@ -161,18 +162,20 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
             <div className="group relative">
               <div className="absolute -inset-1 rounded-full bg-primary/20 blur transition duration-1000 group-hover:duration-200" />
               <div className="relative rounded-full border-2 border-primary/20 bg-charcoal p-1">
-                <img
+                <Image
                   src="/profile.jpeg"
                   alt="Portrait of a professional musician with a trombone"
+                  width={128}
+                  height={128}
                   className="h-32 w-32 rounded-full object-cover shadow-2xl"
                 />
               </div>
             </div>
 
             <div className="mt-6 space-y-1">
-              <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ ["--reveal-delay" as any]: "100ms" }}>{labels.name}</h2>
-              <p className="font-medium text-primary" data-reveal style={{ ["--reveal-delay" as any]: "170ms" }}>{labels.role}</p>
-              <div className="flex items-center justify-center gap-1 text-sm text-neutral-300" data-reveal style={{ ["--reveal-delay" as any]: "240ms" }}>
+              <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ ["--reveal-delay" as const]: "100ms" }}>{labels.name}</h2>
+              <p className="font-medium text-primary" data-reveal style={{ ["--reveal-delay" as const]: "170ms" }}>{labels.role}</p>
+              <div className="flex items-center justify-center gap-1 text-sm text-neutral-300" data-reveal style={{ ["--reveal-delay" as const]: "240ms" }}>
                 <IconLocation className="size-3" />
                 <span>{labels.location}</span>
               </div>
@@ -180,7 +183,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
           </section>
 
           {showUpcomingSection ? (
-            <section className="mb-2 border-t border-neutral-border/80 pt-8" data-reveal style={{ ["--reveal-delay" as any]: "250ms" }}>
+            <section className="mb-2 border-t border-neutral-border/80 pt-8" data-reveal style={{ ["--reveal-delay" as const]: "250ms" }}>
               <div className="mb-4 flex items-end justify-between gap-3">
                 <h3 className="font-display text-3xl leading-[0.9] font-bold tracking-tight text-white uppercase">
                   Közelgő koncertek
@@ -199,7 +202,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                       data-proximity
                       data-proximity-strength="2.1"
                       data-reveal
-                      style={{ ["--reveal-delay" as any]: `${280 + index * 55}ms` }}
+                      style={{ ["--reveal-delay" as const]: `${280 + index * 55}ms` }}
                     >
                       <div className="min-w-0 flex-1">
                         <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
@@ -217,7 +220,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                       className="interactive-surface group rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
                       data-proximity
                       data-reveal
-                      style={{ ["--reveal-delay" as any]: `${280 + index * 55}ms` }}
+                      style={{ ["--reveal-delay" as const]: `${280 + index * 55}ms` }}
                     >
                       <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
                         <span className="rounded-full bg-primary/10 px-2 py-1">{concert.date}</span>
@@ -250,7 +253,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                     shouldShowBottomDivider ? "border-b border-neutral-border/70" : ""
                   }`}
                   data-reveal
-                  style={{ ["--reveal-delay" as any]: `${80 + index * 80}ms` }}
+                  style={{ ["--reveal-delay" as const]: `${80 + index * 80}ms` }}
                 >
                   <h3
                     className={`pointer-events-none absolute top-11 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase [overflow-wrap:anywhere] md:block lg:text-7xl ${
@@ -272,7 +275,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                         <div
                           key={`${section.title}-${item.era}-${item.title}`}
                           data-reveal
-                          style={{ ["--reveal-delay" as any]: `${130 + index * 80 + itemIndex * 55}ms` }}
+                          style={{ ["--reveal-delay" as const]: `${130 + index * 80 + itemIndex * 55}ms` }}
                         >
                           <article
                             className="interactive-surface group rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
@@ -296,7 +299,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
           </section>
 
           {cvDownloadUrl ? (
-            <div className="pt-8" data-reveal style={{ ["--reveal-delay" as any]: "120ms" }}>
+            <div className="pt-8" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
               <a
                 href={cvDownloadUrl}
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-5 py-3 font-display font-semibold text-neutral-100 transition-all hover:border-primary/35 hover:bg-primary/10"

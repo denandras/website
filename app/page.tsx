@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
@@ -133,10 +134,13 @@ export default function Home() {
         <section ref={heroRef} className="relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden md:aspect-[16/8]">
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
           <div className="absolute inset-0">
-            <img
+            <Image
               alt="Portrait of András Dénes"
               className="h-full w-full scale-[1.04] object-cover object-[49%_21%]"
               src="/profile.jpeg"
+              fill
+              priority
+              sizes="100vw"
               style={{
                 WebkitMaskImage:
                   "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
@@ -150,7 +154,7 @@ export default function Home() {
               className="relative font-display mb-2 text-4xl font-bold leading-none tracking-tighter text-white md:text-7xl"
               data-reveal
               style={{
-                ["--reveal-delay" as any]: "120ms",
+                ["--reveal-delay" as const]: "120ms",
                 top: `${Math.round(headerProgress * -22)}px`,
                 opacity: 1 - headerProgress * 0.35,
               }}
@@ -161,7 +165,7 @@ export default function Home() {
               className="relative flex items-center gap-3"
               data-reveal
               style={{
-                ["--reveal-delay" as any]: "220ms",
+                ["--reveal-delay" as const]: "220ms",
                 top: `${Math.round(headerProgress * -14)}px`,
                 opacity: 1 - headerProgress * 0.75,
               }}
@@ -180,7 +184,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            <div data-reveal style={{ ["--reveal-delay" as any]: "100ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "100ms" }}>
               <a
                 href={language === "en" ? "https://www.arso.hu/en" : "https://www.arso.hu"}
                 target="_blank"
@@ -199,7 +203,7 @@ export default function Home() {
               </a>
             </div>
 
-            <div data-reveal style={{ ["--reveal-delay" as any]: "180ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
               <a
                 href={language === "en" ? "https://utazenehez.hu/en/" : "https://utazenehez.hu"}
                 target="_blank"
@@ -221,7 +225,7 @@ export default function Home() {
         <section className="px-6 py-12">
           <h2 className="font-display mb-8 text-2xl font-bold tracking-tight" data-reveal>{labels.ensembles}</h2>
           <div className="grid grid-cols-1 gap-4">
-            <div data-reveal style={{ ["--reveal-delay" as any]: "100ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "100ms" }}>
               <a
                 href={language === "hu" ? "https://www.szegedtrombones.com/hu" : "https://www.szegedtrombones.com"}
                 target="_blank"
@@ -240,7 +244,7 @@ export default function Home() {
               </a>
             </div>
 
-            <div data-reveal style={{ ["--reveal-delay" as any]: "180ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
               <a
                 href="https://rezkorut.hu"
                 target="_blank"
@@ -259,7 +263,7 @@ export default function Home() {
               </a>
             </div>
 
-            <div data-reveal style={{ ["--reveal-delay" as any]: "260ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "260ms" }}>
               <a
                 href="https://budapestorchestraproject.com"
                 target="_blank"
@@ -281,8 +285,8 @@ export default function Home() {
         </section>
 
         <section className="px-6 pt-6 pb-16" data-reveal>
-          <div className="mt-0 grid gap-4 sm:grid-cols-3" data-reveal style={{ ["--reveal-delay" as any]: "120ms" }}>
-            <div data-reveal style={{ ["--reveal-delay" as any]: "180ms" }}>
+          <div className="mt-0 grid gap-4 sm:grid-cols-3" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
               <Link
                 href="/cv"
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/10 bg-primary/5 p-4 font-display font-bold text-neutral-100 transition-colors hover:bg-primary/10"
@@ -291,7 +295,7 @@ export default function Home() {
                 {labels.cv}
               </Link>
             </div>
-            <div data-reveal style={{ ["--reveal-delay" as any]: "240ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "240ms" }}>
               <Link
                 href="/media"
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/10 bg-primary/5 p-4 font-display font-bold text-neutral-100 transition-colors hover:bg-primary/10"
@@ -300,7 +304,7 @@ export default function Home() {
                 {labels.media}
               </Link>
             </div>
-            <div data-reveal style={{ ["--reveal-delay" as any]: "300ms" }}>
+            <div data-reveal style={{ ["--reveal-delay" as const]: "300ms" }}>
               <Link
                 href="/contact"
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/10 bg-primary/5 p-4 font-display font-bold text-neutral-100 transition-colors hover:bg-primary/10"
@@ -311,13 +315,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-16 flex w-full flex-col gap-6" data-reveal style={{ ["--reveal-delay" as any]: "360ms" }}>
+          <div className="mt-16 flex w-full flex-col gap-6" data-reveal style={{ ["--reveal-delay" as const]: "360ms" }}>
             {labels.bioParagraphs.map((paragraph, idx) => (
               <p
                 key={`bio-${idx}`}
                 className={`w-full text-justify text-base leading-relaxed italic text-neutral-300 md:w-[86%] md:text-lg md:leading-8 lg:w-[82%] ${idx % 2 === 0 ? "md:self-start md:text-left" : "md:self-end md:text-right"}`}
                 data-reveal
-                style={{ ["--reveal-delay" as any]: `${380 + idx * 55}ms` }}
+                style={{ ["--reveal-delay" as const]: `${380 + idx * 55}ms` }}
               >
                 {paragraph}
               </p>
@@ -332,9 +336,11 @@ export default function Home() {
 
       <footer className="bg-background-dark py-12 pb-32 text-center">
         <div className="mb-9 flex justify-center">
-          <img
+          <Image
             src="/logo_tight.svg"
             alt="Dénes András logo"
+            width={180}
+            height={53}
             className="h-[53px] w-auto opacity-90"
           />
         </div>

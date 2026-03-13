@@ -28,15 +28,16 @@ function persistLanguage(next: SiteLanguage) {
 }
 
 export function useSiteLanguage() {
-  const [language, setLanguage] = useState<SiteLanguage>(DEFAULT_SITE_LANGUAGE);
+  const [language, setLanguage] = useState<SiteLanguage>(() => {
+    if (typeof window === "undefined") return DEFAULT_SITE_LANGUAGE;
+    const fromStorage = window.localStorage.getItem(SITE_LANGUAGE_STORAGE_KEY);
+    const fromCookie = readCookieLanguage();
+    return normalizeSiteLanguage(fromStorage ?? fromCookie ?? DEFAULT_SITE_LANGUAGE);
+  });
 
   useEffect(() => {
-    const fromStorage = localStorage.getItem(SITE_LANGUAGE_STORAGE_KEY);
-    const fromCookie = readCookieLanguage();
-    const initial = normalizeSiteLanguage(fromStorage ?? fromCookie ?? DEFAULT_SITE_LANGUAGE);
-    setLanguage(initial);
-    persistLanguage(initial);
-  }, []);
+    persistLanguage(language);
+  }, [language]);
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
@@ -63,7 +64,6 @@ export function useSiteLanguage() {
     setLanguage: (next: SiteLanguage) => {
       const normalized = normalizeSiteLanguage(next);
       setLanguage(normalized);
-      persistLanguage(normalized);
     },
   }), [language]);
 
@@ -72,7 +72,7 @@ export function useSiteLanguage() {
 
 export default function LanguageSwitcher({
   initialLanguage,
-  light: _light,
+  light = false,
 }: {
   initialLanguage?: SiteLanguage;
   light?: boolean;
@@ -88,7 +88,11 @@ export default function LanguageSwitcher({
   };
 
   return (
-    <div className="inline-flex items-center text-xs font-bold tracking-wider text-white">
+    <div
+      className={`inline-flex items-center text-xs font-bold tracking-wider ${
+        light ? "text-white" : "text-neutral-200"
+      }`}
+    >
       <button
         type="button"
         disabled={activeLanguage === "hu"}
