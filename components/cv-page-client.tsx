@@ -27,7 +27,7 @@ const cvSections = [
       { era: "2022", title: "43rd Brass and Percussion Meeting and Competition", detail: "1st prize" },
       { era: "2022", title: "XIII. International Trombone Competition in Brno", detail: "3rd prize" },
       { era: "2021", title: "Hungarian National Trombone Competition (Hungarian Trombone Camp)", detail: "1st prize" },
-      { era: "2021", title: "International Varaždin Woodwind & Brass Competition", detail: "1st prize and 2nd prize in the overall category (wind instruments)" },
+      { era: "2021", title: "International VaraĹľdin Woodwind & Brass Competition", detail: "1st prize and 2nd prize in the overall category (wind instruments)" },
       { era: "2020", title: "Online Trombone Competition, Trombone Category C", detail: "3rd prize" },
       { era: "2019", title: "XIII. International Trombone Competition in Brno", detail: "1st prize" },
       { era: "2018", title: "XIII. National Vocational High School Trombone and Tuba Competition", detail: "2nd prize" },
@@ -36,7 +36,7 @@ const cvSections = [
   {
     title: "Auditions",
     items: [
-      { era: "2025", title: "Óbudai Danubia Orchestra audition", detail: "Winner" },
+      { era: "2025", title: "Ă“budai Danubia Orchestra audition", detail: "Winner" },
       { era: "2024", title: "Alba Regia Symphony Orchestra audition", detail: "Winner" },
       { era: "2024", title: "Hungarian State Opera audition", detail: "Qualified" },
     ],
@@ -57,33 +57,33 @@ const cvSectionsHu = [
   {
     title: "Versenyek",
     items: [
-      { era: "2024", title: "Davison Young Musicians Foundation Országos Rézfúvós Verseny", detail: "III. díj" },
-      { era: "2023", title: "ITF (Frank Smith) Nemzetközi Harsonaverseny", detail: "I. díj" },
-      { era: "2022", title: "43. Rézfúvós és Ütőhangszeres Találkozó és Verseny", detail: "I. díj" },
-      { era: "2022", title: "XIII. Nemzetközi Harsonaverseny Brno", detail: "III. díj" },
-      { era: "2021", title: "Hungarian National Trombone Competition (Hungarian Trombone Camp)", detail: "I. díj" },
-      { era: "2021", title: "International Varaždin Woodwind & Brass Competition", detail: "I. díj, valamint második díj összesített kategóriában" },
-      { era: "2020", title: "Online Trombone Competition, Trombone Category C", detail: "III. díj" },
-      { era: "2019", title: "XIII. Nemzetközi Harsonaverseny Brno", detail: "I. díj" },
-      { era: "2018", title: "XIII. Országos Szakgimnáziumi Harsona- és Tubaverseny", detail: "II. díj" },
+      { era: "2024", title: "Davison Young Musicians Foundation OrszĂˇgos RĂ©zfĂşvĂłs Verseny", detail: "III. dĂ­j" },
+      { era: "2023", title: "ITF (Frank Smith) NemzetkĂ¶zi Harsonaverseny", detail: "I. dĂ­j" },
+      { era: "2022", title: "43. RĂ©zfĂşvĂłs Ă©s ĂśtĹ‘hangszeres TalĂˇlkozĂł Ă©s Verseny", detail: "I. dĂ­j" },
+      { era: "2022", title: "XIII. NemzetkĂ¶zi Harsonaverseny Brno", detail: "III. dĂ­j" },
+      { era: "2021", title: "Hungarian National Trombone Competition (Hungarian Trombone Camp)", detail: "I. dĂ­j" },
+      { era: "2021", title: "International VaraĹľdin Woodwind & Brass Competition", detail: "I. dĂ­j, valamint mĂˇsodik dĂ­j Ă¶sszesĂ­tett kategĂłriĂˇban" },
+      { era: "2020", title: "Online Trombone Competition, Trombone Category C", detail: "III. dĂ­j" },
+      { era: "2019", title: "XIII. NemzetkĂ¶zi Harsonaverseny Brno", detail: "I. dĂ­j" },
+      { era: "2018", title: "XIII. OrszĂˇgos SzakgimnĂˇziumi Harsona- Ă©s Tubaverseny", detail: "II. dĂ­j" },
     ],
   },
   {
-    title: "Próbajátékok",
+    title: "PrĂłbajĂˇtĂ©kok",
     items: [
-      { era: "2025", title: "Próbajátékot nyert az Óbudai Danubia Zenekarba", detail: "Győztes" },
-      { era: "2024", title: "Próbajátékot nyert az Alba Regia Szimfonikus Zenekarba", detail: "Győztes" },
-      { era: "2024", title: "Eredményes próbajáték a Magyar Állami Operaházba", detail: "Sikeres" },
+      { era: "2025", title: "PrĂłbajĂˇtĂ©kot nyert az Ă“budai Danubia Zenekarba", detail: "GyĹ‘ztes" },
+      { era: "2024", title: "PrĂłbajĂˇtĂ©kot nyert az Alba Regia Szimfonikus Zenekarba", detail: "GyĹ‘ztes" },
+      { era: "2024", title: "EredmĂ©nyes prĂłbajĂˇtĂ©k a Magyar Ăllami OperahĂˇzba", detail: "Sikeres" },
     ],
   },
   {
-    title: "Szóló",
+    title: "SzĂłlĂł",
     items: [
-      { era: "2025", title: "A Magyar Rádió Szimfonikus Zenekarának újévi koncertjén való közreműködés", detail: "Szóló" },
-      { era: "2025", title: "A római Accademia Ungheria I Giovedì in via Giulia műsorán való fellépés", detail: "Szóló" },
-      { era: "2025", title: "Mesterkurzust tartott Kunmingben a China Orchestra Network fesztivál keretein belül", detail: "Mesterkurzus" },
-      { era: "2025", title: "Mesterkurzust tartott Poznańban a Tromboholizm Fesztivál részeként", detail: "Mesterkurzus" },
-      { era: "2024", title: "Tehetség-napi koncert a Liszt Ferenc Kamarazenekar kíséretével", detail: "Szóló" },
+      { era: "2025", title: "A Magyar RĂˇdiĂł Szimfonikus ZenekarĂˇnak ĂşjĂ©vi koncertjĂ©n valĂł kĂ¶zremĹ±kĂ¶dĂ©s", detail: "SzĂłlĂł" },
+      { era: "2025", title: "A rĂłmai Accademia Ungheria I GiovedĂ¬ in via Giulia mĹ±sorĂˇn valĂł fellĂ©pĂ©s", detail: "SzĂłlĂł" },
+      { era: "2025", title: "Mesterkurzust tartott Kunmingben a China Orchestra Network fesztivĂˇl keretein belĂĽl", detail: "Mesterkurzus" },
+      { era: "2025", title: "Mesterkurzust tartott PoznaĹ„ban a Tromboholizm FesztivĂˇl rĂ©szekĂ©nt", detail: "Mesterkurzus" },
+      { era: "2024", title: "TehetsĂ©g-napi koncert a Liszt Ferenc Kamarazenekar kĂ­sĂ©retĂ©vel", detail: "SzĂłlĂł" },
     ],
   },
 ];
@@ -93,15 +93,15 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
 
   const labels = language === "hu"
     ? {
-        header: "Életrajz",
-        name: "Dénes András",
-        role: "Harsonaművész",
-        location: "Budapest, Magyarország",
-        downloadCv: "Életrajz letöltése",
+        header: "Ă‰letrajz",
+        name: "DĂ©nes AndrĂˇs",
+        role: "HarsonamĹ±vĂ©sz",
+        location: "Budapest, MagyarorszĂˇg",
+        downloadCv: "Ă‰letrajz letĂ¶ltĂ©se",
       }
     : {
         header: "CV",
-        name: "András Dénes",
+        name: "AndrĂˇs DĂ©nes",
         role: "Professional Trombonist",
         location: "Budapest, Hungary",
         downloadCv: "Download CV",
@@ -173,9 +173,9 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
             </div>
 
             <div className="mt-6 space-y-1">
-              <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ ["--reveal-delay" as const]: "100ms" }}>{labels.name}</h2>
-              <p className="font-medium text-primary" data-reveal style={{ ["--reveal-delay" as const]: "170ms" }}>{labels.role}</p>
-              <div className="flex items-center justify-center gap-1 text-sm text-neutral-300" data-reveal style={{ ["--reveal-delay" as const]: "240ms" }}>
+              <h2 className="text-2xl font-bold tracking-tight" data-reveal style={{ "--reveal-delay": "100ms" }}>{labels.name}</h2>
+              <p className="font-medium text-primary" data-reveal style={{ "--reveal-delay": "170ms" }}>{labels.role}</p>
+              <div className="flex items-center justify-center gap-1 text-sm text-neutral-300" data-reveal style={{ "--reveal-delay": "240ms" }}>
                 <IconLocation className="size-3" />
                 <span>{labels.location}</span>
               </div>
@@ -183,10 +183,10 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
           </section>
 
           {showUpcomingSection ? (
-            <section className="mb-2 border-t border-neutral-border/80 pt-8" data-reveal style={{ ["--reveal-delay" as const]: "250ms" }}>
+            <section className="mb-2 border-t border-neutral-border/80 pt-8" data-reveal style={{ "--reveal-delay": "250ms" }}>
               <div className="mb-4 flex items-end justify-between gap-3">
                 <h3 className="font-display text-3xl leading-[0.9] font-bold tracking-tight text-white uppercase">
-                  Közelgő koncertek
+                  KĂ¶zelgĹ‘ koncertek
                 </h3>
               </div>
 
@@ -202,7 +202,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                       data-proximity
                       data-proximity-strength="2.1"
                       data-reveal
-                      style={{ ["--reveal-delay" as const]: `${280 + index * 55}ms` }}
+                      style={{ "--reveal-delay": `${280 + index * 55}ms` }}
                     >
                       <div className="min-w-0 flex-1">
                         <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
@@ -220,7 +220,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                       className="interactive-surface group rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
                       data-proximity
                       data-reveal
-                      style={{ ["--reveal-delay" as const]: `${280 + index * 55}ms` }}
+                      style={{ "--reveal-delay": `${280 + index * 55}ms` }}
                     >
                       <div className="mb-2 flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wider text-primary uppercase">
                         <span className="rounded-full bg-primary/10 px-2 py-1">{concert.date}</span>
@@ -253,7 +253,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                     shouldShowBottomDivider ? "border-b border-neutral-border/70" : ""
                   }`}
                   data-reveal
-                  style={{ ["--reveal-delay" as const]: `${80 + index * 80}ms` }}
+                  style={{ "--reveal-delay": `${80 + index * 80}ms` }}
                 >
                   <h3
                     className={`pointer-events-none absolute top-11 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase [overflow-wrap:anywhere] md:block lg:text-7xl ${
@@ -275,7 +275,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
                         <div
                           key={`${section.title}-${item.era}-${item.title}`}
                           data-reveal
-                          style={{ ["--reveal-delay" as const]: `${130 + index * 80 + itemIndex * 55}ms` }}
+                          style={{ "--reveal-delay": `${130 + index * 80 + itemIndex * 55}ms` }}
                         >
                           <article
                             className="interactive-surface group rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
@@ -299,7 +299,7 @@ export default function CvPageClient({ cvDownloadUrl, upcomingConcerts }: CvPage
           </section>
 
           {cvDownloadUrl ? (
-            <div className="pt-8" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
+            <div className="pt-8" data-reveal style={{ "--reveal-delay": "120ms" }}>
               <a
                 href={cvDownloadUrl}
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-5 py-3 font-display font-semibold text-neutral-100 transition-all hover:border-primary/35 hover:bg-primary/10"

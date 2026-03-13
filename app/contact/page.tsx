@@ -17,19 +17,19 @@ export default function ContactPage() {
   const labels = language === "hu"
     ? {
         header: "Kapcsolat",
-        contacts: "Elérhetőségek",
+        contacts: "ElĂ©rhetĹ‘sĂ©gek",
         form: "Kapcsolat",
         email: "E-mail",
         phone: "Telefon",
         instagram: "Instagram",
-        name: "Név",
-        emailAddress: "E-mail-cím",
-        message: "Üzenet",
-        placeholderName: "Az Ön neve",
-        placeholderEmail: "Az Ön e-mail-címe",
-        placeholderMessage: "Miben segíthetek?",
-        send: "Üzenet küldése",
-        subject: "Új megkeresés az andrasdenes.com oldalról",
+        name: "NĂ©v",
+        emailAddress: "E-mail-cĂ­m",
+        message: "Ăśzenet",
+        placeholderName: "Az Ă–n neve",
+        placeholderEmail: "Az Ă–n e-mail-cĂ­me",
+        placeholderMessage: "Miben segĂ­thetek?",
+        send: "Ăśzenet kĂĽldĂ©se",
+        subject: "Ăšj megkeresĂ©s az andrasdenes.com oldalrĂłl",
       }
     : {
         header: "Get in Touch",
@@ -103,7 +103,7 @@ export default function ContactPage() {
 
             <div className="relative md:col-span-8 md:order-2">
               <div className="relative z-10 space-y-3 md:pt-10">
-                <div data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
+                <div data-reveal style={{ "--reveal-delay": "120ms" }}>
                   <a
                     href="mailto:contact@andrasdenes.com"
                     className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
@@ -122,7 +122,7 @@ export default function ContactPage() {
                   </a>
                 </div>
 
-                <div data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
+                <div data-reveal style={{ "--reveal-delay": "180ms" }}>
                   <a
                     href="tel:+36302328848"
                     className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
@@ -141,7 +141,7 @@ export default function ContactPage() {
                   </a>
                 </div>
 
-                <div data-reveal style={{ ["--reveal-delay" as const]: "240ms" }}>
+                <div data-reveal style={{ "--reveal-delay": "240ms" }}>
                   <a
                     href="https://instagram.com/andras.trombone"
                     target="_blank"
@@ -178,7 +178,7 @@ export default function ContactPage() {
 
             <div className="relative md:col-span-8 md:order-1">
               <div className="relative z-10 space-y-3 md:pt-10">
-                <div data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
+                <div data-reveal style={{ "--reveal-delay": "120ms" }}>
                   <section className="rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6">
                     <form action="https://formsubmit.co/contact@andrasdenes.com" method="POST" className="space-y-4" noValidate>
                       <input type="hidden" name="_subject" value={labels.subject} />

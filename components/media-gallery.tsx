@@ -97,7 +97,7 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
       if (ratioProbeStartedRef.current.has(item.id)) return;
       ratioProbeStartedRef.current.add(item.id);
 
-      const img = new Image();
+      const img = new window.Image();
       img.decoding = "async";
       img.src = item.viewUrl;
       img.onload = () => {
@@ -150,7 +150,7 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
             key={item.id}
             className="mb-4 break-inside-avoid"
             data-reveal
-            style={{ ["--reveal-delay" as const]: `${80 + (index % 12) * 55}ms` }}
+            style={{ "--reveal-delay": `${80 + (index % 12) * 55}ms` }}
           >
             <article
               className={`interactive-surface group relative overflow-hidden rounded-xl transition-all ${
