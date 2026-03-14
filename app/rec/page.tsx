@@ -37,7 +37,7 @@ const videosRight: VideoItem[] = [
 const hardwareRows: GearRow[] = [
   { name: "Zoom F8n Pro", detailHu: "8 csatornás hangkártya", detailEn: "8-channel audio interface", href: "https://www.thomann.de/hu/zoom_f8n_pro.htm" },
   { name: "Line Audio CM4 × 4", detailHu: "hangszer mikrofon", detailEn: "instrument microphones", href: "https://www.lineaudio.se/CM4.html" },
-  { name: "Line Audio Omni2 × 2", detailHu: "kiegészítő mikrofon", detailEn: "additional microphones", href: "https://www.lineaudio.se/" },
+  { name: "Line Audio Omni1 × 2", detailHu: "kiegészítő mikrofon", detailEn: "additional microphones", href: "https://www.lineaudio.se/Omni1.html" },
   { name: "AKG P170 × 3", detailHu: "hangszer mikrofon", detailEn: "instrument microphones", href: "https://www.akg.com/microphones/condenser-microphones/P170.html" },
   { name: "AKG P420", detailHu: "hangszer mikrofon", detailEn: "instrument microphone", href: "https://www.hangszeraruhaz.hu/akg-p420-studio-mikrofon/P52341" },
   { name: "Zoom Q8n-4k", detailHu: "tér hang, center", detailEn: "room audio, center" },
