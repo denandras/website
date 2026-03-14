@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconDownload } from "@/components/icons";
 
 type MediaItem = {
@@ -10,52 +10,10 @@ type MediaItem = {
   downloadUrl: string;
 };
 
-type ItemWithRatio = MediaItem & {
-  ratio: number;
-  originalIndex: number;
-};
-
-function estimatedVisualHeight(ratio: number) {
-  // Estimate relative rendered height in a fixed-width column.
-  return 1 / Math.max(ratio, 0.35);
-}
-
-function buildAestheticOrder(items: ItemWithRatio[]) {
-  const tall = items
-    .filter((item) => item.ratio < 0.92)
-    .sort((a, b) => a.ratio - b.ratio);
-  const wide = items
-    .filter((item) => item.ratio > 1.18)
-    .sort((a, b) => b.ratio - a.ratio);
-  const neutral = items
-    .filter((item) => item.ratio >= 0.92 && item.ratio <= 1.18)
-    .sort((a, b) => b.ratio - a.ratio);
-
-  const ordered: ItemWithRatio[] = [];
-  const pattern: Array<"wide" | "tall" | "neutral"> = ["wide", "tall", "neutral", "tall", "wide", "neutral"];
-  let step = 0;
-
-  while (tall.length || wide.length || neutral.length) {
-    const desired = pattern[step % pattern.length];
-    step += 1;
-
-    let next: ItemWithRatio | undefined;
-    if (desired === "wide") next = wide.shift() ?? neutral.shift() ?? tall.shift();
-    if (desired === "tall") next = tall.shift() ?? neutral.shift() ?? wide.shift();
-    if (desired === "neutral") next = neutral.shift() ?? wide.shift() ?? tall.shift();
-    if (!next) break;
-
-    ordered.push(next);
-  }
-
-  return ordered;
-}
-
 export default function MediaGallery({ items }: { items: MediaItem[] }) {
-  const [ratios, setRatios] = useState<Record<string, number>>({});
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
+  const [failedIds, setFailedIds] = useState<Record<string, true>>({});
   const galleryRef = useRef<HTMLDivElement | null>(null);
-  const ratioProbeStartedRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const root = galleryRef.current;
@@ -90,60 +48,15 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
     };
   }, [items.length]);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    items.forEach((item) => {
-      if (ratioProbeStartedRef.current.has(item.id)) return;
-      ratioProbeStartedRef.current.add(item.id);
-
-      const img = new window.Image();
-      img.decoding = "async";
-      img.src = item.viewUrl;
-      img.onload = () => {
-        if (cancelled || !img.naturalWidth || !img.naturalHeight) return;
-
-        const ratio = img.naturalWidth / img.naturalHeight;
-        setRatios((prev) => {
-          if (prev[item.id] === ratio) return prev;
-          return { ...prev, [item.id]: ratio };
-        });
-      };
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [items]);
-
-  const galleryItems = useMemo(() => {
-    const withRatios: ItemWithRatio[] = items.map((item, originalIndex) => ({
-      ...item,
-      ratio: ratios[item.id] ?? 1,
-      originalIndex,
-    }));
-
-    const aestheticallyOrdered = buildAestheticOrder(withRatios);
-
-    // Re-balance visual column height for better rhythm in CSS columns flow.
-    const columns: ItemWithRatio[][] = [[], [], []];
-    const heights = [0, 0, 0];
-    aestheticallyOrdered.forEach((item) => {
-      const target = heights.indexOf(Math.min(...heights));
-      columns[target].push(item);
-      heights[target] += estimatedVisualHeight(item.ratio);
-    });
-
-    return [...columns[0], ...columns[1], ...columns[2]];
-  }, [items, ratios]);
-
   return (
-    <div ref={galleryRef} className="relative z-10 mt-20 columns-1 gap-4 sm:columns-2 md:mt-24 lg:columns-3">
-      {galleryItems.map((item, index) => {
+    <div ref={galleryRef} className="relative z-10 mt-20 columns-1 gap-4 md:mt-24 sm:columns-2 lg:columns-3">
+      {items.map((item, index) => {
         const isLoaded = !!loadedIds[item.id];
+        const hasFailed = !!failedIds[item.id];
         const downloadVisibilityClass = isLoaded
           ? "opacity-100 pointer-events-auto md:opacity-0 md:pointer-events-none md:group-hover:pointer-events-auto md:group-hover:opacity-100"
           : "opacity-0 pointer-events-none";
+        const prioritized = index < 6;
 
         return (
           <div
@@ -168,23 +81,42 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
                 width={1600}
                 height={1200}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                loading={prioritized ? "eager" : "lazy"}
+                fetchPriority={prioritized ? "high" : "auto"}
                 onLoad={() => {
                   setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                 }}
                 onError={() => {
+                  setFailedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                   setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                 }}
                 className={`block h-auto w-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
               />
 
-              <a
-                href={item.downloadUrl}
-                className={`absolute top-3 right-3 inline-flex items-center justify-center rounded-lg border border-primary/30 bg-background-dark/70 p-2.5 text-neutral-100 backdrop-blur-sm transition-all duration-200 hover:bg-background-dark/85 ${downloadVisibilityClass}`}
-                aria-label="Download image"
-                title="Download"
-              >
-                <IconDownload className="size-4 text-primary" />
-              </a>
+              {hasFailed ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-dark/85 p-4 text-center">
+                  <p className="text-sm text-neutral-100">Images failed to load.</p>
+                  <a
+                    href="https://denandras.ddns.net/index.php/s/press"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-lg border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-neutral-100 transition-colors hover:bg-primary/20"
+                  >
+                    Open Press Gallery
+                  </a>
+                </div>
+              ) : null}
+
+              {!hasFailed ? (
+                <a
+                  href={item.downloadUrl}
+                  className={`absolute top-3 right-3 inline-flex items-center justify-center rounded-lg border border-primary/30 bg-background-dark/70 p-2.5 text-neutral-100 backdrop-blur-sm transition-all duration-200 hover:bg-background-dark/85 ${downloadVisibilityClass}`}
+                  aria-label="Download image"
+                  title="Download"
+                >
+                  <IconDownload className="size-4 text-primary" />
+                </a>
+              ) : null}
             </article>
           </div>
         );

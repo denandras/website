@@ -3,9 +3,10 @@ import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher from "@/components/language-switcher";
 import MediaGallery from "@/components/media-gallery";
 import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
-import { getS4Config } from "@/lib/s4-config";
+import { getMediaTokenSecret, getS4Config } from "@/lib/s4-config";
 import { cookies } from "next/headers";
 import { normalizeSiteLanguage, SITE_LANGUAGE_COOKIE } from "@/lib/site-language";
+import { createMediaAccessToken } from "@/lib/media-access-token";
 
 type MediaItem = {
   id: string;
@@ -13,7 +14,7 @@ type MediaItem = {
   downloadUrl: string;
 };
 
-const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif", "heic", "heif"]);
+const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif"]);
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +29,8 @@ function fileExtension(key: string) {
 
 async function getMediaItems(): Promise<MediaItem[]> {
   const cfg = getS4Config();
-  if (!cfg) return [];
+  const tokenSecret = getMediaTokenSecret();
+  if (!cfg || !tokenSecret) return [];
 
   const client = new S3Client({
     endpoint: cfg.endpoint,
@@ -70,13 +72,20 @@ async function getMediaItems(): Promise<MediaItem[]> {
     const ext = fileExtension(key);
     const ordinal = String(index + 1).padStart(3, "0");
     const safeName = `andras-denes-media-${ordinal}.${ext}`;
-    const encodedKey = encodeURIComponent(key);
-    const encodedName = encodeURIComponent(safeName);
+    const accessToken = createMediaAccessToken(
+      {
+        key,
+        name: safeName,
+        exp: Date.now() + 1000 * 60 * 60 * 24,
+      },
+      tokenSecret,
+    );
+    const encodedToken = encodeURIComponent(accessToken);
 
     return {
       id: `${index}`,
-      viewUrl: `/api/media/file?key=${encodedKey}`,
-      downloadUrl: `/api/media/file?key=${encodedKey}&download=1&name=${encodedName}`,
+      viewUrl: `/api/media/file?token=${encodedToken}`,
+      downloadUrl: `/api/media/file?token=${encodedToken}&download=1`,
     };
   });
 }

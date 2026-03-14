@@ -84,3 +84,12 @@ export function getS4UpcomingPrefix(): string | null {
   const prefix = fromRepoEnv("S4_UPCOMING_PREFIX")?.trim();
   return prefix || null;
 }
+
+export function getMediaTokenSecret(): string | null {
+  const dedicated = fromRepoEnv("MEDIA_TOKEN_SECRET")?.trim();
+  if (dedicated) return dedicated;
+
+  // Backward-compatible fallback; prefer MEDIA_TOKEN_SECRET in production.
+  const fallback = fromRepoEnv("S4_SECRET_ACCESS_KEY")?.trim();
+  return fallback || null;
+}
