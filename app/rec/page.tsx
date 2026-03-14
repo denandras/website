@@ -27,22 +27,27 @@ const videosLeft: VideoItem[] = [
 ];
 
 const videosRight: VideoItem[] = [
+  { title: "Kocsár - Mégis mondom Damion!", youtubeId: "MQaiWXv9rn4" },
   { title: "Promo mashup", youtubeId: "02HPAJBEJcc" },
   { title: "Alexander Lebedev: Concerto in one movement", youtubeId: "aatvt6EoXFI" },
-  { title: "Beethoven - Violin Sonata No. 5 'Spring'", youtubeId: "cKrQq6gK3qg" },
   { title: "Szirtes Máté - Liszt h-moll szonáta", youtubeId: "RJrhGUVjEMo" },
+  { title: "Schütz - Das Wort ward Fleisch", youtubeId: "i8ur8h0gxfg" },
 ];
 
 const hardwareRows: GearRow[] = [
-  { name: "Zoom Q8n-4k", detailHu: "tér hang, center", detailEn: "room audio, center" },
-  { name: "Line Audio CM4 × 2", detailHu: "hangszer mikrofon", detailEn: "instrument microphones", href: "https://www.lineaudio.se/CM4.html" },
+  { name: "Zoom F8n Pro", detailHu: "8 csatornás hangkártya", detailEn: "8-channel audio interface", href: "https://www.thomann.de/hu/zoom_f8n_pro.htm" },
+  { name: "Line Audio CM4 × 4", detailHu: "hangszer mikrofon", detailEn: "instrument microphones", href: "https://www.lineaudio.se/CM4.html" },
+  { name: "Line Audio Omni2 × 2", detailHu: "kiegészítő mikrofon", detailEn: "additional microphones", href: "https://www.lineaudio.se/" },
   { name: "AKG P170 × 3", detailHu: "hangszer mikrofon", detailEn: "instrument microphones", href: "https://www.akg.com/microphones/condenser-microphones/P170.html" },
   { name: "AKG P420", detailHu: "hangszer mikrofon", detailEn: "instrument microphone", href: "https://www.hangszeraruhaz.hu/akg-p420-studio-mikrofon/P52341" },
-  { name: "Zoom F8n Pro", detailHu: "8 csatornás hangkártya", detailEn: "8-channel audio interface", href: "https://www.thomann.de/hu/zoom_f8n_pro.htm" },
+  { name: "Zoom Q8n-4k", detailHu: "tér hang, center", detailEn: "room audio, center" },
   { name: "Focusrite Scarlett 2i2 Gen 3", detailHu: "audió interfész", detailEn: "audio interface", href: "https://focusrite.com/products/scarlett-2i2-3rd-gen" },
+  { name: "iFi audio GO link Max (USB-C DAC)", detailHu: "USB-C DAC", detailEn: "USB-C DAC", href: "https://ifi-audio.com/products/go-link-max/" },
   { name: "MSI Gaming Thin GF63 12UC", detailHu: "laptop", detailEn: "laptop", href: "https://www.msi.com/Laptop/Thin-GF63-12UX/Specification" },
+  { name: "Beyerdynamic DT990 Pro", detailHu: "fejhallgató", detailEn: "headphones", href: "https://www.thomann.de/hu/beyerdynamic_dt990pro.htm" },
   { name: "Beyerdynamic DT700 Pro X", detailHu: "fejhallgató", detailEn: "headphones", href: "https://www.thomann.de/hu/beyerdynamic_dt_700_pro_x.htm" },
   { name: "Yamaha HS5 × 2", detailHu: "stúdió monitor", detailEn: "studio monitors", href: "https://hangszerplaza.hu/yamaha-hs5-aktiv-ketutas-studio-monitor-hangfal/" },
+  { name: "Fujifilm X100V", detailHu: "fényképezőgép", detailEn: "camera", href: "https://fujifilm-x.com/global/products/cameras/x100v/" },
   { name: "iPhone 15 Pro", detailHu: "HD 60 fps (ProRes log)", detailEn: "HD 60 fps (ProRes log)" },
   { name: "Xiaomi Note 13 Pro", detailHu: "4K 30 fps", detailEn: "4K 30 fps" },
   { name: "Xiaomi Note 10 Pro", detailHu: "4K 30 fps", detailEn: "4K 30 fps" },
@@ -54,12 +59,12 @@ const accessoryRows: GearRow[] = [
   { name: "Kaline MS101 × 2", detailHu: "tripod telefontartóval", detailEn: "tripod with phone holder", href: "https://www.hangszerdiszkont.hu/microphone/microphone-stands-and-accessories/kaline-ms101-gemes-mikrofonallvany-telefontartoval" },
   { name: "Millenium MS 2003", detailHu: "tripod", detailEn: "tripod", href: "https://www.thomann.de/hu/millenium_ms2003.htm" },
   { name: "Alpha 2200", detailHu: "tripod kamerának", detailEn: "camera tripod" },
-  { name: "XLR kábelek", detailHu: "4 × 10 m", detailEn: "4 × 10 m", href: "https://www.thomann.de/hu/the_sssnake_sm10_bk.htm" },
-  { name: "XLR kábelek", detailHu: "2 × 9 m", detailEn: "2 × 9 m" },
+  { name: "Roli XLR kábelek × 8", detailHu: "15 m", detailEn: "15 m", href: "https://www.thomann.de/hu/search_dir.html?sw=roli%2015m%20xlr" },
 ];
 
 const softwareRows: GearRow[] = [
   { name: "Reaper", detailHu: "recording-mastering", detailEn: "recording-mastering", href: "https://www.reaper.fm/" },
+  { name: "DaVinci Resolve", detailHu: "videóvágás és grading", detailEn: "video editing and grading", href: "https://www.blackmagicdesign.com/products/davinciresolve" },
   { name: "LX480 Essentials", detailHu: "reverb", detailEn: "reverb", href: "https://relabdevelopment.com/lx480-essentials/" },
   { name: "Voicemeeter Potato", detailHu: "virtuális mixer", detailEn: "virtual mixer", href: "https://voicemeeter.com" },
 ];
@@ -192,13 +197,13 @@ export default function RecPage() {
             {labels.title}
           </FitText>
 
-          <div className="relative z-10 mt-20 grid gap-8 md:mt-24 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-start">
+          <div className="relative z-10 mt-20 grid gap-8 md:mt-24 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-stretch">
             <div className="space-y-4 rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro1}</p>
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro2}</p>
             </div>
 
-            <div className="flex flex-col gap-3" data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
+            <div className="flex flex-col gap-3 md:h-full" data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
               <button
                 type="button"
                 onClick={() => setActivePanel("videos")}
@@ -206,7 +211,7 @@ export default function RecPage() {
                   activePanel === "videos"
                     ? "border-primary/40 bg-primary/15"
                     : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
-                } cursor-pointer`}
+                } cursor-pointer md:flex-1`}
                 data-proximity
                 data-proximity-strength="2.1"
               >
@@ -225,7 +230,7 @@ export default function RecPage() {
                   activePanel === "gear"
                     ? "border-primary/40 bg-primary/15"
                     : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
-                } cursor-pointer`}
+                } cursor-pointer md:flex-1`}
                 data-proximity
                 data-proximity-strength="2.1"
               >
@@ -244,7 +249,7 @@ export default function RecPage() {
                   activePanel === "booking"
                     ? "border-primary/40 bg-primary/15"
                     : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
-                } cursor-pointer`}
+                } cursor-pointer md:flex-1`}
                 data-proximity
                 data-proximity-strength="2.1"
               >
