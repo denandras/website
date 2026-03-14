@@ -2,6 +2,7 @@
 
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
+import FitText from "@/components/fit-text";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
 import { IconCamera, IconGroups, IconOpenInNew, IconSchedule } from "@/components/icons";
 import { useEffect, useState } from "react";
@@ -182,9 +183,14 @@ export default function RecPage() {
 
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
         <section className="relative pt-10 pb-6" data-reveal>
-          <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
+          <FitText
+            as="h2"
+            minFontPx={26}
+            maxFontPx={84}
+            className="pointer-events-none absolute top-10 left-1 z-0 w-[92%] max-w-[92%] font-display leading-[0.85] font-bold tracking-tight text-white uppercase"
+          >
             {labels.title}
-          </h2>
+          </FitText>
 
           <div className="relative z-10 mt-20 grid gap-8 md:mt-24 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-start">
             <div className="space-y-4 rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
@@ -204,9 +210,11 @@ export default function RecPage() {
                 data-proximity
                 data-proximity-strength="2.1"
               >
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex w-full items-center gap-2">
                   <IconCamera className="size-4 text-primary" />
-                  <span className="font-display text-base font-bold tracking-tight text-white md:text-lg">{labels.videos}</span>
+                  <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
+                    {labels.videos}
+                  </FitText>
                 </span>
               </button>
 
@@ -221,9 +229,11 @@ export default function RecPage() {
                 data-proximity
                 data-proximity-strength="2.1"
               >
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex w-full items-center gap-2">
                   <IconGroups className="size-4 text-primary" />
-                  <span className="font-display text-base font-bold tracking-tight text-white md:text-lg">{labels.gearTitle}</span>
+                  <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
+                    {labels.gearTitle}
+                  </FitText>
                 </span>
               </button>
 
@@ -238,9 +248,11 @@ export default function RecPage() {
                 data-proximity
                 data-proximity-strength="2.1"
               >
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex w-full items-center gap-2">
                   <IconSchedule className="size-4 text-primary" />
-                  <span className="font-display text-base font-bold tracking-tight text-white md:text-lg">{labels.calendarTitle}</span>
+                  <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
+                    {labels.calendarTitle}
+                  </FitText>
                 </span>
               </button>
             </div>
