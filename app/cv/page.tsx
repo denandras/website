@@ -1,6 +1,9 @@
 import { GetObjectCommand, ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 import CvPageClient from "@/components/cv-page-client";
-import { getS4Config, getS4CvPrefix, getS4UpcomingPrefix } from "@/lib/s4-config";
+import { cookies } from "next/headers";
+import { createMediaAccessToken } from "@/lib/media-access-token";
+import { normalizeSiteLanguage, SITE_LANGUAGE_COOKIE } from "@/lib/site-language";
+import { getMediaTokenSecret, getS4Config, getS4CvPrefix, getS4UpcomingPrefix } from "@/lib/s4-config";
 
 export const dynamic = "force-dynamic";
 
@@ -111,8 +114,9 @@ function createS4Client() {
 
 async function getCvDownloadUrl(): Promise<string | null> {
   const s4 = createS4Client();
+  const tokenSecret = getMediaTokenSecret();
   const cvPrefixRaw = getS4CvPrefix();
-  if (!s4 || !cvPrefixRaw) return null;
+  if (!s4 || !tokenSecret || !cvPrefixRaw) return null;
 
   const prefix = ensureTrailingSlash(cvPrefixRaw);
 
@@ -131,9 +135,16 @@ async function getCvDownloadUrl(): Promise<string | null> {
 
       const firstPdf = (list.Contents ?? []).find((obj) => obj.Key && isPdfKey(obj.Key));
       if (firstPdf?.Key) {
-        const encodedKey = encodeURIComponent(firstPdf.Key);
-        const encodedName = encodeURIComponent(cvFileNameFromKey(firstPdf.Key));
-        return `/api/media/file?key=${encodedKey}&download=1&name=${encodedName}`;
+        const tokenValue = createMediaAccessToken(
+          {
+            key: firstPdf.Key,
+            name: cvFileNameFromKey(firstPdf.Key),
+            exp: Date.now() + 1000 * 60 * 60 * 24,
+          },
+          tokenSecret,
+        );
+        const encodedToken = encodeURIComponent(tokenValue);
+        return `/api/media/file?token=${encodedToken}&download=1`;
       }
 
       token = list.IsTruncated ? list.NextContinuationToken : undefined;
@@ -193,10 +204,19 @@ async function getUpcomingConcerts(): Promise<UpcomingConcert[]> {
 }
 
 export default async function CvPage() {
+  const cookieStore = await cookies();
+  const initialLanguage = normalizeSiteLanguage(cookieStore.get(SITE_LANGUAGE_COOKIE)?.value);
+
   const [cvDownloadUrl, upcomingConcerts] = await Promise.all([
     getCvDownloadUrl(),
     getUpcomingConcerts(),
   ]);
 
-  return <CvPageClient cvDownloadUrl={cvDownloadUrl} upcomingConcerts={upcomingConcerts} />;
+  return (
+    <CvPageClient
+      cvDownloadUrl={cvDownloadUrl}
+      initialLanguage={initialLanguage}
+      upcomingConcerts={upcomingConcerts}
+    />
+  );
 }

@@ -27,8 +27,9 @@ function persistLanguage(next: SiteLanguage) {
   window.dispatchEvent(new CustomEvent(SITE_LANGUAGE_EVENT, { detail: next }));
 }
 
-export function useSiteLanguage() {
+export function useSiteLanguage(initialLanguage?: SiteLanguage) {
   const [language, setLanguage] = useState<SiteLanguage>(() => {
+    if (initialLanguage) return normalizeSiteLanguage(initialLanguage);
     if (typeof window === "undefined") return DEFAULT_SITE_LANGUAGE;
     const fromStorage = window.localStorage.getItem(SITE_LANGUAGE_STORAGE_KEY);
     const fromCookie = readCookieLanguage();

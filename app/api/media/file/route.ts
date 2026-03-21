@@ -1,8 +1,9 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getMediaTokenSecret, getS4Config } from "@/lib/s4-config";
+import { getMediaTokenSecret, getS4Config, getS4CvPrefix, getS4UpcomingPrefix } from "@/lib/s4-config";
 import { verifyMediaAccessToken } from "@/lib/media-access-token";
 
 const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif"]);
+const DOCUMENT_EXTENSIONS = new Set(["pdf"]);
 const RATE_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 120;
 
@@ -15,6 +16,7 @@ const rateStore = new Map<string, RateEntry>();
 
 function fallbackContentType(key: string) {
   const ext = key.split(".").pop()?.toLowerCase();
+  if (ext === "pdf") return "application/pdf";
   if (ext === "png") return "image/png";
   if (ext === "webp") return "image/webp";
   if (ext === "gif") return "image/gif";
@@ -22,9 +24,10 @@ function fallbackContentType(key: string) {
   return "image/jpeg";
 }
 
-function isImageKey(key: string) {
+function isSupportedMediaKey(key: string) {
   const ext = key.split(".").pop()?.toLowerCase();
-  return !!ext && IMAGE_EXTENSIONS.has(ext);
+  if (!ext) return false;
+  return IMAGE_EXTENSIONS.has(ext) || DOCUMENT_EXTENSIONS.has(ext);
 }
 
 function sanitizeDownloadName(name: string) {
@@ -40,6 +43,14 @@ function isAllowedPrefixKey(key: string, prefix: string) {
   }
 
   return key === normalizedPrefix || key.startsWith(`${normalizedPrefix}/`);
+}
+
+function getAllowedPrefixes(primaryPrefix: string) {
+  const candidates = [primaryPrefix, getS4CvPrefix(), getS4UpcomingPrefix()]
+    .map((value) => value?.trim())
+    .filter((value): value is string => !!value);
+
+  return [...new Set(candidates)];
 }
 
 function getClientIp(request: Request) {
@@ -102,10 +113,12 @@ export async function GET(request: Request) {
   }
 
   const key = payload.key;
-  if (!isAllowedPrefixKey(key, cfg.prefix)) {
+  const allowedPrefixes = getAllowedPrefixes(cfg.prefix);
+  const hasAllowedPrefix = allowedPrefixes.some((prefix) => isAllowedPrefixKey(key, prefix));
+  if (!hasAllowedPrefix) {
     return new Response("Forbidden key prefix", { status: 403 });
   }
-  if (!isImageKey(key)) {
+  if (!isSupportedMediaKey(key)) {
     return new Response("Unsupported media type", { status: 400 });
   }
 
