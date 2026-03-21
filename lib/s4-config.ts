@@ -58,7 +58,7 @@ export function getS4Config(): S4Config | null {
   const accessKeyId = fromRepoEnv("S4_ACCESS_KEY_ID");
   const secretAccessKey = fromRepoEnv("S4_SECRET_ACCESS_KEY");
   const region = fromRepoEnv("S4_REGION") ?? "us-east-1";
-  const bucket = fromRepoEnv("S4_BUCKET") ?? "drive";
+  const bucket = fromRepoEnv("S4_BUCKET") ?? "tb1";
   const prefix = fromRepoEnv("S4_PREFIX");
 
   if (!endpoint || !accessKeyId || !secretAccessKey || !prefix) {
