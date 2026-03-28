@@ -13,6 +13,7 @@ type MediaItem = {
 export default function MediaGallery({ items }: { items: MediaItem[] }) {
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -48,79 +49,117 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
     };
   }, [items.length]);
 
+  useEffect(() => {
+    if (!lightboxSrc) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setLightboxSrc(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxSrc]);
+
   return (
-    <div ref={galleryRef} className="relative z-10 mt-20 columns-1 gap-4 md:mt-24 sm:columns-2 lg:columns-3">
-      {items.map((item, index) => {
-        const isLoaded = !!loadedIds[item.id];
-        const hasFailed = !!failedIds[item.id];
-        const downloadVisibilityClass = isLoaded
-          ? "opacity-100 pointer-events-auto md:opacity-0 md:pointer-events-none md:group-hover:pointer-events-auto md:group-hover:opacity-100"
-          : "opacity-0 pointer-events-none";
-        const prioritized = index < 6;
+    <>
+      <div ref={galleryRef} className="relative z-10 mt-20 columns-1 gap-4 sm:columns-2 md:mt-24 lg:columns-3">
+        {items.map((item, index) => {
+          const isLoaded = !!loadedIds[item.id];
+          const hasFailed = !!failedIds[item.id];
+          const downloadVisibilityClass = isLoaded
+            ? "opacity-100 pointer-events-auto md:opacity-0 md:pointer-events-none md:group-hover:pointer-events-auto md:group-hover:opacity-100"
+            : "opacity-0 pointer-events-none";
+          const prioritized = index < 6;
 
-        return (
-          <div
-            key={item.id}
-            className="mb-4 break-inside-avoid"
-            data-reveal
-            style={{ "--reveal-delay": `${80 + (index % 12) * 55}ms` }}
-          >
-            <article
-              className={`interactive-surface group relative overflow-hidden rounded-xl transition-all ${
-                isLoaded
-                  ? "border border-neutral-border bg-neutral-dark/40 hover:border-primary/30 hover:bg-neutral-dark"
-                  : "border border-transparent bg-transparent"
-              }`}
-              data-proximity
-              data-proximity-strength="2.1"
+          return (
+            <div
+              key={item.id}
+              className="mb-4 break-inside-avoid"
+              data-reveal
+              style={{ "--reveal-delay": `${80 + (index % 12) * 55}ms` }}
             >
-              {!isLoaded ? <div className="absolute inset-0 animate-pulse bg-neutral-dark/70" /> : null}
-              <Image
-                src={item.viewUrl}
-                alt={`Gallery image ${index + 1}`}
-                width={1600}
-                height={1200}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                loading={prioritized ? "eager" : "lazy"}
-                fetchPriority={prioritized ? "high" : "auto"}
-                onLoad={() => {
-                  setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                }}
-                onError={() => {
-                  setFailedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                  setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                }}
-                className={`block h-auto w-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
-              />
+              <article
+                className={`interactive-surface group relative overflow-hidden rounded-xl transition-all ${
+                  isLoaded
+                    ? "cursor-pointer border border-neutral-border bg-neutral-dark/40 hover:border-primary/30 hover:bg-neutral-dark"
+                    : "border border-transparent bg-transparent"
+                }`}
+                data-proximity
+                data-proximity-strength="2.1"
+                onClick={() => isLoaded && !hasFailed && setLightboxSrc(item.viewUrl)}
+              >
+                {!isLoaded ? <div className="absolute inset-0 animate-pulse bg-neutral-dark/70" /> : null}
+                <Image
+                  src={item.viewUrl}
+                  alt={`Gallery image ${index + 1}`}
+                  width={1600}
+                  height={1200}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  loading={prioritized ? "eager" : "lazy"}
+                  fetchPriority={prioritized ? "high" : "auto"}
+                  onLoad={() => {
+                    setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                  }}
+                  onError={() => {
+                    setFailedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                    setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                  }}
+                  className={`block h-auto w-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                />
 
-              {hasFailed ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-dark/85 p-4 text-center">
-                  <p className="text-sm text-neutral-100">Images failed to load.</p>
+                {hasFailed ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-dark/85 p-4 text-center">
+                    <p className="text-sm text-neutral-100">Images failed to load.</p>
+                    <a
+                      href="https://denandras.ddns.net/index.php/s/press"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-neutral-100 transition-colors hover:bg-primary/20"
+                    >
+                      Open Press Gallery
+                    </a>
+                  </div>
+                ) : null}
+
+                {!hasFailed ? (
                   <a
-                    href="https://denandras.ddns.net/index.php/s/press"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-neutral-100 transition-colors hover:bg-primary/20"
+                    href={item.downloadUrl}
+                    onClick={(event) => event.stopPropagation()}
+                    className={`absolute top-3 right-3 inline-flex items-center justify-center rounded-lg border border-primary/30 bg-background-dark/70 p-2.5 text-neutral-100 backdrop-blur-sm transition-all duration-200 hover:bg-background-dark/85 ${downloadVisibilityClass}`}
+                    aria-label="Download image"
+                    title="Download"
                   >
-                    Open Press Gallery
+                    <IconDownload className="size-4 text-primary" />
                   </a>
-                </div>
-              ) : null}
+                ) : null}
+              </article>
+            </div>
+          );
+        })}
+      </div>
 
-              {!hasFailed ? (
-                <a
-                  href={item.downloadUrl}
-                  className={`absolute top-3 right-3 inline-flex items-center justify-center rounded-lg border border-primary/30 bg-background-dark/70 p-2.5 text-neutral-100 backdrop-blur-sm transition-all duration-200 hover:bg-background-dark/85 ${downloadVisibilityClass}`}
-                  aria-label="Download image"
-                  title="Download"
-                >
-                  <IconDownload className="size-4 text-primary" />
-                </a>
-              ) : null}
-            </article>
+      {lightboxSrc ? (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          onClick={() => setLightboxSrc(null)}
+        >
+          <div className="relative w-full max-w-6xl overflow-hidden rounded-xl">
+            <Image
+              src={lightboxSrc}
+              alt="Media preview"
+              width={1920}
+              height={1280}
+              className="h-auto max-h-[90dvh] w-full object-contain"
+              style={{ borderRadius: "0.75rem" }}
+            />
           </div>
-        );
-      })}
-    </div>
+          <button
+            className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            onClick={() => setLightboxSrc(null)}
+            aria-label="Close preview"
+          >
+            ×
+          </button>
+        </div>
+      ) : null}
+    </>
   );
 }
