@@ -1,9 +1,20 @@
+import type { Metadata } from "next";
 import { GetObjectCommand, ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 import CvPageClient from "@/components/cv-page-client";
 import { cookies } from "next/headers";
 import { createMediaAccessToken } from "@/lib/media-access-token";
 import { normalizeSiteLanguage, SITE_LANGUAGE_COOKIE } from "@/lib/site-language";
 import { getMediaTokenSecret, getS4Config, getS4CvPrefix, getS4UpcomingPrefix } from "@/lib/s4-config";
+
+export const metadata: Metadata = {
+  title: "CV – András Dénes | Trombonist",
+  description: "Curriculum vitae of András Dénes — Hungarian trombonist based in Budapest. Principal trombone of Alba Regia Symphony Orchestra, member of Óbudai Danubia Orchestra.",
+  openGraph: {
+    title: "CV – András Dénes | Trombonist",
+    description: "Curriculum vitae of András Dénes — Hungarian trombonist based in Budapest.",
+    url: "https://andrasdenes.com/cv",
+  },
+};
 
 export const dynamic = "force-dynamic";
 

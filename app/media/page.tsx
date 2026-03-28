@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
 import LanguageSwitcher from "@/components/language-switcher";
@@ -15,6 +16,16 @@ type MediaItem = {
 };
 
 const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif"]);
+
+export const metadata: Metadata = {
+  title: "Media – András Dénes | Trombonist",
+  description: "Photos and media gallery of András Dénes, Hungarian trombonist based in Budapest.",
+  openGraph: {
+    title: "Media – András Dénes | Trombonist",
+    description: "Photos and media gallery of András Dénes, Hungarian trombonist based in Budapest.",
+    url: "https://andrasdenes.com/media",
+  },
+};
 
 export const dynamic = "force-dynamic";
 
@@ -139,7 +150,7 @@ export default async function MediaPage() {
         </section>
       </main>
 
-      <BottomNav active="none" />
+      <BottomNav active="media" />
     </div>
   );
 }

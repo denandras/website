@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { IconHome, IconMusicNote, IconSend } from "@/components/icons";
+import { IconCamera, IconHome, IconMusicNote, IconSend } from "@/components/icons";
 
 type BottomNavProps = {
-  active: "home" | "cv" | "contact" | "none";
+  active: "home" | "cv" | "media" | "contact" | "none";
 };
 
 const itemBase =
@@ -11,7 +11,7 @@ const itemBase =
 export default function BottomNav({ active }: BottomNavProps) {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-neutral-border bg-neutral-dark/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md">
-      <div className="mx-auto grid h-16 w-full max-w-2xl grid-cols-3">
+      <div className="mx-auto grid h-16 w-full max-w-2xl grid-cols-4">
         <Link
           href="/cv"
           className={`${itemBase} ${
@@ -30,6 +30,17 @@ export default function BottomNav({ active }: BottomNavProps) {
           }`}
         >
           <IconHome className="size-5" />
+        </Link>
+
+        <Link
+          href="/media"
+          className={`${itemBase} ${
+            active === "media"
+              ? "text-primary"
+              : "text-neutral-400 hover:text-primary"
+          }`}
+        >
+          <IconCamera className="size-5" />
         </Link>
 
         <Link

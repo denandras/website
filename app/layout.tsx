@@ -16,27 +16,27 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://andrasdenes.com"),
-  title: "Dénes András",
-  description: "Trombonist portfolio and performances",
+  title: "András Dénes | Trombonist",
+  description: "András Dénes – Hungarian trombonist based in Budapest. Principal trombone of Alba Regia Symphony Orchestra, member of Óbudai Danubia Orchestra. Bookings and inquiries welcome.",
   icons: {
     icon: [
-      { url: "/music-note.svg", type: "image/svg+xml" },
+      { url: "/favicon-circle.svg", type: "image/svg+xml" },
       { url: "/favicon.ico" },
     ],
-    shortcut: "/music-note.svg",
-    apple: "/logo_tight.svg",
+    shortcut: "/favicon-circle.svg",
+    apple: "/favicon-circle.svg",
   },
   openGraph: {
-    title: "Dénes András",
-    description: "Trombonist portfolio and performances",
+    title: "András Dénes | Trombonist",
+    description: "Hungarian trombonist based in Budapest. Principal trombone of Alba Regia Symphony Orchestra, member of Óbudai Danubia Orchestra.",
     url: "https://andrasdenes.com",
-    siteName: "Dénes András",
+    siteName: "András Dénes",
     images: [
       {
         url: "/profile.jpeg",
         width: 1200,
         height: 1200,
-        alt: "Dénes András - Trombonist",
+        alt: "András Dénes - Trombonist",
       },
     ],
     locale: "hu_HU",
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dénes András",
-    description: "Trombonist portfolio and performances",
+    title: "András Dénes | Trombonist",
+    description: "Hungarian trombonist based in Budapest. Principal trombone of Alba Regia Symphony Orchestra.",
     images: ["/profile.jpeg"],
   },
 };
@@ -56,8 +56,49 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head />
+    <html lang="hu" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "András Dénes",
+              "alternateName": "Dénes András",
+              "jobTitle": "Trombonist",
+              "url": "https://andrasdenes.com",
+              "image": "https://andrasdenes.com/profile.jpeg",
+              "email": "contact@andrasdenes.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Budapest",
+                "addressCountry": "HU",
+              },
+              "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Franz Liszt Academy of Music",
+                "url": "https://lfze.hu",
+              },
+              "memberOf": [
+                {
+                  "@type": "PerformingGroup",
+                  "name": "Alba Regia Symphony Orchestra",
+                  "url": "https://www.arso.hu",
+                },
+                {
+                  "@type": "PerformingGroup",
+                  "name": "Óbudai Danubia Orchestra",
+                  "url": "https://utazenehez.hu",
+                },
+              ],
+              "sameAs": [
+                "https://instagram.com/andras.trombone",
+              ],
+            }),
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased`}>
         <ProximityEffects />
         {children}
