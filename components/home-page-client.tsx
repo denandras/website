@@ -12,18 +12,30 @@ type HomePageClientProps = {
   initialLanguage: SiteLanguage;
 };
 
+declare global {
+  interface Window {
+    YT: { Player: new (id: string, options: object) => void };
+    onYouTubeIframeAPIReady: (() => void) | undefined;
+  }
+}
+
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 export default function HomePageClient({ initialLanguage }: HomePageClientProps) {
   const currentYear = new Date().getFullYear();
   const heroRef = useRef<HTMLElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [headerProgress, setHeaderProgress] = useState(0);
   const { language } = useSiteLanguage(initialLanguage);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const labels = language === "hu"
     ? {
         titleName: "Dénes András",
         subtitle: "Harsonaművész",
+        featuredVideoLabel: "Kiemelt felvétel",
+        videoCaption: "Nino Rota: Harsonaverseny – Dénes András, harsona",
         orchestras: "Zenekarok",
         ensembles: "Együttesek",
         rolePrincipal: "Szólamvezető",
@@ -43,6 +55,8 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
     : {
         titleName: "András Dénes",
         subtitle: "Trombone",
+        featuredVideoLabel: "Featured Recording",
+        videoCaption: "Nino Rota: Trombone Concerto – András Dénes, trombone",
         orchestras: "Orchestras",
         ensembles: "Ensembles",
         rolePrincipal: "Principal Trombone",
@@ -104,6 +118,40 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    // Load the YouTube IFrame API script if not already present
+    if (!document.getElementById("yt-iframe-api")) {
+      const tag = document.createElement("script");
+      tag.id = "yt-iframe-api";
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+    }
+
+    // YT.Player can only be created after the API script fires onYouTubeIframeAPIReady
+    const init = () => {
+      if (typeof window.YT === "undefined" || typeof window.YT.Player === "undefined") return;
+      new window.YT.Player("yt-featured", {
+        events: {
+          onReady: (event: { target: { mute: () => void } }) => {
+            event.target.mute();
+          },
+        },
+      });
+    };
+
+    if (typeof window.YT !== "undefined" && typeof window.YT.Player !== "undefined") {
+      init();
+    } else {
+      window.onYouTubeIframeAPIReady = init;
+    }
+
+    return () => {
+      window.onYouTubeIframeAPIReady = undefined;
+    };
+  }, [mounted]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
@@ -169,6 +217,26 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
                 {labels.subtitle}
               </p>
             </div>
+          </div>
+        </section>
+
+        <section className="px-6 py-10">
+          <div data-reveal>
+            <h2 className="font-display mb-4 text-2xl font-bold tracking-tight">{labels.featuredVideoLabel}</h2>
+            <div className="aspect-video w-full overflow-hidden rounded-xl">
+              {mounted && (
+                <iframe
+                  id="yt-featured"
+                  ref={iframeRef}
+                  className="h-full w-full"
+                  src="https://www.youtube-nocookie.com/embed/KSJdV6QJ6Ec?autoplay=1&mute=1&loop=1&playlist=KSJdV6QJ6Ec&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+                  title={labels.videoCaption}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              )}
+            </div>
+            <p className="mt-3 text-sm text-neutral-400">{labels.videoCaption}</p>
           </div>
         </section>
 
