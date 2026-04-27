@@ -14,6 +14,7 @@ export default function BottomNav({ active }: BottomNavProps) {
       <div className="mx-auto grid h-16 w-full max-w-2xl grid-cols-4">
         <Link
           href="/cv"
+          prefetch={true}
           className={`${itemBase} ${
             active === "cv"
               ? "text-primary"
@@ -25,6 +26,7 @@ export default function BottomNav({ active }: BottomNavProps) {
 
         <Link
           href="/"
+          prefetch={true}
           className={`${itemBase} ${
             active === "home" ? "text-primary" : "text-neutral-400 hover:text-primary"
           }`}
@@ -34,6 +36,7 @@ export default function BottomNav({ active }: BottomNavProps) {
 
         <Link
           href="/media"
+          prefetch={true}
           className={`${itemBase} ${
             active === "media"
               ? "text-primary"
@@ -45,6 +48,7 @@ export default function BottomNav({ active }: BottomNavProps) {
 
         <Link
           href="/contact"
+          prefetch={true}
           className={`${itemBase} ${
             active === "contact"
               ? "text-primary"

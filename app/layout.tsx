@@ -58,6 +58,12 @@ export default function RootLayout({
   return (
     <html lang="hu" className="dark">
       <head>
+        {/* Prefetch all pages for instant navigation */}
+        <link rel="prefetch" href="/" />
+        <link rel="prefetch" href="/cv" />
+        <link rel="prefetch" href="/media" />
+        <link rel="prefetch" href="/contact" />
+        <link rel="prefetch" href="/rec" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
