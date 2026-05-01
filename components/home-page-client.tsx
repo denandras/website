@@ -223,16 +223,20 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
         <section className="px-6 py-10">
           <div data-reveal>
             <h2 className="font-display mb-4 text-2xl font-bold tracking-tight">{labels.featuredVideoLabel}</h2>
-            <div className="aspect-video w-full overflow-hidden rounded-xl">
+            <div className="aspect-video w-full overflow-hidden rounded-xl bg-neutral-dark/40">
               {mounted && (
                 <iframe
                   id="yt-featured"
                   ref={iframeRef}
-                  className="h-full w-full"
+                  className="h-full w-full opacity-0 transition-opacity duration-1000 ease-in-out"
                   src="https://www.youtube-nocookie.com/embed/KSJdV6QJ6Ec?autoplay=1&mute=1&loop=1&playlist=KSJdV6QJ6Ec&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
                   title={labels.videoCaption}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
+                  onLoad={(e) => {
+                    (e.currentTarget as HTMLIFrameElement).classList.remove('opacity-0');
+                    (e.currentTarget as HTMLIFrameElement).classList.add('opacity-100');
+                  }}
                 />
               )}
             </div>

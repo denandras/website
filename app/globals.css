@@ -30,6 +30,14 @@ body {
 .interactive-surface {
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+}
+
+.interactive-surface.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: no-preference) {
