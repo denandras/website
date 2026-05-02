@@ -27,34 +27,6 @@ export default function ProximityEffects() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const nodes = Array.from(
-      document.querySelectorAll<HTMLElement>(".interactive-surface:not(.is-visible)")
-    );
-    if (!nodes.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLElement).classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        }
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" },
-    );
-
-    const raf = window.requestAnimationFrame(() => {
-      nodes.forEach((node) => observer.observe(node));
-    });
-
-    return () => {
-      window.cancelAnimationFrame(raf);
-      observer.disconnect();
-    };
-  }, [pathname]);
-
-  useEffect(() => {
     const supportsInteractiveHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const hasCoarsePointer =
       window.matchMedia("(pointer: coarse)").matches ||
