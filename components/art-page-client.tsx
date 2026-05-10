@@ -116,8 +116,8 @@ export default function ArtPageClient({
         </div>
       </header>
 
-      <main className="flex w-full flex-1 flex-col py-8 pb-24">
-        <section className="relative w-full px-6 pt-10">
+      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
+        <section className="relative pt-10">
           <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
             {labels.title}
           </h2>
@@ -128,9 +128,7 @@ export default function ArtPageClient({
               <p>{labels.intro2}</p>
             </div>
           </div>
-        </section>
 
-        <div className="mx-auto w-full max-w-7xl px-6">
           {!hasConfig ? (
             <div className="relative z-10 mt-10 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
               {missingConfigLabel}
@@ -144,9 +142,9 @@ export default function ArtPageClient({
               <MediaGallery items={items} showDownload={false} />
             </div>
           )}
-        </div>
+        </section>
 
-        <section className="mx-auto mt-16 w-full max-w-7xl px-6">
+        <section className="mt-16">
           <div className="relative grid gap-6 border-b border-neutral-border/70 py-10 md:grid-cols-12 md:gap-8" data-reveal>
             <h3 className="pointer-events-none absolute top-11 left-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase md:block lg:text-7xl">
               {labels.contacts}
