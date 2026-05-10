@@ -85,6 +85,11 @@ export function getS4UpcomingPrefix(): string | null {
   return prefix || null;
 }
 
+export function getS4ArtPrefix(): string | null {
+  const prefix = fromRepoEnv("S4_ART_PREFIX")?.trim();
+  return prefix || null;
+}
+
 export function getMediaTokenSecret(): string | null {
   const dedicated = fromRepoEnv("MEDIA_TOKEN_SECRET")?.trim();
   if (dedicated) return dedicated;
