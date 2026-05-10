@@ -123,7 +123,7 @@ export default function ArtPageClient({
           </h2>
 
           <div className="relative z-10 mt-20 md:mt-24" data-reveal>
-            <div className="max-w-2xl space-y-4 text-neutral-200 leading-relaxed">
+            <div className="space-y-4 text-neutral-200 leading-relaxed">
               <p>{labels.intro1}</p>
               <p>{labels.intro2}</p>
             </div>
@@ -139,7 +139,7 @@ export default function ArtPageClient({
             </div>
           ) : (
             <div className="mt-10">
-              <MediaGallery items={items} />
+              <MediaGallery items={items} showDownload={false} />
             </div>
           )}
         </section>
@@ -198,7 +198,7 @@ export default function ArtPageClient({
 
                 <div data-reveal style={{ "--reveal-delay": "240ms" }}>
                   <a
-                    href="https://instagram.com/andras.trombone"
+                    href="https://instagram.com/abstract.sketcher"
                     target="_blank"
                     rel="noreferrer"
                     className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
@@ -210,7 +210,7 @@ export default function ArtPageClient({
                       </div>
                       <div>
                         <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.instagram}</p>
-                        <p className="font-display font-semibold">@andras.trombone</p>
+                        <p className="font-display font-semibold">@abstract.sketcher</p>
                       </div>
                     </div>
                     <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
