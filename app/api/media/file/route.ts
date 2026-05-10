@@ -1,5 +1,5 @@
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getMediaTokenSecret, getS4Config, getS4CvPrefix, getS4UpcomingPrefix } from "@/lib/s4-config";
+import { getMediaTokenSecret, getS4ArtPrefix, getS4Config, getS4CvPrefix, getS4UpcomingPrefix } from "@/lib/s4-config";
 import { verifyMediaAccessToken } from "@/lib/media-access-token";
 
 const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif"]);
@@ -46,7 +46,7 @@ function isAllowedPrefixKey(key: string, prefix: string) {
 }
 
 function getAllowedPrefixes(primaryPrefix: string) {
-  const candidates = [primaryPrefix, getS4CvPrefix(), getS4UpcomingPrefix()]
+  const candidates = [primaryPrefix, getS4CvPrefix(), getS4UpcomingPrefix(), getS4ArtPrefix()]
     .map((value) => value?.trim())
     .filter((value): value is string => !!value);
 
