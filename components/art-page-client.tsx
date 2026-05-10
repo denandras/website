@@ -116,19 +116,21 @@ export default function ArtPageClient({
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
-        <section className="relative pt-10">
+      <main className="flex w-full flex-1 flex-col py-8 pb-24">
+        <section className="relative w-full px-6 pt-10">
           <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
             {labels.title}
           </h2>
 
           <div className="relative z-10 mt-20 md:mt-24" data-reveal>
-            <div className="max-w-2xl space-y-4 text-neutral-200 leading-relaxed">
+            <div className="space-y-4 text-neutral-200 leading-relaxed">
               <p>{labels.intro1}</p>
               <p>{labels.intro2}</p>
             </div>
           </div>
+        </section>
 
+        <div className="mx-auto w-full max-w-7xl px-6">
           {!hasConfig ? (
             <div className="relative z-10 mt-10 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
               {missingConfigLabel}
@@ -139,12 +141,12 @@ export default function ArtPageClient({
             </div>
           ) : (
             <div className="mt-10">
-              <MediaGallery items={items} />
+              <MediaGallery items={items} showDownload={false} />
             </div>
           )}
-        </section>
+        </div>
 
-        <section className="mt-16">
+        <section className="mx-auto mt-16 w-full max-w-7xl px-6">
           <div className="relative grid gap-6 border-b border-neutral-border/70 py-10 md:grid-cols-12 md:gap-8" data-reveal>
             <h3 className="pointer-events-none absolute top-11 left-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase md:block lg:text-7xl">
               {labels.contacts}
@@ -198,7 +200,7 @@ export default function ArtPageClient({
 
                 <div data-reveal style={{ "--reveal-delay": "240ms" }}>
                   <a
-                    href="https://instagram.com/andras.trombone"
+                    href="https://instagram.com/abstract.sketcher"
                     target="_blank"
                     rel="noreferrer"
                     className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
@@ -210,7 +212,7 @@ export default function ArtPageClient({
                       </div>
                       <div>
                         <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.instagram}</p>
-                        <p className="font-display font-semibold">@andras.trombone</p>
+                        <p className="font-display font-semibold">@abstract.sketcher</p>
                       </div>
                     </div>
                     <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />

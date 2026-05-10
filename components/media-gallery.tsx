@@ -10,7 +10,7 @@ type MediaItem = {
   downloadUrl: string;
 };
 
-export default function MediaGallery({ items }: { items: MediaItem[] }) {
+export default function MediaGallery({ items, showDownload = true }: { items: MediaItem[]; showDownload?: boolean }) {
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -119,7 +119,7 @@ export default function MediaGallery({ items }: { items: MediaItem[] }) {
                   </div>
                 ) : null}
 
-                {!hasFailed ? (
+                {!hasFailed && showDownload ? (
                   <a
                     href={item.downloadUrl}
                     onClick={(event) => event.stopPropagation()}
