@@ -2,6 +2,7 @@
 
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
+import FitText from "@/components/fit-text";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
 import MediaGallery from "@/components/media-gallery";
 import {
@@ -118,9 +119,14 @@ export default function ArtPageClient({
 
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
         <section className="relative pt-10">
-          <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase [overflow-wrap:anywhere] md:text-6xl lg:text-7xl">
+          <FitText
+            as="h2"
+            minFontPx={28}
+            maxFontPx={112}
+            className="pointer-events-none absolute top-10 left-1 z-0 w-[92%] font-display leading-[0.85] font-bold tracking-tight text-white uppercase"
+          >
             {labels.title}
-          </h2>
+          </FitText>
 
           <div className="relative z-10 mt-20 md:mt-24" data-reveal>
             <div className="space-y-4 text-neutral-200 leading-relaxed">
