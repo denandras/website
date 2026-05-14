@@ -13,6 +13,8 @@
 html {
   /* Keep layout width stable when vertical scrollbar appears/disappears. */
   scrollbar-gutter: stable;
+  /* Prevent any overflowing content from expanding the viewport horizontally. */
+  overflow-x: clip;
 }
 
 body {

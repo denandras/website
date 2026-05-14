@@ -118,7 +118,7 @@ export default function ArtPageClient({
 
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
         <section className="relative pt-10">
-          <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
+          <h2 className="pointer-events-none absolute top-10 left-1 z-0 max-w-[92%] font-display text-5xl leading-[0.85] font-bold tracking-tight text-white uppercase [overflow-wrap:anywhere] md:text-6xl lg:text-7xl">
             {labels.title}
           </h2>
 
