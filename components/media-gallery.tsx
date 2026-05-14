@@ -10,7 +10,15 @@ type MediaItem = {
   downloadUrl: string;
 };
 
-export default function MediaGallery({ items, showDownload = true }: { items: MediaItem[]; showDownload?: boolean }) {
+export default function MediaGallery({
+  items,
+  showDownload = true,
+  imageBackgroundClassName = "",
+}: {
+  items: MediaItem[];
+  showDownload?: boolean;
+  imageBackgroundClassName?: string;
+}) {
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -102,7 +110,7 @@ export default function MediaGallery({ items, showDownload = true }: { items: Me
                     setFailedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                     setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                   }}
-                  className={`block h-auto w-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                  className={`block h-auto w-full object-cover transition-opacity duration-300 ${imageBackgroundClassName} ${isLoaded ? "opacity-100" : "opacity-0"}`}
                 />
 
                 {hasFailed ? (
@@ -147,7 +155,7 @@ export default function MediaGallery({ items, showDownload = true }: { items: Me
               alt="Media preview"
               width={1920}
               height={1280}
-              className="h-auto max-h-[90dvh] w-full object-contain"
+              className={`h-auto max-h-[90dvh] w-full object-contain ${imageBackgroundClassName}`}
               style={{ borderRadius: "0.75rem" }}
             />
           </div>

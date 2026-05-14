@@ -145,7 +145,7 @@ export default function ArtPageClient({
             </div>
           ) : (
             <div className="mt-10">
-              <MediaGallery items={items} showDownload={false} />
+              <MediaGallery items={items} showDownload={false} imageBackgroundClassName="bg-white" />
             </div>
           )}
         </section>
