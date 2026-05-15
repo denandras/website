@@ -16,10 +16,10 @@ type MediaItem = {
 const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif"]);
 
 export const metadata: Metadata = {
-  title: "Visual Art – András Dénes",
+  title: "Visual Art – András Dénes | Trombonist",
   description: "Visual art and photography by András Dénes – urban landscapes, street scenes, and the interplay of light.",
   openGraph: {
-    title: "Visual Art – András Dénes",
+    title: "Visual Art – András Dénes | Trombonist",
     description: "Visual art and photography by András Dénes – urban landscapes, street scenes, and the interplay of light.",
     url: "https://andrasdenes.com/art",
   },
