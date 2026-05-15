@@ -100,9 +100,11 @@ export default function MediaGallery({
                 data-proximity
                 data-proximity-strength="2.1"
                 onClick={() => isLoaded && !hasFailed && setLightboxSrc(item.viewUrl)}
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
               >
                 {!isLoaded ? <div className="absolute inset-0 animate-pulse bg-neutral-dark/70" /> : null}
-                <div className="relative">
+                <div className="relative select-none">
                   <Image
                     src={item.viewUrl}
                     alt={item.title || `Gallery image ${index + 1}`}
@@ -119,6 +121,8 @@ export default function MediaGallery({
                       setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
                     }}
                     className={`block h-auto w-full object-cover transition-opacity duration-300 ${imageBackgroundClassName} ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
                 {item.title && isLoaded && !hasFailed ? (
@@ -162,8 +166,9 @@ export default function MediaGallery({
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           onClick={() => setLightboxSrc(null)}
+          onContextMenu={(e) => e.preventDefault()}
         >
-          <div className="relative overflow-hidden rounded-xl">
+          <div className="relative overflow-hidden rounded-xl select-none">
             <Image
               src={lightboxSrc}
               alt="Media preview"
@@ -171,6 +176,8 @@ export default function MediaGallery({
               height={1200}
               className={`h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain ${imageBackgroundClassName}`}
               style={{ borderRadius: "0.75rem" }}
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
           <button
