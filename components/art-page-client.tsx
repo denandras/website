@@ -10,12 +10,14 @@ import {
   IconOpenInNew,
   IconPhone,
   IconCamera,
+  IconGroups,
 } from "@/components/icons";
 import type { SiteLanguage } from "@/lib/site-language";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type MediaItem = {
   id: string;
+  title: string;
   viewUrl: string;
   downloadUrl: string;
 };
@@ -36,13 +38,16 @@ export default function ArtPageClient({
   noMediaLabel,
 }: ArtPageClientProps) {
   const { language } = useSiteLanguage(initialLanguage);
+  const [activePanel, setActivePanel] = useState<"gallery" | "contact">("gallery");
 
   const labels = language === "hu"
     ? {
         header: "Képzőművészet",
         title: "Képzőművészet",
-        contacts: "Elérhetőségek",
-        form: "Kapcsolat",
+        intro1: "A művészet mindig is szerves részét képezte az életemnek. A zene mellett a vizuális művészetek is meghatározó szerepet játszanak alkotói utamon. Fotóimban a városi tájak, az utcai jelenetek és a fények játéka ragadnak meg – gyakran egy pillanatnyi benyomás, egy hangulat megörökítése.",
+        intro2: "Ez a galéria a legutóbbi vizuális munkáimat mutatja be, ahol a zenei érzékenység találkozik a vizuális kifejezésmóddal. Minden kép egy történet, egy érzés, egy megosztott pillanat.",
+        gallery: "Galéria",
+        contact: "Kapcsolat",
         email: "E-mail",
         phone: "Telefon",
         instagram: "Instagram",
@@ -54,14 +59,14 @@ export default function ArtPageClient({
         placeholderMessage: "Miben segíthetek?",
         send: "Üzenet küldése",
         subject: "Új megkeresés az andrasdenes.com oldalról",
-        intro1: "A művészet mindig is szerves részét képezte az életemnek. A zene mellett a vizuális művészetek is meghatározó szerepet játszanak alkotói utamon. Fotóimban a városi tájak, az utcai jelenetek és a fények játéka ragadnak meg – gyakran egy pillanatnyi benyomás, egy hangulat megörökítése.",
-        intro2: "Ez a galéria a legutóbbi vizuális munkáimat mutatja be, ahol a zenei érzékenység találkozik a vizuális kifejezésmóddal. Minden kép egy történet, egy érzés, egy megosztott pillanat.",
       }
     : {
         header: "Visual Art",
         title: "Visual Art",
-        contacts: "Contacts",
-        form: "Form",
+        intro1: "Art has always been an integral part of my life. Beyond music, visual arts play a defining role in my creative journey. My photographs capture urban landscapes, street scenes, and the interplay of light – often freezing a fleeting impression, a mood, a moment.",
+        intro2: "This gallery presents my recent visual work, where musical sensibility meets visual expression. Each image is a story, an emotion, a shared moment.",
+        gallery: "Gallery",
+        contact: "Contact",
         email: "Email",
         phone: "Phone",
         instagram: "Instagram",
@@ -73,8 +78,6 @@ export default function ArtPageClient({
         placeholderMessage: "How can I help you?",
         send: "Send Message",
         subject: "New inquiry from andrasdenes.com",
-        intro1: "Art has always been an integral part of my life. Beyond music, visual arts play a defining role in my creative journey. My photographs capture urban landscapes, street scenes, and the interplay of light – often freezing a fleeting impression, a mood, a moment.",
-        intro2: "This gallery presents my recent visual work, where musical sensibility meets visual expression. Each image is a story, an emotion, a shared moment.",
       };
 
   useEffect(() => {
@@ -101,7 +104,7 @@ export default function ArtPageClient({
       window.cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, [language]);
+  }, [activePanel, language]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
@@ -118,129 +121,147 @@ export default function ArtPageClient({
       </header>
 
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
-        <section className="relative pt-10">
+        <section className="relative pt-10 pb-6" data-reveal>
           <FitText
             as="h2"
-            minFontPx={28}
-            maxFontPx={112}
-            className="pointer-events-none absolute top-10 left-1 z-0 w-[92%] font-display leading-[0.85] font-bold tracking-tight text-white uppercase"
+            minFontPx={26}
+            maxFontPx={84}
+            className="pointer-events-none absolute top-10 left-1 z-0 w-[92%] max-w-[92%] font-display leading-[0.85] font-bold tracking-tight text-white uppercase"
           >
             {labels.title}
           </FitText>
 
           <div className="relative z-10 mt-20 grid gap-8 md:mt-24 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-stretch">
-            <div className="space-y-4 rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6" data-reveal style={{ "--reveal-delay": "120ms" }}>
+            <div className="space-y-4 rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro1}</p>
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro2}</p>
             </div>
-          </div>
 
-          {!hasConfig ? (
-            <div className="relative z-10 mt-10 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
-              {missingConfigLabel}
+            <div className="flex flex-col gap-3 md:h-full" data-reveal style={{ ["--reveal-delay" as const]: "180ms" }}>
+              <button
+                type="button"
+                onClick={() => setActivePanel("gallery")}
+                className={`interactive-surface rounded-xl border px-4 py-3 text-left transition-colors ${
+                  activePanel === "gallery"
+                    ? "border-primary/40 bg-primary/15"
+                    : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
+                } cursor-pointer md:flex-1`}
+                data-proximity
+                data-proximity-strength="2.1"
+              >
+                <span className="inline-flex w-full items-center gap-2">
+                  <IconCamera className="size-4 text-primary" />
+                  <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
+                    {labels.gallery}
+                  </FitText>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActivePanel("contact")}
+                className={`interactive-surface rounded-xl border px-4 py-3 text-left transition-colors ${
+                  activePanel === "contact"
+                    ? "border-primary/40 bg-primary/15"
+                    : "border-neutral-border bg-neutral-dark/40 hover:border-primary/25 hover:bg-neutral-dark"
+                } cursor-pointer md:flex-1`}
+                data-proximity
+                data-proximity-strength="2.1"
+              >
+                <span className="inline-flex w-full items-center gap-2">
+                  <IconGroups className="size-4 text-primary" />
+                  <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
+                    {labels.contact}
+                  </FitText>
+                </span>
+              </button>
             </div>
-          ) : items.length === 0 ? (
-            <div className="relative z-10 mt-10 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
-              {noMediaLabel}
-            </div>
-          ) : (
-            <div className="mt-10">
-              <MediaGallery items={items} showDownload={false} imageBackgroundClassName="bg-white" />
-            </div>
-          )}
+          </div>
         </section>
 
-        <section className="mt-16">
-          <div className="relative grid gap-6 border-b border-neutral-border/70 py-10 md:grid-cols-12 md:gap-8" data-reveal>
-            <h3 className="pointer-events-none absolute top-11 left-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase md:block lg:text-7xl">
-              {labels.contacts}
-            </h3>
-
-            <div className="md:col-span-4 md:order-1 md:text-left">
-              <h3 className="font-display text-4xl leading-[0.88] font-bold tracking-tight text-white uppercase md:hidden">
-                {labels.contacts}
-              </h3>
-            </div>
-
-            <div className="relative md:col-span-8 md:order-2">
-              <div className="relative z-10 space-y-3 md:pt-10">
-                <div data-reveal style={{ "--reveal-delay": "120ms" }}>
-                  <a
-                    href="mailto:contact@andrasdenes.com"
-                    className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
-                    data-proximity
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
-                        <IconMail className="size-5" />
+        <section className="pt-3 pb-10">
+          <div className="overflow-hidden rounded-2xl border border-neutral-border bg-neutral-dark/40 p-5 md:p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
+            {activePanel === "gallery" ? (
+              <>
+                <h3 className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.gallery}</h3>
+                {!hasConfig ? (
+                  <div className="rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
+                    {missingConfigLabel}
+                  </div>
+                ) : items.length === 0 ? (
+                  <div className="rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
+                    {noMediaLabel}
+                  </div>
+                ) : (
+                  <MediaGallery items={items} showDownload={false} imageBackgroundClassName="bg-white" />
+                )}
+              </>
+            ) : (
+              <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+                <div className="space-y-6">
+                  <div data-reveal style={{ "--reveal-delay": "100ms" }}>
+                    <a
+                      href="mailto:contact@andrasdenes.com"
+                      className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
+                      data-proximity
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                          <IconMail className="size-5" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.email}</p>
+                          <p className="font-display font-semibold">contact@andrasdenes.com</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.email}</p>
-                        <p className="font-display font-semibold">contact@andrasdenes.com</p>
+                      <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
+                    </a>
+                  </div>
+
+                  <div data-reveal style={{ "--reveal-delay": "160ms" }}>
+                    <a
+                      href="tel:+36302328848"
+                      className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
+                      data-proximity
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                          <IconPhone className="size-5" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.phone}</p>
+                          <p className="font-display font-semibold">+36 30 232 8848</p>
+                        </div>
                       </div>
-                    </div>
-                    <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
-                  </a>
+                      <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
+                    </a>
+                  </div>
+
+                  <div data-reveal style={{ "--reveal-delay": "220ms" }}>
+                    <a
+                      href="https://instagram.com/abstract.sketcher"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
+                      data-proximity
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                          <IconCamera className="size-5" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.instagram}</p>
+                          <p className="font-display font-semibold">@abstract.sketcher</p>
+                        </div>
+                      </div>
+                      <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
+                    </a>
+                  </div>
                 </div>
 
-                <div data-reveal style={{ "--reveal-delay": "180ms" }}>
-                  <a
-                    href="tel:+36302328848"
-                    className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
-                    data-proximity
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
-                        <IconPhone className="size-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.phone}</p>
-                        <p className="font-display font-semibold">+36 30 232 8848</p>
-                      </div>
-                    </div>
-                    <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
-                  </a>
-                </div>
-
-                <div data-reveal style={{ "--reveal-delay": "240ms" }}>
-                  <a
-                    href="https://instagram.com/abstract.sketcher"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
-                    data-proximity
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
-                        <IconCamera className="size-5" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold tracking-widest text-primary uppercase">{labels.instagram}</p>
-                        <p className="font-display font-semibold">@abstract.sketcher</p>
-                      </div>
-                    </div>
-                    <IconOpenInNew className="size-5 text-neutral-300 transition-colors group-hover:text-primary" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative grid gap-6 border-b border-neutral-border/70 py-10 md:grid-cols-12 md:gap-8" data-reveal>
-            <h3 className="pointer-events-none absolute top-11 right-1 z-0 hidden max-w-[92%] font-display text-6xl leading-[0.85] font-bold tracking-tight text-white/60 uppercase md:block lg:text-7xl">
-              {labels.form}
-            </h3>
-
-            <div className="md:col-span-4 md:order-2 md:text-right">
-              <h3 className="font-display text-4xl leading-[0.88] font-bold tracking-tight text-white uppercase md:hidden">
-                {labels.form}
-              </h3>
-            </div>
-
-            <div className="relative md:col-span-8 md:order-1">
-              <div className="relative z-10 space-y-3 md:pt-10">
-                <div data-reveal style={{ "--reveal-delay": "120ms" }}>
+                <div data-reveal style={{ "--reveal-delay": "280ms" }}>
                   <section className="rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6">
+                    <h3 className="mb-4 font-display text-lg font-bold tracking-tight text-white">{labels.message}</h3>
                     <form action="https://formsubmit.co/contact@andrasdenes.com" method="POST" className="space-y-4" noValidate>
                       <input type="hidden" name="_subject" value={labels.subject} />
                       <input type="hidden" name="_template" value="table" />
@@ -300,7 +321,7 @@ export default function ArtPageClient({
                   </section>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
       </main>
