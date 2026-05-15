@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { IconDownload } from "@/components/icons";
 
 type MediaItem = {
@@ -162,7 +163,7 @@ export default function MediaGallery({
         })}
       </div>
 
-      {lightboxSrc ? (
+      {lightboxSrc && createPortal(
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           onClick={() => setLightboxSrc(null)}
@@ -187,8 +188,9 @@ export default function MediaGallery({
           >
             ×
           </button>
-        </div>
-      ) : null}
+        </div>,
+        document.body
+      )}
     </>
   );
 }
