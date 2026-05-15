@@ -24,7 +24,12 @@ export default function MediaGallery({
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const galleryRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const root = galleryRef.current;
@@ -163,9 +168,9 @@ export default function MediaGallery({
         })}
       </div>
 
-      {lightboxSrc && createPortal(
+      {mounted && lightboxSrc && createPortal(
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4"
           onClick={() => setLightboxSrc(null)}
           onContextMenu={(e) => e.preventDefault()}
         >
