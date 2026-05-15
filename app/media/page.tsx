@@ -146,7 +146,7 @@ export default async function MediaPage() {
             <div className="relative z-10 mt-20 rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300 md:mt-24">
               {labels.noMedia}
             </div>
-          ) : <MediaGallery items={mediaItems} />}
+          ) : <div className="mt-20 md:mt-24"><MediaGallery items={mediaItems} /></div>}
         </section>
       </main>
 
