@@ -8,6 +8,7 @@ import ArtPageClient from "@/components/art-page-client";
 
 type MediaItem = {
   id: string;
+  title: string;
   viewUrl: string;
   downloadUrl: string;
 };
@@ -33,6 +34,15 @@ function isImageKey(key: string) {
 
 function fileExtension(key: string) {
   return key.split(".").pop()?.toLowerCase() ?? "jpg";
+}
+
+function extractTitle(key: string): string {
+  // Key format: "documents/.../_yellowsky/_web/Day 95.jpg"
+  const filename = key.split("/").pop() ?? key;
+  // Remove extension
+  const name = filename.replace(/\.[^.]+$/, "");
+  // Replace underscores/dashes with spaces, keep other characters
+  return name.replace(/[_-]/g, " ");
 }
 
 async function getArtItems(): Promise<MediaItem[]> {
@@ -91,6 +101,7 @@ async function getArtItems(): Promise<MediaItem[]> {
 
     return {
       id: `${index}`,
+      title: extractTitle(key),
       viewUrl: `/api/media/file?token=${encodedToken}`,
       downloadUrl: `/api/media/file?token=${encodedToken}&download=1`,
     };

@@ -6,6 +6,7 @@ import { IconDownload } from "@/components/icons";
 
 type MediaItem = {
   id: string;
+  title?: string;
   viewUrl: string;
   downloadUrl: string;
 };
@@ -95,23 +96,30 @@ export default function MediaGallery({
                 onClick={() => isLoaded && !hasFailed && setLightboxSrc(item.viewUrl)}
               >
                 {!isLoaded ? <div className="absolute inset-0 animate-pulse bg-neutral-dark/70" /> : null}
-                <Image
-                  src={item.viewUrl}
-                  alt={`Gallery image ${index + 1}`}
-                  width={1600}
-                  height={1200}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  loading={prioritized ? "eager" : "lazy"}
-                  fetchPriority={prioritized ? "high" : "auto"}
-                  onLoad={() => {
-                    setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                  }}
-                  onError={() => {
-                    setFailedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                    setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
-                  }}
-                  className={`block h-auto w-full object-cover transition-opacity duration-300 ${imageBackgroundClassName} ${isLoaded ? "opacity-100" : "opacity-0"}`}
-                />
+                <div className="relative">
+                  <Image
+                    src={item.viewUrl}
+                    alt={item.title || `Gallery image ${index + 1}`}
+                    width={1600}
+                    height={1200}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    loading={prioritized ? "eager" : "lazy"}
+                    fetchPriority={prioritized ? "high" : "auto"}
+                    onLoad={() => {
+                      setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                    }}
+                    onError={() => {
+                      setFailedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                      setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id]: true }));
+                    }}
+                    className={`block h-auto w-full object-cover transition-opacity duration-300 ${imageBackgroundClassName} ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                  />
+                </div>
+                {item.title && isLoaded && !hasFailed ? (
+                  <div className="px-4 py-3">
+                    <p className="text-sm font-medium text-neutral-200">{item.title}</p>
+                  </div>
+                ) : null}
 
                 {hasFailed ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-dark/85 p-4 text-center">

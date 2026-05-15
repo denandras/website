@@ -128,10 +128,10 @@ export default function ArtPageClient({
             {labels.title}
           </FitText>
 
-          <div className="relative z-10 mt-20 md:mt-24" data-reveal>
-            <div className="space-y-4 text-neutral-200 leading-relaxed">
-              <p>{labels.intro1}</p>
-              <p>{labels.intro2}</p>
+          <div className="relative z-10 mt-20 grid gap-8 md:mt-24 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-stretch">
+            <div className="space-y-4 rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6" data-reveal style={{ "--reveal-delay": "120ms" }}>
+              <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro1}</p>
+              <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro2}</p>
             </div>
           </div>
 
