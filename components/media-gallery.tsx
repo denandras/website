@@ -69,7 +69,7 @@ export default function MediaGallery({
 
   return (
     <>
-      <div ref={galleryRef} className="relative z-10 mt-20 columns-1 gap-4 sm:columns-2 md:mt-24 lg:columns-3">
+      <div ref={galleryRef} className="relative z-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
         {items.map((item, index) => {
           const isLoaded = !!loadedIds[item.id];
           const hasFailed = !!failedIds[item.id];

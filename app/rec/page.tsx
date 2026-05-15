@@ -216,7 +216,7 @@ export default function RecPage() {
                 data-proximity-strength="2.1"
               >
                 <span className="inline-flex w-full items-center gap-2">
-                  <IconCamera className="size-4 text-primary" />
+                  <IconCamera className="size-6 text-primary" />
                   <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
                     {labels.videos}
                   </FitText>
@@ -235,7 +235,7 @@ export default function RecPage() {
                 data-proximity-strength="2.1"
               >
                 <span className="inline-flex w-full items-center gap-2">
-                  <IconGroups className="size-4 text-primary" />
+                  <IconGroups className="size-6 text-primary" />
                   <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
                     {labels.gearTitle}
                   </FitText>
@@ -254,7 +254,7 @@ export default function RecPage() {
                 data-proximity-strength="2.1"
               >
                 <span className="inline-flex w-full items-center gap-2">
-                  <IconSchedule className="size-4 text-primary" />
+                  <IconSchedule className="size-6 text-primary" />
                   <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
                     {labels.calendarTitle}
                   </FitText>

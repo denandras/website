@@ -150,7 +150,7 @@ export default function ArtPageClient({
                 data-proximity-strength="2.1"
               >
                 <span className="inline-flex w-full items-center gap-2">
-                  <IconCamera className="size-4 text-primary" />
+                  <IconCamera className="size-6 text-primary" />
                   <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
                     {labels.gallery}
                   </FitText>
@@ -169,7 +169,7 @@ export default function ArtPageClient({
                 data-proximity-strength="2.1"
               >
                 <span className="inline-flex w-full items-center gap-2">
-                  <IconGroups className="size-4 text-primary" />
+                  <IconGroups className="size-6 text-primary" />
                   <FitText as="span" minFontPx={13} maxFontPx={20} className="block min-w-0 flex-1 font-display font-bold tracking-tight text-white">
                     {labels.contact}
                   </FitText>
@@ -183,7 +183,6 @@ export default function ArtPageClient({
           <div className="overflow-hidden rounded-2xl border border-neutral-border bg-neutral-dark/40 p-5 md:p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
             {activePanel === "gallery" ? (
               <>
-                <h3 className="mb-4 font-display text-2xl font-bold tracking-tight text-primary">{labels.gallery}</h3>
                 {!hasConfig ? (
                   <div className="rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 text-sm text-neutral-300">
                     {missingConfigLabel}
