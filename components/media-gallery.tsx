@@ -157,13 +157,13 @@ export default function MediaGallery({
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           onClick={() => setLightboxSrc(null)}
         >
-          <div className="relative w-full max-w-6xl overflow-hidden rounded-xl">
+          <div className="relative overflow-hidden rounded-xl">
             <Image
               src={lightboxSrc}
               alt="Media preview"
-              width={1920}
-              height={1280}
-              className={`h-auto max-h-[90dvh] w-full object-contain ${imageBackgroundClassName}`}
+              width={1600}
+              height={1200}
+              className={`h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain ${imageBackgroundClassName}`}
               style={{ borderRadius: "0.75rem" }}
             />
           </div>
