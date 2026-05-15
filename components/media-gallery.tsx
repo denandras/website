@@ -60,11 +60,17 @@ export default function MediaGallery({
 
   useEffect(() => {
     if (!lightboxSrc) return;
+    // Scroll to top and lock body scroll when lightbox opens
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setLightboxSrc(null);
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = '';
+    };
   }, [lightboxSrc]);
 
   return (
