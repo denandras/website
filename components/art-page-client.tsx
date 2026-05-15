@@ -203,6 +203,7 @@ export default function ArtPageClient({
                       href="mailto:contact@andrasdenes.com"
                       className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
                       data-proximity
+                      data-proximity-strength="2.1"
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
@@ -222,6 +223,7 @@ export default function ArtPageClient({
                       href="tel:+36302328848"
                       className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
                       data-proximity
+                      data-proximity-strength="2.1"
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
@@ -243,6 +245,7 @@ export default function ArtPageClient({
                       rel="noreferrer"
                       className="interactive-surface group flex items-center justify-between rounded-xl border border-neutral-border bg-neutral-dark/40 p-5 transition-all hover:border-primary/30 hover:bg-neutral-dark"
                       data-proximity
+                      data-proximity-strength="2.1"
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex size-12 items-center justify-center rounded-lg bg-primary/20 text-primary">
@@ -313,6 +316,7 @@ export default function ArtPageClient({
                         type="submit"
                         className="interactive-surface w-full cursor-pointer rounded-xl border border-primary/10 bg-primary/5 py-4 font-display font-bold text-neutral-100 transition-colors hover:bg-primary/10"
                         data-proximity
+                        data-proximity-strength="2.1"
                       >
                         {labels.send}
                       </button>
