@@ -181,7 +181,8 @@ export default function MediaGallery({
               width={1600}
               height={1200}
               sizes="90vw"
-              className={`h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain ${imageBackgroundClassName}`}
+              unoptimized
+              className="h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain"
               style={{ borderRadius: "0.75rem" }}
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
