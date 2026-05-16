@@ -25,6 +25,7 @@ export default function MediaGallery({
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxLoaded, setLightboxLoaded] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const [mounted, setMounted] = useState(false);
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,10 +67,14 @@ export default function MediaGallery({
   }, [items.length]);
 
   useEffect(() => {
-    if (!lightboxSrc) return;
+    if (!lightboxSrc) {
+      // Restore scroll position when lightbox closes
+      window.scrollTo(0, scrollY);
+      return;
+    }
     setLightboxLoaded(false);
-    // Scroll to top and lock body scroll when lightbox opens
-    window.scrollTo(0, 0);
+    // Save current scroll position and lock body scroll
+    setScrollY(window.scrollY);
     document.body.style.overflow = 'hidden';
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setLightboxSrc(null);
@@ -79,7 +84,7 @@ export default function MediaGallery({
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = '';
     };
-  }, [lightboxSrc]);
+  }, [lightboxSrc, scrollY]);
 
   return (
     <>
