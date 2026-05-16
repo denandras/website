@@ -24,6 +24,7 @@ export default function MediaGallery({
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxLoaded, setLightboxLoaded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,6 +67,7 @@ export default function MediaGallery({
 
   useEffect(() => {
     if (!lightboxSrc) return;
+    setLightboxLoaded(false);
     // Scroll to top and lock body scroll when lightbox opens
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
@@ -175,6 +177,7 @@ export default function MediaGallery({
           onContextMenu={(e) => e.preventDefault()}
         >
           <div className="relative overflow-hidden rounded-xl select-none">
+            {!lightboxLoaded && <div className="absolute inset-0 animate-pulse bg-neutral-dark/70 rounded-xl" />}
             <Image
               src={lightboxSrc}
               alt="Media preview"
@@ -182,8 +185,9 @@ export default function MediaGallery({
               height={1200}
               sizes="90vw"
               unoptimized
-              className="h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain"
-              style={{ borderRadius: "0.75rem" }}
+              onLoad={() => setLightboxLoaded(true)}
+              className={`h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain transition-opacity duration-300 ${lightboxLoaded ? "opacity-100" : "opacity-0"}`}
+              style={{ borderRadius: "0.75rem", background: lightboxLoaded ? "white" : "transparent" }}
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
             />
