@@ -81,7 +81,7 @@ export default function MediaGallery({
 
   return (
     <>
-      <div ref={galleryRef} className="relative z-10 columns-1 gap-4 sm:columns-[320px] md:columns-[400px] lg:columns-[450px]">
+      <div ref={galleryRef} className="relative z-10 columns-1 gap-4 sm:columns-[280px] md:columns-[320px] lg:columns-[350px]">
         {items.map((item, index) => {
           const isLoaded = !!loadedIds[item.id];
           const hasFailed = !!failedIds[item.id];
@@ -116,7 +116,7 @@ export default function MediaGallery({
                     alt={item.title || `Gallery image ${index + 1}`}
                     width={1600}
                     height={1200}
-                    sizes="(max-width: 640px) 100vw, (min-width: 1024px) 33vw, 50vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     loading={prioritized ? "eager" : "lazy"}
                     fetchPriority={prioritized ? "high" : "auto"}
                     onLoad={() => {
