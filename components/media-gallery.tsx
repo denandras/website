@@ -104,7 +104,7 @@ export default function MediaGallery({
           return (
             <div
               key={item.id}
-              className="mb-4 break-inside-avoid"
+              className="mb-4 break-inside-avoid is-visible sm:not-is-visible"
               data-reveal
               style={{ "--reveal-delay": `${80 + (index % 12) * 55}ms` }}
             >
@@ -223,7 +223,7 @@ export default function MediaGallery({
                         onContextMenu={(e) => e.preventDefault()}
                       />
                     )}
-                    {item.title && isLoaded && !hasFailed && isCurrent && (
+                    {item.title && isLoaded && !hasFailed && (
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3 rounded-b-xl">
                         <p className="text-sm font-medium text-white text-center">{item.title}</p>
                       </div>
