@@ -23,8 +23,7 @@ export default function MediaGallery({
 }) {
   const [loadedIds, setLoadedIds] = useState<Record<string, true>>({});
   const [failedIds, setFailedIds] = useState<Record<string, true>>({});
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [lightboxLoaded, setLightboxLoaded] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [scrollY, setScrollY] = useState(0);
   const [mounted, setMounted] = useState(false);
   const galleryRef = useRef<HTMLDivElement | null>(null);
@@ -67,24 +66,29 @@ export default function MediaGallery({
   }, [items.length]);
 
   useEffect(() => {
-    if (!lightboxSrc) {
+    if (lightboxIndex === null) {
       // Restore scroll position when lightbox closes
       window.scrollTo(0, scrollY);
       return;
     }
-    setLightboxLoaded(false);
-    // Save current scroll position and lock body scroll
     setScrollY(window.scrollY);
     document.body.style.overflow = 'hidden';
+    
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setLightboxSrc(null);
+      if (event.key === "Escape") {
+        setLightboxIndex(null);
+      } else if (event.key === "ArrowLeft" && lightboxIndex !== null && lightboxIndex > 0) {
+        setLightboxIndex(lightboxIndex - 1);
+      } else if (event.key === "ArrowRight" && lightboxIndex !== null && lightboxIndex < items.length - 1) {
+        setLightboxIndex(lightboxIndex + 1);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = '';
     };
-  }, [lightboxSrc, scrollY]);
+  }, [lightboxIndex, items.length, scrollY]);
 
   return (
     <>
@@ -112,7 +116,7 @@ export default function MediaGallery({
                 }`}
                 data-proximity
                 data-proximity-strength="2.1"
-                onClick={() => isLoaded && !hasFailed && setLightboxSrc(item.viewUrl)}
+                onClick={() => isLoaded && !hasFailed && setLightboxIndex(index)}
                 onContextMenu={(e) => e.preventDefault()}
                 onDragStart={(e) => e.preventDefault()}
               >
@@ -175,35 +179,99 @@ export default function MediaGallery({
         })}
       </div>
 
-      {mounted && lightboxSrc && createPortal(
+      {mounted && lightboxIndex !== null && createPortal(
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4"
-          onClick={() => setLightboxSrc(null)}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95"
+          onClick={() => setLightboxIndex(null)}
           onContextMenu={(e) => e.preventDefault()}
         >
-          <div className="relative overflow-hidden rounded-xl select-none">
-            {!lightboxLoaded && <div className="absolute inset-0 animate-pulse bg-neutral-dark/70 rounded-xl" />}
-            <Image
-              src={lightboxSrc}
-              alt="Media preview"
-              width={1600}
-              height={1200}
-              sizes="90vw"
-              unoptimized
-              onLoad={() => setLightboxLoaded(true)}
-              className={`h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain transition-opacity duration-300 ${lightboxLoaded ? "opacity-100" : "opacity-0"}`}
-              style={{ borderRadius: "0.75rem", background: lightboxLoaded ? "white" : "transparent" }}
-              draggable={false}
-              onContextMenu={(e) => e.preventDefault()}
-            />
+          {/* Horizontal scrollable gallery */}
+          <div
+            className="flex gap-4 overflow-x-auto overflow-y-hidden px-4 py-8 snap-x snap-mandatory scroll-smooth"
+            style={{ maxWidth: "100vw", maxHeight: "100vh", scrollBehavior: "smooth" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {items.map((item, idx) => {
+              const isCurrent = idx === lightboxIndex;
+              const isLoaded = !!loadedIds[item.id];
+              const hasFailed = !!failedIds[item.id];
+              
+              return (
+                <div
+                  key={item.id}
+                  className="flex-shrink-0 snap-center flex items-center justify-center"
+                  style={{ minWidth: "85vw", maxWidth: "90vw" }}
+                >
+                  <div className="relative overflow-hidden rounded-xl select-none">
+                    {!isLoaded && !hasFailed && <div className="absolute inset-0 animate-pulse bg-neutral-dark/70 rounded-xl" />}
+                    {hasFailed ? (
+                      <div className="flex h-[70dvh] w-[80vw] max-w-[800px] flex-col items-center justify-center gap-3 bg-neutral-dark/85 p-4 text-center rounded-xl">
+                        <p className="text-sm text-neutral-100">Image failed to load</p>
+                      </div>
+                    ) : (
+                      <Image
+                        src={item.viewUrl}
+                        alt={item.title || `Gallery image ${idx + 1}`}
+                        width={1600}
+                        height={1200}
+                        sizes="90vw"
+                        unoptimized
+                        onLoad={() => setLoadedIds((prev) => (prev[item.id] ? prev : { ...prev, [item.id] : true }))}
+                        className={`h-auto max-h-[85dvh] w-auto max-w-[90vw] object-contain transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+                        style={{ borderRadius: "0.75rem", background: isLoaded ? "white" : "transparent" }}
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                      />
+                    )}
+                    {item.title && isLoaded && !hasFailed && isCurrent && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3 rounded-b-xl">
+                        <p className="text-sm font-medium text-white text-center">{item.title}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
+          
+          {/* Close button */}
           <button
-            className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-            onClick={() => setLightboxSrc(null)}
+            className="absolute top-4 right-4 z-[110] flex size-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            onClick={() => setLightboxIndex(null)}
             aria-label="Close preview"
           >
             ×
           </button>
+          
+          {/* Navigation arrows */}
+          {lightboxIndex > 0 && (
+            <button
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-[110] flex size-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+              }}
+              aria-label="Previous image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+          )}
+          {lightboxIndex < items.length - 1 && (
+            <button
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-[110] flex size-12 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIndex((prev) => (prev !== null && prev < items.length - 1 ? prev + 1 : prev));
+              }}
+              aria-label="Next image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          )}
         </div>,
         document.body
       )}
