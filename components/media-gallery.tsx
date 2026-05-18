@@ -285,7 +285,7 @@ export default function MediaGallery({
           </div>
         </div>,
         document.body
-      )
+      )}
     </>
   );
 }
