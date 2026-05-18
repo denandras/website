@@ -104,9 +104,7 @@ export default function MediaGallery({
           return (
             <div
               key={item.id}
-              className="mb-4 break-inside-avoid is-visible sm:not-is-visible"
-              data-reveal
-              style={{ "--reveal-delay": `${80 + (index % 12) * 55}ms` }}
+              className="mb-4 break-inside-avoid"
             >
               <article
                 className={`interactive-surface group relative overflow-hidden rounded-xl transition-all ${

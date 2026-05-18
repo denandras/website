@@ -80,13 +80,23 @@ export default function LanguageSwitcher({
 }) {
   const router = useRouter();
   const { language, setLanguage } = useSiteLanguage();
+  const [isSwitching, setIsSwitching] = useState(false);
   const activeLanguage = initialLanguage ? normalizeSiteLanguage(initialLanguage) : language;
 
   const setAndRefresh = (next: SiteLanguage) => {
-    if (next === activeLanguage) return;
+    if (next === activeLanguage || isSwitching) return;
+    setIsSwitching(true);
     setLanguage(next);
     router.refresh();
   };
+
+  // Reset switching state after refresh completes
+  useEffect(() => {
+    if (isSwitching) {
+      const timeout = setTimeout(() => setIsSwitching(false), 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [language, isSwitching]);
 
   return (
     <div
@@ -96,18 +106,18 @@ export default function LanguageSwitcher({
     >
       <button
         type="button"
-        disabled={activeLanguage === "hu"}
+        disabled={activeLanguage === "hu" || isSwitching}
         onClick={() => setAndRefresh("hu")}
-        className={`px-1.5 py-0.5 transition-opacity ${activeLanguage === "hu" ? "cursor-default text-white" : "cursor-pointer text-white/80 hover:text-white"}`}
+        className={`px-1.5 py-0.5 transition-opacity ${activeLanguage === "hu" ? "cursor-default text-white" : "cursor-pointer text-white/80 hover:text-white"} ${isSwitching ? "opacity-50" : ""}`}
       >
         HU
       </button>
       <span className="px-1 text-white/70">|</span>
       <button
         type="button"
-        disabled={activeLanguage === "en"}
+        disabled={activeLanguage === "en" || isSwitching}
         onClick={() => setAndRefresh("en")}
-        className={`px-1.5 py-0.5 transition-opacity ${activeLanguage === "en" ? "cursor-default text-white" : "cursor-pointer text-white/80 hover:text-white"}`}
+        className={`px-1.5 py-0.5 transition-opacity ${activeLanguage === "en" ? "cursor-default text-white" : "cursor-pointer text-white/80 hover:text-white"} ${isSwitching ? "opacity-50" : ""}`}
       >
         EN
       </button>

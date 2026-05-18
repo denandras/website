@@ -26,6 +26,7 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
   const heroRef = useRef<HTMLElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [headerProgress, setHeaderProgress] = useState(0);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
   const { language } = useSiteLanguage(initialLanguage);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -178,7 +179,7 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
           <div className="absolute inset-0">
             <Image
               alt="Portrait of András Dénes"
-              className="h-full w-full scale-[1.04] object-cover object-[49%_21%]"
+              className={`h-full w-full scale-[1.04] object-cover object-[49%_21%] transition-opacity duration-700 ease-out ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
               src="/profile.jpeg"
               fill
               priority
@@ -189,6 +190,7 @@ export default function HomePageClient({ initialLanguage }: HomePageClientProps)
                 maskImage:
                   "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
               }}
+              onLoad={() => setHeroImageLoaded(true)}
             />
           </div>
           <div className="relative z-20 px-6 pb-12" data-reveal>
