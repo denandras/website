@@ -185,21 +185,27 @@ export default function MediaGallery({
           onClick={() => setLightboxIndex(null)}
           onContextMenu={(e) => e.preventDefault()}
         >
-          {/* Horizontal scrollable gallery */}
+          {/* Mobile: Horizontal scrollable gallery, Desktop: Single image with arrows */}
           <div
-            className="flex gap-4 overflow-x-auto overflow-y-hidden px-4 py-8 snap-x snap-mandatory scroll-smooth"
-            style={{ maxWidth: "100vw", maxHeight: "100vh", scrollBehavior: "smooth" }}
+            className="flex gap-4 overflow-x-auto overflow-y-hidden px-4 py-8 snap-x snap-mandatory scroll-smooth md:overflow-hidden md:snap-none md:scroll-auto"
+            style={{ maxWidth: "100vw", maxHeight: "100vh" }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Mobile: render all items for scroll, Desktop: render only current */}
             {items.map((item, idx) => {
               const isCurrent = idx === lightboxIndex;
               const isLoaded = !!loadedIds[item.id];
               const hasFailed = !!failedIds[item.id];
               
+              // On desktop, only render current image
+              if (typeof window !== 'undefined' && window.innerWidth >= 768 && !isCurrent) {
+                return null;
+              }
+              
               return (
                 <div
                   key={item.id}
-                  className="flex-shrink-0 snap-center flex items-center justify-center"
+                  className="flex-shrink-0 snap-center flex items-center justify-center md:flex-shrink md:snap-start"
                   style={{ minWidth: "85vw", maxWidth: "90vw" }}
                 >
                   <div className="relative overflow-hidden rounded-xl select-none">
@@ -272,9 +278,14 @@ export default function MediaGallery({
               </svg>
             </button>
           )}
+          
+          {/* Image counter for desktop */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[110] hidden md:block rounded-full bg-black/50 px-3 py-1.5 text-sm text-white">
+            {lightboxIndex + 1} / {items.length}
+          </div>
         </div>,
         document.body
-      )}
+      )
     </>
   );
 }
