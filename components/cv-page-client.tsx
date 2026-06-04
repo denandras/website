@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
@@ -92,6 +93,29 @@ const cvSectionsHu = [
 export default function CvPageClient({ cvDownloadUrl, initialLanguage, upcomingConcerts }: CvPageClientProps) {
   const { language } = useSiteLanguage(initialLanguage);
 
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    if (!nodes.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" },
+    );
+
+    nodes.forEach((node) => observer.observe(node));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const labels = language === "hu"
     ? {
         header: "Életrajz",
@@ -133,7 +157,7 @@ export default function CvPageClient({ cvDownloadUrl, initialLanguage, upcomingC
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 pb-24">
         <div className="w-full px-6 py-8">
-          <section className="flex flex-col items-center p-2 pb-8 text-center">
+          <section className="flex flex-col items-center p-2 pb-8 text-center" data-reveal>
             <div className="group relative">
               <div className="absolute -inset-1 rounded-full bg-primary/20 blur transition duration-1000 group-hover:duration-200" />
               <div className="relative rounded-full border-2 border-primary/20 bg-charcoal p-1">
@@ -158,7 +182,7 @@ export default function CvPageClient({ cvDownloadUrl, initialLanguage, upcomingC
           </section>
 
           {showUpcomingSection ? (
-            <section className="mb-2 border-t border-neutral-border/80 pt-8">
+            <section className="mb-2 border-t border-neutral-border/80 pt-8" data-reveal>
               <div className="mb-4 flex items-end justify-between gap-3">
                 <h3 className="font-display text-3xl leading-[0.9] font-bold tracking-tight text-white uppercase">
                   Közelgő koncertek
@@ -214,7 +238,7 @@ export default function CvPageClient({ cvDownloadUrl, initialLanguage, upcomingC
             </section>
           ) : null}
 
-          <section className="mt-6 border-t border-neutral-border/80">
+          <section className="mt-6 border-t border-neutral-border/80" data-reveal>
             {sectionsNewestFirst.map((section, index) => {
               const isMirrored = index % 2 === 1;
               const isLastSection = index === sectionsNewestFirst.length - 1;
@@ -274,7 +298,7 @@ export default function CvPageClient({ cvDownloadUrl, initialLanguage, upcomingC
           </section>
 
           {cvDownloadUrl ? (
-            <div className="pt-8">
+            <div className="pt-8" data-reveal>
               <a
                 href={cvDownloadUrl}
                 className="interactive-surface group flex w-full items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-5 py-3 font-display font-semibold text-neutral-100 transition-all hover:border-primary/35 hover:bg-primary/10"
