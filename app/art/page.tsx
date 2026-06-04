@@ -108,9 +108,19 @@ async function getArtItems(): Promise<MediaItem[]> {
   });
 }
 
-export default async function ArtPage() {
+export default async function ArtPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}) {
   const cookieStore = await cookies();
-  const language = normalizeSiteLanguage(cookieStore.get(SITE_LANGUAGE_COOKIE)?.value);
+  const { lang } = await searchParams;
+  
+  // URL param takes precedence, then cookie, then default
+  const language = normalizeSiteLanguage(
+    lang ?? cookieStore.get(SITE_LANGUAGE_COOKIE)?.value,
+  );
+  
   const labels = language === "hu"
     ? {
         missingConfig: "Az S3 képzőművészeti környezeti változók nincsenek beállítva.",

@@ -214,9 +214,18 @@ async function getUpcomingConcerts(): Promise<UpcomingConcert[]> {
   }
 }
 
-export default async function CvPage() {
+export default async function CvPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}) {
   const cookieStore = await cookies();
-  const initialLanguage = normalizeSiteLanguage(cookieStore.get(SITE_LANGUAGE_COOKIE)?.value);
+  const { lang } = await searchParams;
+  
+  // URL param takes precedence, then cookie, then default
+  const initialLanguage = normalizeSiteLanguage(
+    lang ?? cookieStore.get(SITE_LANGUAGE_COOKIE)?.value,
+  );
 
   const [cvDownloadUrl, upcomingConcerts] = await Promise.all([
     getCvDownloadUrl(),

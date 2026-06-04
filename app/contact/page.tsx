@@ -13,10 +13,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ lang?: string }>;
+}) {
   const cookieStore = await cookies();
+  const { lang } = await searchParams;
+  
+  // URL param takes precedence, then cookie, then default
   const initialLanguage = normalizeSiteLanguage(
-    cookieStore.get(SITE_LANGUAGE_COOKIE)?.value,
+    lang ?? cookieStore.get(SITE_LANGUAGE_COOKIE)?.value,
   );
 
   return <ContactPageClient initialLanguage={initialLanguage} />;
