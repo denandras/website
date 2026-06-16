@@ -36,6 +36,13 @@ export function useSiteLanguage(initialLanguage?: SiteLanguage) {
     return normalizeSiteLanguage(fromStorage ?? fromCookie ?? DEFAULT_SITE_LANGUAGE);
   });
 
+  // Sync from initialLanguage prop changes (after router.refresh() from server)
+  useEffect(() => {
+    if (initialLanguage && normalizeSiteLanguage(initialLanguage) !== language) {
+      setLanguage(normalizeSiteLanguage(initialLanguage));
+    }
+  }, [initialLanguage]);
+
   useEffect(() => {
     persistLanguage(language);
   }, [language]);
