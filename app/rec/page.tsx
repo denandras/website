@@ -27,13 +27,13 @@ const videosLeft: VideoItem[] = [
   { title: "Máté Szirtes plays Liszt Mephisto Waltz 1", youtubeId: "IRBojYisvl8" },
   { title: "Roland Szentpáli - Allegro Fuoco", youtubeId: "Us7s50k9q8A" },
   { title: "Ferdinand David - Concertino", youtubeId: "3S0VJmD-YrM" },
+  { title: "Alexander Lebedev: Concerto in one movement", youtubeId: "aatvt6EoXFI" },
 ];
 
 const videosRight: VideoItem[] = [
   { title: "Sancan - Sonatine", youtubeId: "IR7nyboLEww" },
   { title: "Kocsár - Mégis mondom Damion!", youtubeId: "MQaiWXv9rn4" },
   { title: "Promo mashup", youtubeId: "02HPAJBEJcc" },
-  { title: "Alexander Lebedev: Concerto in one movement", youtubeId: "aatvt6EoXFI" },
   { title: "Szirtes Máté - Liszt h-moll szonáta", youtubeId: "RJrhGUVjEMo" },
   { title: "Schütz - Das Wort ward Fleisch", youtubeId: "i8ur8h0gxfg" },
 ];
