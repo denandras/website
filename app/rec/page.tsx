@@ -1,11 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import BottomNav from "@/components/bottom-nav";
 import BrandMark from "@/components/brand-mark";
 import FitText from "@/components/fit-text";
 import LanguageSwitcher, { useSiteLanguage } from "@/components/language-switcher";
 import { IconCamera, IconGroups, IconOpenInNew, IconSchedule } from "@/components/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 type VideoItem = {
   title: string;
@@ -113,6 +116,9 @@ function VideoCard({ item }: { item: VideoItem }) {
 export default function RecPage() {
   const { language } = useSiteLanguage();
   const [activePanel, setActivePanel] = useState<"videos" | "booking" | "gear">("videos");
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [headerProgress, setHeaderProgress] = useState(0);
+  const [heroImageLoaded, setHeroImageLoaded] = useState(false);
 
   const labels = language === "hu"
     ? {
@@ -147,6 +153,25 @@ export default function RecPage() {
       };
 
   useEffect(() => {
+    const update = () => {
+      const heroHeight = heroRef.current?.offsetHeight ?? Math.round(window.innerHeight * 0.65);
+      const start = Math.max(24, heroHeight - 220);
+      const end = Math.max(start + 1, heroHeight - 120);
+      const progress = clamp((window.scrollY - start) / (end - start), 0, 1);
+      setHeaderProgress(progress);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  useEffect(() => {
     const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     if (!nodes.length) return;
 
@@ -174,7 +199,14 @@ export default function RecPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
-      <header className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md">
+      <header
+        className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md"
+        style={{
+          opacity: headerProgress,
+          transform: `translateY(${Math.round((1 - headerProgress) * -14)}px)`,
+          pointerEvents: headerProgress > 0.08 ? "auto" : "none",
+        }}
+      >
         <div className="relative flex h-16 w-full items-center justify-center px-6">
           <div className="flex items-center gap-2">
             <BrandMark />
@@ -186,18 +218,57 @@ export default function RecPage() {
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-8 pb-24">
-        <section className="relative pt-10 pb-6" data-reveal>
-          <FitText
-            as="h2"
-            minFontPx={26}
-            maxFontPx={84}
-            className="pointer-events-none absolute top-10 left-1 z-0 w-[92%] max-w-[92%] font-display leading-[0.85] font-bold tracking-tight text-white uppercase"
-          >
-            {labels.title}
-          </FitText>
+      <main className="flex-1 pb-24">
+        <section ref={heroRef} className="relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden md:aspect-[16/8]">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
+          <div className="absolute inset-0">
+            <Image
+              alt="Recording session"
+              className={`h-full w-full scale-[1.04] object-cover object-center transition-opacity duration-700 ease-out ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
+              src="/rec-hero.jpeg"
+              fill
+              priority
+              sizes="100vw"
+              style={{
+                WebkitMaskImage:
+                  "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
+                maskImage:
+                  "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
+              }}
+              onLoad={() => setHeroImageLoaded(true)}
+            />
+          </div>
+          <div className="relative z-20 px-6 pb-12" data-reveal>
+            <h1
+              className="relative font-display mb-2 text-4xl font-bold leading-none tracking-tighter text-white md:text-7xl"
+              data-reveal
+              style={{
+                "--reveal-delay": "120ms",
+                top: `${Math.round(headerProgress * -22)}px`,
+                opacity: 1 - headerProgress * 0.35,
+              }}
+            >
+              {labels.title}
+            </h1>
+            <div
+              className="relative flex items-center gap-3"
+              data-reveal
+              style={{
+                "--reveal-delay": "220ms",
+                top: `${Math.round(headerProgress * -14)}px`,
+                opacity: 1 - headerProgress * 0.75,
+              }}
+            >
+              <div className="h-px w-12 bg-primary" />
+              <p className="font-display text-sm font-semibold tracking-[0.2em] text-primary uppercase">
+                {language === "hu" ? "Stúdió és helyszíni felvétel" : "Studio & Location Recording"}
+              </p>
+            </div>
+          </div>
+        </section>
 
-          <div className="relative z-10 mt-20 grid gap-8 md:mt-24 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-stretch">
+        <section className="mx-auto w-full max-w-7xl px-6 py-8">
+          <div className="grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-stretch">
             <div className="space-y-4 rounded-2xl border border-neutral-border bg-neutral-dark/40 p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro1}</p>
               <p className="text-sm leading-7 text-neutral-300 md:text-base">{labels.intro2}</p>
@@ -264,7 +335,7 @@ export default function RecPage() {
           </div>
         </section>
 
-        <section className="pt-3 pb-10">
+        <section className="mx-auto w-full max-w-7xl px-6 pt-3 pb-10">
           <div className="overflow-hidden rounded-2xl border border-neutral-border bg-neutral-dark/40 p-5 md:p-6" data-reveal style={{ ["--reveal-delay" as const]: "120ms" }}>
             {activePanel === "videos" ? (
               <div className="grid gap-4 md:grid-cols-2">
