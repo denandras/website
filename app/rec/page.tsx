@@ -218,22 +218,25 @@ export default function RecPage() {
         <section ref={heroRef} className="relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden md:aspect-[16/8]">
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent" />
           <div className="absolute inset-0">
-            <Image
-              alt="Recording session"
-              className={`h-full w-full scale-[1.04] object-cover transition-opacity duration-700 ease-out ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
-              src="/rec-hero.jpeg"
-              fill
-              priority
-              sizes="100vw"
-              style={{
-                objectPosition: "center 65%",
-                WebkitMaskImage:
-                  "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
-                maskImage:
-                  "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
-              }}
-              onLoad={() => setHeroImageLoaded(true)}
-            />
+            <picture>
+              <source srcSet="/rec-hero.webp" type="image/webp" />
+              <Image
+                alt="Recording session"
+                className={`h-full w-full scale-[1.04] object-cover transition-opacity duration-700 ease-out ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
+                src="/rec-hero.jpeg"
+                fill
+                priority
+                sizes="100vw"
+                style={{
+                  objectPosition: "center 80%",
+                  WebkitMaskImage:
+                    "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
+                  maskImage:
+                    "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
+                }}
+                onLoad={() => setHeroImageLoaded(true)}
+              />
+            </picture>
           </div>
           <div className="relative z-20 px-6 pb-12" data-reveal>
             <h1
