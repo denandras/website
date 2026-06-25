@@ -200,22 +200,18 @@ export default function RecPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background-dark text-neutral-100">
       <header
-        className="sticky top-0 z-50 border-b border-neutral-border bg-background-dark/80 backdrop-blur-md"
+        className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-b border-neutral-border bg-background-dark/80 px-4 py-3 backdrop-blur-md"
         style={{
           opacity: headerProgress,
           transform: `translateY(${Math.round((1 - headerProgress) * -14)}px)`,
           pointerEvents: headerProgress > 0.08 ? "auto" : "none",
         }}
       >
-        <div className="relative flex h-16 w-full items-center justify-center px-6">
-          <div className="flex items-center gap-2">
-            <BrandMark />
-            <h1 className="font-display text-lg font-bold tracking-tight uppercase">REC</h1>
-          </div>
-          <div className="absolute top-1/2 right-6 -translate-y-1/2">
-            <LanguageSwitcher light />
-          </div>
+        <div className="flex items-center gap-2">
+          <BrandMark />
+          <span className="font-display text-lg font-bold tracking-tight uppercase">REC</span>
         </div>
+        <LanguageSwitcher light={headerProgress > 0.08} />
       </header>
 
       <main className="flex-1 pb-24">
@@ -224,12 +220,13 @@ export default function RecPage() {
           <div className="absolute inset-0">
             <Image
               alt="Recording session"
-              className={`h-full w-full scale-[1.04] object-cover object-center transition-opacity duration-700 ease-out ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
+              className={`h-full w-full scale-[1.04] object-cover transition-opacity duration-700 ease-out ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
               src="/rec-hero.jpeg"
               fill
               priority
               sizes="100vw"
               style={{
+                objectPosition: "center 65%",
                 WebkitMaskImage:
                   "radial-gradient(130% 95% at 50% 38%, #000 62%, transparent 100%), linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%)",
                 maskImage:
@@ -261,7 +258,7 @@ export default function RecPage() {
             >
               <div className="h-px w-12 bg-primary" />
               <p className="font-display text-sm font-semibold tracking-[0.2em] text-primary uppercase">
-                {language === "hu" ? "Stúdió és helyszíni felvétel" : "Studio & Location Recording"}
+                {language === "hu" ? "helyszíni felvételek" : "Location Recordings"}
               </p>
             </div>
           </div>
