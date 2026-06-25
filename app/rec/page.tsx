@@ -23,7 +23,7 @@ type GearRow = {
 };
 
 const videosLeft: VideoItem[] = [
-  { title: "Rachmaninoff - Vocalise", youtubeId: "9PkM_m8DAns" },
+  { title: "Tao Yun Hsiao - Ysaÿe: Sonata No. 3 in D Minor \"Ballade\"", youtubeId: "9PkM_m8DAns" },
   { title: "Máté Szirtes plays Liszt Mephisto Waltz 1", youtubeId: "IRBojYisvl8" },
   { title: "Roland Szentpáli - Allegro Fuoco", youtubeId: "Us7s50k9q8A" },
   { title: "Ferdinand David - Concertino", youtubeId: "3S0VJmD-YrM" },
