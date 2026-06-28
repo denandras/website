@@ -31,6 +31,7 @@ const videosLeft: VideoItem[] = [
 ];
 
 const videosRight: VideoItem[] = [
+  { title: "Gkouliamtzis Konstantinos - Blazhevich", youtubeId: "fBqs0VxdR2k" },
   { title: "Sancan - Sonatine", youtubeId: "IR7nyboLEww" },
   { title: "Kocsár - Mégis mondom Damion!", youtubeId: "MQaiWXv9rn4" },
   { title: "Promo mashup", youtubeId: "02HPAJBEJcc" },
