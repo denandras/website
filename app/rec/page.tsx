@@ -49,6 +49,7 @@ const hardwareRows: GearRow[] = [
   { name: "Focusrite Scarlett 2i2 Gen 3", detailHu: "audió interfész", detailEn: "audio interface", href: "https://focusrite.com/products/scarlett-2i2-3rd-gen" },
   { name: "iFi audio GO link Max (USB-C DAC)", detailHu: "USB-C DAC", detailEn: "USB-C DAC", href: "https://ifi-audio.com/products/go-link-max/" },
   { name: "MSI Gaming Thin GF63 12UC", detailHu: "laptop", detailEn: "laptop", href: "https://www.msi.com/Laptop/Thin-GF63-12UX/Specification" },
+  { name: "MacBook Air 13\" M5 (2026)", detailHu: "laptop", detailEn: "laptop", href: "https://www.apple.com/macbook-air/" },
   { name: "Beyerdynamic DT990 Pro", detailHu: "fejhallgató", detailEn: "headphones", href: "https://www.thomann.de/hu/beyerdynamic_dt990pro.htm" },
   { name: "Beyerdynamic DT700 Pro X", detailHu: "fejhallgató", detailEn: "headphones", href: "https://www.thomann.de/hu/beyerdynamic_dt_700_pro_x.htm" },
   { name: "Yamaha HS5 × 2", detailHu: "stúdió monitor", detailEn: "studio monitors", href: "https://hangszerplaza.hu/yamaha-hs5-aktiv-ketutas-studio-monitor-hangfal/" },
